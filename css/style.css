@@ -1,0 +1,860 @@
+/* ================================
+   VARIABLES Y RESET
+   ================================ */
+
+:root {
+    --verde-limon: #dde85e;
+    --gris-oscuro: #3c3942;
+    --acento-1: #e6c165;
+    --acento-2: #ef9a6d;
+    --acento-3: #f97475;
+    --salmon: #f5a281;
+    --dark-blue: #5a6b7c;
+    --dark-gray: #45464d;
+    --blanco: #ffffff;
+    --negro: #1a1a1a;
+    --gris-claro: #f5f5f5;
+    --sombra: rgba(0, 0, 0, 0.1);
+    --transicion: all 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--negro);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    font-family: inherit;
+}
+
+/* ================================
+   BARRA PROMOCIONAL
+   ================================ */
+
+.promo-bar {
+    background: var(--acento-3);
+    color: var(--blanco);
+    padding: 12px 20px;
+    text-align: center;
+    position: relative;
+    font-size: 14px;
+    font-weight: 500;
+    animation: slideDown 0.5s ease;
+}
+
+.close-promo {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    color: var(--blanco);
+    font-size: 24px;
+    padding: 0 10px;
+    transition: var(--transicion);
+}
+
+.close-promo:hover {
+    opacity: 0.7;
+}
+
+/* ================================
+   HEADER
+   ================================ */
+
+.main-header {
+    background: var(--blanco);
+    box-shadow: 0 2px 10px var(--sombra);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    transition: var(--transicion);
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 20px;
+}
+
+.logo-container {
+    flex-shrink: 0;
+}
+
+.logo {
+    height: 50px;
+    width: auto;
+    transition: var(--transicion);
+}
+
+.main-nav ul {
+    display: flex;
+    list-style: none;
+    gap: 35px;
+}
+
+.nav-link {
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--gris-oscuro);
+    position: relative;
+    transition: var(--transicion);
+    padding: 5px 0;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--acento-2);
+    transition: var(--transicion);
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+    width: 100%;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: var(--acento-2);
+}
+
+/* ================================
+   HEADER ACTIONS
+   ================================ */
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.cart-button {
+    background: var(--salmon);
+    color: var(--blanco);
+    padding: 12px 20px;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: var(--transicion);
+    position: relative;
+}
+
+.cart-button:hover {
+    background: var(--acento-2);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(245, 162, 129, 0.4);
+}
+
+.cart-count {
+    background: var(--blanco);
+    color: var(--salmon);
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.mobile-menu-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: transparent;
+    padding: 5px;
+}
+
+.mobile-menu-toggle span {
+    width: 25px;
+    height: 3px;
+    background: var(--gris-oscuro);
+    border-radius: 3px;
+    transition: var(--transicion);
+}
+
+/* ================================
+   CARRITO LATERAL
+   ================================ */
+
+.cart-sidebar {
+    position: fixed;
+    right: -400px;
+    top: 0;
+    width: 400px;
+    height: 100vh;
+    background: var(--blanco);
+    box-shadow: -5px 0 20px var(--sombra);
+    z-index: 2000;
+    transition: right 0.4s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.cart-sidebar.active {
+    right: 0;
+}
+
+.cart-header {
+    padding: 25px;
+    border-bottom: 2px solid var(--gris-claro);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cart-header h2 {
+    font-size: 24px;
+    color: var(--gris-oscuro);
+}
+
+.close-cart {
+    background: transparent;
+    font-size: 32px;
+    color: var(--gris-oscuro);
+    padding: 0;
+    line-height: 1;
+    transition: var(--transicion);
+}
+
+.close-cart:hover {
+    color: var(--acento-3);
+    transform: rotate(90deg);
+}
+
+.cart-items {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+.cart-footer {
+    padding: 20px 25px;
+    border-top: 2px solid var(--gris-claro);
+}
+
+.cart-total {
+    display: flex;
+    justify-content: space-between;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: var(--gris-oscuro);
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 1500;
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--transicion);
+}
+
+.overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* ================================
+   HERO SECTION
+   ================================ */
+
+   /*.hero-section {
+    background-color: #4b5563; 
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}*/
+
+.hero-section {
+    
+   /* min-height: 100vh;*/
+ 
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /*padding: 120px 0 80px;*/
+}
+
+.hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+/* 1. ESTILO DE LA IMAGEN DE FONDO */
+.hero-background-image {
+    position: absolute; /* Permite posicionarla y que el texto no se mueva */
+    top: 0;
+    left: 0;
+    width: 70%;
+    height: 100%;
+    object-fit: cover; /* Asegura que la imagen cubra todo el espacio sin distorsionarse */
+    z-index: 1; /* Debe tener el z-index más bajo para estar en el fondo */
+}
+
+/*.bg-layer {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 70%; /* Ajuste para mostrar el verde lima en un lado 
+    height: 100%;
+    background-color: #3c3942; /* --gris-oscuro 
+    clip-path: polygon(10% 0, 100% 0, 100% 100%, 0% 100%);
+}*/
+
+.bg-layer {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 15; /* Asegura que estén por encima de la imagen (z-index: 1) */
+    opacity: 0.85; /* Opcional: añade transparencia para ver la imagen a través del color */
+    
+}
+
+.bg-dark-blue {
+    background: var(--dark-blue);
+   clip-path: polygon(0 0, 60% 0, 40% 100%, 0% 100%);
+}
+
+.bg-dark-gray {
+    background: var(--dark-gray);
+   clip-path: polygon(60% 0, 100% 0, 100% 100%, 40% 100%);
+}
+
+.hero-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    z-index: 10;
+    animation: fadeInUp 1s ease;
+    max-width: 1400px;
+    position: relative;
+}
+
+
+.hero-left {
+    padding-right: 40px;
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: var(--salmon);
+    margin-bottom: 30px;
+    line-height: 1.2;
+}
+
+.hero-subtitle {
+    font-size: 1.15rem;
+    color: var(--blanco);
+    margin-bottom: 50px;
+    font-weight: 400;
+    line-height: 1.8;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.hero-right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.product-card-hero {
+    background: var(--verde-limon);
+    border-radius: 30px;
+    padding: 80px 60px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: float 3s ease-in-out infinite;
+    min-width: 400px;
+}
+
+.product-icon {
+    color: var(--gris-oscuro);
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+.product-name-hero {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--gris-oscuro);
+    margin: 0;
+}
+
+.btn-primary,
+.btn-secondary {
+    padding: 18px 40px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 16px;
+    transition: var(--transicion);
+    border: none;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background: var(--salmon);
+    color: var(--blanco);
+}
+
+.btn-primary:hover {
+    background: var(--acento-2);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(245, 162, 129, 0.4);
+}
+
+.btn-secondary {
+    background: transparent;
+    color: var(--blanco);
+    border: 2px solid var(--blanco);
+}
+
+.btn-secondary:hover {
+    background: var(--blanco);
+    color: var(--gris-oscuro);
+}
+
+.btn-large {
+    padding: 18px 45px;
+}
+
+.scroll-indicator {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    color: var(--blanco);
+    animation: bounce 2s infinite;
+    /* Visibilidad: Debe tener un z-index muy alto */
+    z-index: 100; 
+    
+    /* Estilo: Hace el texto blanco para que contraste con el fondo */
+    color: white;
+}
+
+.scroll-arrow {
+    font-size: 24px;
+    margin-top: 10px;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+/* ================================
+   SECCIONES GENERALES
+   ================================ */
+
+.section-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.section-title {
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: var(--gris-oscuro);
+    margin-bottom: 15px;
+}
+
+.section-subtitle {
+    font-size: 1.2rem;
+    color: #666;
+    font-weight: 400;
+}
+
+/* ================================
+   PRODUCTOS
+   ================================ */
+
+.products-section {
+    padding: 100px 0;
+    background: var(--gris-claro);
+}
+
+.product-filters {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 50px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 12px 30px;
+    background: var(--blanco);
+    color: var(--gris-oscuro);
+    border-radius: 25px;
+    font-weight: 600;
+    transition: var(--transicion);
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+    background: var(--acento-2);
+    color: var(--blanco);
+}
+
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 30px;
+}
+
+/* ================================
+   BENEFICIOS
+   ================================ */
+
+.benefits-section {
+    padding: 100px 0;
+    background: var(--blanco);
+}
+
+.benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 40px;
+    margin-top: 60px;
+}
+
+.benefit-card {
+    text-align: center;
+    padding: 40px 20px;
+    border-radius: 15px;
+    transition: var(--transicion);
+}
+
+.benefit-card:hover {
+    background: var(--gris-claro);
+    transform: translateY(-10px);
+}
+
+.benefit-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+}
+
+.benefit-card h3 {
+    font-size: 1.4rem;
+    color: var(--gris-oscuro);
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+.benefit-card p {
+    color: #666;
+    font-size: 1rem;
+}
+
+/* ================================
+   TESTIMONIOS
+   ================================ */
+
+.testimonials-section {
+    padding: 100px 0;
+    background: var(--verde-limon);
+}
+
+.testimonials-slider {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 60px;
+}
+
+.testimonial-card {
+    background: var(--blanco);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 5px 20px var(--sombra);
+    transition: var(--transicion);
+}
+
+.testimonial-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.stars {
+    color: var(--acento-1);
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+.testimonial-text {
+    font-size: 1.1rem;
+    font-style: italic;
+    color: #555;
+    margin-bottom: 25px;
+    line-height: 1.7;
+}
+
+.testimonial-author strong {
+    display: block;
+    color: var(--gris-oscuro);
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+}
+
+.testimonial-author span {
+    color: #888;
+    font-size: 0.95rem;
+}
+
+/* ================================
+   FOOTER
+   ================================ */
+
+.main-footer {
+    background: var(--gris-oscuro);
+    color: var(--blanco);
+    padding: 80px 0 30px;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 50px;
+    margin-bottom: 50px;
+}
+
+.footer-column h3,
+.footer-column h4 {
+    margin-bottom: 20px;
+    font-weight: 700;
+    color: var(--verde-limon);
+}
+
+.footer-column p {
+    line-height: 1.8;
+    color: #ccc;
+}
+
+.footer-column ul {
+    list-style: none;
+}
+
+.footer-column ul li {
+    margin-bottom: 12px;
+}
+
+.footer-column ul li a {
+    color: #ccc;
+    transition: var(--transicion);
+}
+
+.footer-column ul li a:hover {
+    color: var(--verde-limon);
+    padding-left: 5px;
+}
+
+.social-links {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.social-links a {
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    font-size: 20px;
+    transition: var(--transicion);
+}
+
+.social-links a:hover {
+    background: var(--verde-limon);
+    transform: translateY(-5px);
+}
+
+.contact-info li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #ccc;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 30px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: #999;
+}
+
+/* ================================
+   LOADING SPINNER
+   ================================ */
+
+.loading-spinner {
+    display: none;
+    justify-content: center;
+    padding: 40px;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid var(--gris-claro);
+    border-top: 5px solid var(--acento-2);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+/* ================================
+   ANIMACIONES
+   ================================ */
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-100%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateX(-50%) translateY(0);
+    }
+    40% {
+        transform: translateX(-50%) translateY(-10px);
+    }
+    60% {
+        transform: translateX(-50%) translateY(-5px);
+    }
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+/*
+/* Visualizar imagenes de prodcuto*/
+.product-media img
+.product-media video {
+    /* 1. Mantiene las proporciones y asegura que la imagen/video se vea completamente */
+    object-fit: contain; 
+    
+    /* 2. Asegura que el elemento ocupe todo el espacio disponible en el contenedor */
+    width: 100%;
+    height: 100%;
+}
+/* 1. Definir una altura fija para el contenedor de la imagen */
+.product-image-container {
+    /* Si estás usando Tailwind, la altura es definida por una clase como h-48. 
+       Si no, usa una altura fija en píxeles. (Ej. 192px es equivalente a h-48) */
+    height: 192px; 
+    
+    /* Asegúrate de que el contenedor de la imagen sea relativo para posicionar elementos internos */
+    position: relative; 
+    
+    /* Importante para contener el slider interno */
+    overflow: hidden; 
+}
+
+/* 2. Forzar que la imagen OCUPE todo el espacio y se AJUSTE */
+.product-image {
+    /* Ocupar el 100% del contenedor h-192px */
+    width: 100%;
+    height: 120%;
+    
+    /* Esta es la CLAVE: Asegura que la imagen quepa completa, sin cortarse */
+    object-fit: contain !important; 
+    
+    /* Usa !important para asegurarte de que esta regla no sea sobrescrita por ninguna otra */
+    
+    /* Si tienes un slider, el display puede ser absolute */
+    position: relative; 
+    top: 0;
+    left: 0;
+    flex-shrink: 0;
+}
+
+/* Si tu slider usa transformación (lo cual es probable) */
+.product-image-slider {
+    display: flex; /* O un display que permita que las imágenes se muevan horizontalmente */
+    height: 100%;
+}

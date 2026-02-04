@@ -1,0 +1,482 @@
+/* ================================
+   TABLET (max-width: 1024px)
+   ================================ */
+
+@media (max-width: 1024px) {
+    .container {
+        padding: 0 30px;
+    }
+
+    .hero-title {
+        font-size: 3rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1.2rem;
+    }
+
+    .section-title {
+        font-size: 2.3rem;
+    }
+
+    .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
+    }
+
+    .benefits-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* ================================
+   MÓVIL (max-width: 768px)
+   ================================ */
+
+@media (max-width: 768px) {
+    /* Header Mobile */
+    .main-nav {
+        position: fixed;
+        top: 0;
+        left: -100%;
+        width: 280px;
+        height: 100vh;
+        background: var(--blanco);
+        box-shadow: 5px 0 20px var(--sombra);
+        z-index: 2500;
+        transition: left 0.4s ease;
+        padding: 80px 0 20px;
+    }
+
+    .main-nav.active {
+        left: 0;
+    }
+
+    .main-nav ul {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .main-nav ul li {
+        border-bottom: 1px solid var(--gris-claro);
+    }
+
+    .nav-link {
+        display: block;
+        padding: 20px 30px;
+        font-size: 1.1rem;
+    }
+
+    .nav-link::after {
+        display: none;
+    }
+
+    .mobile-menu-toggle {
+        display: flex;
+    }
+
+    /* Hero Section Mobile */
+    .hero-section {
+        min-height: 100vh;
+        padding: 120px 0 60px;
+    }
+
+    .hero-content {
+        grid-template-columns: 1fr;
+        gap: 50px;
+    }
+
+    .hero-left {
+        padding-right: 0;
+        text-align: center;
+    }
+
+    .hero-title {
+        font-size: 2.2rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+
+    .hero-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+        width: 100%;
+        padding: 16px 30px;
+    }
+
+    .product-card-hero {
+        min-width: auto;
+        width: 100%;
+        max-width: 350px;
+        padding: 60px 40px;
+    }
+
+    .product-icon svg {
+        width: 80px;
+        height: 80px;
+    }
+
+    .product-name-hero {
+        font-size: 1.4rem;
+    }
+
+    .bg-dark-blue {
+        clip-path: polygon(0 0, 100% 0, 100% 40%, 0 45%);
+    }
+
+    .bg-dark-gray {
+        clip-path: polygon(0 40%, 100% 45%, 100% 100%, 0 100%);
+    }
+
+    .scroll-indicator {
+        display: none;
+    }
+
+    /* Productos Mobile */
+    .products-section {
+        padding: 60px 0;
+    }
+
+    .section-title {
+        font-size: 1.8rem;
+    }
+
+    .section-subtitle {
+        font-size: 1rem;
+    }
+
+    .product-filters {
+        gap: 10px;
+    }
+
+    .filter-btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+
+    .products-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    /* Beneficios Mobile */
+    .benefits-section {
+        padding: 60px 0;
+    }
+
+    .benefits-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    /* Testimonios Mobile */
+    .testimonials-section {
+        padding: 60px 0;
+    }
+
+    .testimonials-slider {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    /* Footer Mobile */
+    .main-footer {
+        padding: 60px 0 30px;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    /* Carrito Mobile */
+    .cart-sidebar {
+        width: 100%;
+        right: -100%;
+    }
+
+    .cart-sidebar.active {
+        right: 0;
+    }
+
+    /* Checkout Modal Mobile */
+    .checkout-modal {
+        width: 95%;
+        padding: 30px 20px;
+    }
+
+    .checkout-modal h2 {
+        font-size: 1.5rem;
+    }
+
+    .modal-actions {
+        flex-direction: column;
+    }
+
+    /* Notificación Mobile */
+    .notification {
+        right: 10px;
+        left: 10px;
+        padding: 15px 20px;
+    }
+}
+
+/* ================================
+   MÓVIL PEQUEÑO (max-width: 480px)
+   ================================ */
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0 20px;
+    }
+
+    .promo-bar {
+        font-size: 12px;
+        padding: 10px 15px;
+    }
+
+    .logo {
+        height: 40px;
+    }
+
+    .cart-button {
+        padding: 10px 15px;
+        font-size: 14px;
+    }
+
+    .hero-title {
+        font-size: 1.8rem;
+    }
+
+    .hero-subtitle {
+        font-size: 0.95rem;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+        padding: 14px 25px;
+        font-size: 0.95rem;
+    }
+
+    .section-title {
+        font-size: 1.5rem;
+    }
+
+    .section-header {
+        margin-bottom: 40px;
+    }
+
+    .product-image-container {
+        height: 250px;
+    }
+
+    .product-info {
+        padding: 20px;
+    }
+
+    .product-name {
+        font-size: 1.1rem;
+    }
+
+    .price-current {
+        font-size: 1.5rem;
+    }
+
+    .benefit-icon {
+        font-size: 3rem;
+    }
+
+    .benefit-card h3 {
+        font-size: 1.2rem;
+    }
+
+    .testimonial-card {
+        padding: 25px;
+    }
+
+    .testimonial-text {
+        font-size: 1rem;
+    }
+
+    .cart-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .cart-item-image {
+        width: 100%;
+        height: 150px;
+    }
+}
+
+/* ================================
+   DESKTOP GRANDE (min-width: 1440px)
+   ================================ */
+
+@media (min-width: 1440px) {
+    .container {
+        max-width: 1600px;
+    }
+
+    .hero-title {
+        font-size: 5rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1.6rem;
+    }
+
+    .section-title {
+        font-size: 3.2rem;
+    }
+
+    .products-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* ================================
+   MODO LANDSCAPE MÓVIL
+   ================================ */
+
+@media (max-height: 600px) and (orientation: landscape) {
+    .hero-section {
+        height: auto;
+        min-height: 100vh;
+        padding: 120px 0 40px;
+    }
+
+    .hero-title {
+        font-size: 2rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1rem;
+        margin-bottom: 30px;
+    }
+
+    .scroll-indicator {
+        display: none;
+    }
+}
+
+/* ================================
+   ANIMACIONES REDUCIDAS
+   ================================ */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    .scroll-indicator {
+        animation: none;
+    }
+}
+
+/* ================================
+   MODO OSCURO
+   ================================ */
+
+@media (prefers-color-scheme: dark) {
+    /* Opcional: Implementar modo oscuro */
+    .main-header {
+        background: var(--gris-oscuro);
+    }
+
+    .nav-link {
+        color: var(--blanco);
+    }
+
+    .products-section {
+        background: #2a2a2a;
+    }
+
+    .product-card {
+        background: var(--gris-oscuro);
+        color: var(--blanco);
+    }
+}
+
+/* ================================
+   UTILIDADES RESPONSIVAS
+   ================================ */
+
+.hide-mobile {
+    display: block;
+}
+
+.show-mobile {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .hide-mobile {
+        display: none;
+    }
+
+    .show-mobile {
+        display: block;
+    }
+}
+
+/* ================================
+   SCROLLBAR PERSONALIZADA
+   ================================ */
+
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--gris-claro);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--gris-oscuro);
+    border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--acento-2);
+}
+
+/* ================================
+   IMPRESIÓN
+   ================================ */
+
+@media print {
+    .promo-bar,
+    .main-header,
+    .cart-sidebar,
+    .hero-section,
+    .scroll-indicator,
+    .btn-add-to-cart,
+    .overlay,
+    .notification {
+        display: none !important;
+    }
+
+    body {
+        color: #000;
+    }
+
+    .product-card {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+}
