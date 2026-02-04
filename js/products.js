@@ -78,9 +78,7 @@ const sampleProducts = [
         originalPrice: 14990,
         category: 'cargadores',
         images: [
-            'images/magnéticaAuto1.png',
-            'images/magnéticaAuto2.png',
-            'images/magnéticaAuto3.png'
+            'images/CargadorAuto1.png'
         ],
         rating: 4,
         reviews: 312,
