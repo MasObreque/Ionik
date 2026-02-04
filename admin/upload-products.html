@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración - Ionik</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .admin-container {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 30px;
+        }
+        
+        .admin-header {
+            background: var(--gris-oscuro);
+            color: var(--blanco);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 40px;
+        }
+        
+        .upload-section {
+            background: var(--blanco);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px var(--sombra);
+        }
+        
+        .upload-section h3 {
+            color: var(--gris-oscuro);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .step-number {
+            background: var(--acento-2);
+            color: var(--blanco);
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+        
+        .file-input-wrapper {
+            position: relative;
+            margin: 20px 0;
+        }
+        
+        .file-input-wrapper input[type="file"] {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+        
+        .file-input-label {
+            display: block;
+            padding: 20px;
+            background: var(--gris-claro);
+            border: 2px dashed var(--gris-oscuro);
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transicion);
+        }
+        
+        .file-input-label:hover {
+            background: rgba(239, 154, 109, 0.1);
+            border-color: var(--acento-2);
+        }
+        
+        .product-upload-item {
+            background: var(--gris-claro);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .product-upload-item h4 {
+            color: var(--gris-oscuro);
+            margin-bottom: 10px;
+        }
+        
+        .image-preview {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+        
+        .image-preview img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 2px solid var(--blanco);
+        }
+        
+        .btn-upload {
+            background: var(--acento-2);
+            color: var(--blanco);
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+            transition: var(--transicion);
+        }
+        
+        .btn-upload:hover {
+            background: var(--acento-1);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(239, 154, 109, 0.3);
+        }
+        
+        .progress-container {
+            background: var(--gris-claro);
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 30px;
+            display: none;
+        }
+        
+        .progress-container.active {
+            display: block;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: var(--blanco);
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--acento-2), var(--acento-1));
+            width: 0%;
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--blanco);
+            font-weight: 700;
+        }
+        
+        .result-item {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .result-item.success {
+            background: rgba(76, 175, 80, 0.1);
+            border-left: 4px solid #4caf50;
+        }
+        
+        .result-item.error {
+            background: rgba(249, 116, 117, 0.1);
+            border-left: 4px solid var(--acento-3);
+        }
+        
+        .csv-template {
+            background: var(--verde-limon);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .csv-template h4 {
+            color: var(--gris-oscuro);
+            margin-bottom: 15px;
+        }
+        
+        .csv-template code {
+            background: var(--blanco);
+            padding: 15px;
+            border-radius: 5px;
+            display: block;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        
+        .tab {
+            padding: 15px 30px;
+            background: var(--gris-claro);
+            border-radius: 10px 10px 0 0;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transicion);
+        }
+        
+        .tab.active {
+            background: var(--acento-2);
+            color: var(--blanco);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <div class="admin-header">
+            <h1>Panel de Administración Ionik</h1>
+            <p>Gestiona productos, inventario y órdenes</p>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab('upload')">
+                📤 Carga de Productos
+            </div>
+            <div class="tab" onclick="switchTab('inventory')">
+                📦 Inventario
+            </div>
+            <div class="tab" onclick="switchTab('orders')">
+                📋 Órdenes
+            </div>
+        </div>
+
+        <!-- Tab: Carga de Productos -->
+        <div id="tab-upload" class="tab-content active">
+            <div class="upload-section">
+                <h3>
+                    <span class="step-number">1</span>
+                    Descargar Plantilla CSV
+                </h3>
+                <p>Descarga la plantilla CSV para cargar productos masivamente</p>
+                <div class="csv-template">
+                    <h4>Formato del archivo CSV:</h4>
+                    <code>id,name,description,price,originalPrice,category,stock,badge
+PROD_001,Batería Ionik Pro 12V,"Descripción del producto",89990,129990,baterias,15,OFERTA
+PROD_002,Cargador Inteligente,"Cargador rápido",29990,,accesorios,45,NUEVO</code>
+                </div>
+                <button class="btn-upload" onclick="downloadTemplate()">
+                    ⬇️ Descargar Plantilla CSV
+                </button>
+            </div>
+
+            <div class="upload-section">
+                <h3>
+                    <span class="step-number">2</span>
+                    Subir Archivo CSV
+                </h3>
+                <div class="file-input-wrapper">
+                    <label class="file-input-label">
+                        📄 Haz clic o arrastra un archivo CSV aquí
+                        <input type="file" id="csvFile" accept=".csv" onchange="handleCsvUpload(event)">
+                    </label>
+                </div>
+                <div id="csvPreview"></div>
+            </div>
+
+            <div class="upload-section">
+                <h3>
+                    <span class="step-number">3</span>
+                    Asignar Imágenes a Productos
+                </h3>
+                <p>Sube hasta 3 imágenes por producto (se mostrarán automáticamente en un slider)</p>
+                <div id="productsList"></div>
+            </div>
+
+            <div class="upload-section">
+                <h3>
+                    <span class="step-number">4</span>
+                    Confirmar y Subir
+                </h3>
+                <button class="btn-upload" onclick="uploadAllProducts()" style="width: 100%;">
+                    ✅ Subir Todos los Productos
+                </button>
+            </div>
+
+            <div class="progress-container" id="uploadProgress">
+                <h3>Progreso de Carga</h3>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill">0%</div>
+                </div>
+                <div id="uploadResults"></div>
+            </div>
+        </div>
+
+        <!-- Tab: Inventario -->
+        <div id="tab-inventory" class="tab-content">
+            <div class="upload-section">
+                <h3>Gestión de Inventario</h3>
+                <button class="btn-upload" onclick="loadInventory()">
+                    🔄 Cargar Inventario
+                </button>
+                <div id="inventoryList" style="margin-top: 20px;"></div>
+            </div>
+        </div>
+
+        <!-- Tab: Órdenes -->
+        <div id="tab-orders" class="tab-content">
+            <div class="upload-section">
+                <h3>Gestión de Órdenes</h3>
+                <button class="btn-upload" onclick="loadOrders()">
+                    🔄 Cargar Órdenes
+                </button>
+                <div id="ordersList" style="margin-top: 20px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/admin.js"></script>
+    <script>
+        let uploadedProducts = [];
+        let productImages = {};
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(`tab-${tab}`).classList.add('active');
+        }
+
+        function downloadTemplate() {
+            const template = `id,name,description,price,originalPrice,category,stock,badge
+PROD_001,Batería Ionik Pro 12V 100Ah,Batería de litio de alto rendimiento para aplicaciones profesionales,89990,129990,baterias,15,OFERTA
+PROD_002,Batería Ionik Compact 12V 50Ah,Solución compacta y ligera para espacios reducidos,54990,,baterias,23,NUEVO
+PROD_003,Cargador Inteligente Ionik,Cargador rápido con tecnología de protección,29990,,accesorios,45,`;
+
+            const blob = new Blob([template], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'plantilla-productos-ionik.csv';
+            a.click();
+            window.URL.revokeObjectURL(url);
+        }
+
+        function handleCsvUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const csv = e.target.result;
+                uploadedProducts = parseCsv(csv);
+                displayCsvPreview(uploadedProducts);
+                displayProductsList(uploadedProducts);
+            };
+            reader.readAsText(file);
+        }
+
+        function parseCsv(csv) {
+            const lines = csv.split('\n').filter(line => line.trim());
+            const headers = lines[0].split(',').map(h => h.trim());
+            const products = [];
+
+            for (let i = 1; i < lines.length; i++) {
+                const values = lines[i].split(',');
+                const product = {};
+                
+                headers.forEach((header, index) => {
+                    product[header] = values[index] ? values[index].trim().replace(/"/g, '') : '';
+                });
+
+                if (product.name && product.price) {
+                    products.push(product);
+                }
+            }
+
+            return products;
+        }
+
+        function displayCsvPreview(products) {
+            const preview = document.getElementById('csvPreview');
+            preview.innerHTML = `
+                <div style="background: var(--verde-limon); padding: 20px; border-radius: 10px; margin-top: 20px;">
+                    <h4>✅ Archivo procesado correctamente</h4>
+                    <p><strong>${products.length}</strong> productos encontrados</p>
+                </div>
+            `;
+        }
+
+        function displayProductsList(products) {
+            const list = document.getElementById('productsList');
+            list.innerHTML = products.map(product => `
+                <div class="product-upload-item">
+                    <h4>${product.name}</h4>
+                    <p>Precio: $${parseFloat(product.price).toLocaleString('es-CL')}</p>
+                    <p>Stock: ${product.stock || 0} unidades</p>
+                    <div class="file-input-wrapper">
+                        <label class="file-input-label" style="padding: 15px;">
+                            📸 Subir hasta 3 imágenes
+                            <input type="file" 
+                                   id="images-${product.id}" 
+                                   accept="image/*" 
+                                   multiple 
+                                   onchange="handleProductImages('${product.id}', event)">
+                        </label>
+                    </div>
+                    <div id="preview-${product.id}" class="image-preview"></div>
+                </div>
+            `).join('');
+        }
+
+        function handleProductImages(productId, event) {
+            const files = Array.from(event.target.files).slice(0, 3);
+            productImages[productId] = [];
+
+            files.forEach((file, index) => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    productImages[productId].push({
+                        name: file.name,
+                        data: e.target.result,
+                        order: index
+                    });
+
+                    const preview = document.getElementById(`preview-${productId}`);
+                    preview.innerHTML = productImages[productId].map(img => 
+                        `<img src="${img.data}" alt="Preview">`
+                    ).join('');
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        async function uploadAllProducts() {
+            if (uploadedProducts.length === 0) {
+                alert('Por favor carga un archivo CSV primero');
+                return;
+            }
+
+            const progress = document.getElementById('uploadProgress');
+            const progressFill = document.getElementById('progressFill');
+            const results = document.getElementById('uploadResults');
+            
+            progress.classList.add('active');
+            results.innerHTML = '';
+
+            let completed = 0;
+            const total = uploadedProducts.length;
+
+            for (const product of uploadedProducts) {
+                try {
+                    // Simular upload (reemplazar con llamada real a API)
+                    await new Promise(resolve => setTimeout(resolve, 500));
+                    
+                    completed++;
+                    const percentage = Math.round((completed / total) * 100);
+                    progressFill.style.width = `${percentage}%`;
+                    progressFill.textContent = `${percentage}%`;
+
+                    results.innerHTML += `
+                        <div class="result-item success">
+                            ✅ ${product.name} - Subido exitosamente
+                        </div>
+                    `;
+                } catch (error) {
+                    results.innerHTML += `
+                        <div class="result-item error">
+                            ❌ ${product.name} - Error: ${error.message}
+                        </div>
+                    `;
+                }
+            }
+
+            alert('¡Carga completada!');
+        }
+
+        function loadInventory() {
+            const list = document.getElementById('inventoryList');
+            list.innerHTML = '<p>Cargando inventario...</p>';
+            // Implementar llamada a API
+        }
+
+        function loadOrders() {
+            const list = document.getElementById('ordersList');
+            list.innerHTML = '<p>Cargando órdenes...</p>';
+            // Implementar llamada a API
+        }
+    </script>
+</body>
+</html>
