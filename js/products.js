@@ -28,9 +28,9 @@ const sampleProducts = [
         price: 54990,
         category: 'cargadores',
         images: [
-            'images/Cargadorauto1.png',
+            'images/CargadorAuto1.png',
             'images/Cargadorauto2.png',
-            'images/Cargadorauto3.png'
+            'images/cargadorauto3.png'
         ],
         rating: 4.5,
         reviews: 89,
@@ -180,7 +180,7 @@ function createProductCard(product) {
     
     const imagesHTML = product.images.map(img => 
         `<img src="${img}" alt="${product.name}" class="product-image h-full w-full object-contain" 
-        onerror="this.src='images/placeholder.jpg'">`
+        onerror="this.onerror=null; this.src='images/logo.jpg'">`
 ).join('');
     
     const dotsHTML = product.images.length > 1 
