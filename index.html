@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ionik - Energía que transforma tu día</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <!-- Barra Promocional Superior -->
+    <div class="promo-bar" id="promoBar">
+        <p>🎉 Envío gratis en compras sobre $50.000 | Hasta 30% OFF en productos seleccionados</p>
+        <button class="close-promo" onclick="closePromoBar()">×</button>
+    </div>
+
+    <!-- Header Principal -->
+    <header class="main-header" id="mainHeader">
+        <div class="container header-content">
+            <!-- Logo -->
+            <div class="logo-container">
+                <img src="images/logo.jpg" alt="Ionik Logo" class="logo" id="mainLogo">
+            </div>
+
+            <!-- Navegación Desktop -->
+            <nav class="main-nav" id="mainNav">
+                <ul>
+                    <li><a href="#inicio" class="nav-link active">Inicio</a></li>
+                    <li><a href="#productos" class="nav-link">Productos</a></li>
+                    <li><a href="#beneficios" class="nav-link">Beneficios</a></li>
+                    <li><a href="#testimonios" class="nav-link">Testimonios</a></li>
+                    <li><a href="#contacto" class="nav-link">Contacto</a></li>
+                </ul>
+            </nav>
+
+            <!-- Carrito y Mobile Menu -->
+            <div class="header-actions">
+                <button class="cart-button" onclick="toggleCart()">
+                    🛒 <span class="cart-count" id="cartCount">0</span>
+                </button>
+                <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Carrito Lateral -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h2>Tu Carrito</h2>
+            <button class="close-cart" onclick="toggleCart()">×</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <!-- Items dinámicos -->
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cartTotal">$0</span>
+            </div>
+            <button class="btn-primary btn-checkout" onclick="proceedToCheckout()">
+                Proceder al Pago
+            </button>
+        </div>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay" onclick="closeAll()"></div>
+
+    <!-- Hero Section -->
+    <section class="hero-section" id="inicio">
+        <img 
+            src="images/ResoluciónFullHD.jpeg" 
+            alt="Fondo de la sección principal" 
+            class="hero-background-image" 
+        />
+        <div class="hero-background">
+            <div class="bg-layer bg-dark-blue"></div>
+            <div class="bg-layer bg-dark-gray"></div>
+        </div>
+        <div class="container hero-content">
+            <div class="hero-left">
+                <h1 class="hero-title">Ionik: Energía que transforma tu día</h1>
+                <p class="hero-subtitle">Carga Inalámbrica y Potencia Móvil. Simplifica tu vida.</p>
+                <div class="hero-actions">
+                    <button class="btn-primary btn-large" onclick="scrollToProducts()">
+                        Comprar ahora
+                    </button>
+                    <button class="btn-secondary btn-large" onclick="scrollToProducts()">
+                        Ver productos destacados
+                    </button>
+                </div>
+                    </div>
+                    <div class="hero-right">
+                        <div class="product-card-hero">
+                    <video 
+                        src="videos/Lampara1.mp4" 
+                        autoplay 
+                        loop 
+                        muted 
+                        playsinline
+                        style="width: 300px; height: auto; object-fit: cover;"
+                    >
+                        Tu navegador no soporta el elemento de video.
+                    </video>
+                    <h3 class="product-name-hero">Cargador inalambrico</h3>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <span>Desliza para explorar</span>
+            <div class="scroll-arrow">↓</div>
+        </div>
+    </section>
+
+    <!-- Productos Destacados -->
+    <section class="products-section" id="productos">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Productos Destacados</h2>
+                <p class="section-subtitle">Descubre La nueva generación en carga inalámbrica, audífonos de alto rendimiento y accesorios esenciales. Potencia, seguridad y diseño para tu vida digital.</p>
+            </div>
+
+            <!-- Filtros -->
+            <div class="product-filters">
+                <button class="filter-btn active" data-filter="all">Todos</button>
+                <button class="filter-btn" data-filter="cargadores">Cargadores</button>
+                <button class="filter-btn" data-filter="lamparas">Luz de Noche</button>
+                <button class="filter-btn" data-filter="ofertas">Ofertas</button>
+            </div>
+
+            <!-- Grid de Productos -->
+            <div class="products-grid" id="productsGrid">
+                <!-- Productos se cargan dinámicamente -->
+            </div>
+
+            <div class="loading-spinner" id="productsLoading">
+                <div class="spinner"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Beneficios -->
+    <section class="benefits-section" id="beneficios">
+        <div class="container">
+            <h2 class="section-title">¿Por qué elegir Ionik?</h2>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">⚡</div>
+                    <h3>Confort sin Enredos</h3>
+                    <p>Despídete del exceso cables y el desorden. Te brindamos una experiencia de carga cómoda, limpia y siempre organizada.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🧩</div>
+                    <h3>Multifuncionalidad</h3>
+                    <p>Un solo dispositivo para múltiples necesidades. Carga todos tus productos, y disfruta de extras como luz o audio, todo sin cables.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">💎</div>
+                    <h3>Diseño y Estilo</h3>
+                    <p>Tecnología que no solo funciona, sino que también decora. Productos con estilo y acabados premium que elevan tu espacio.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🚀</div>
+                    <h3>Innovación</h3>
+                    <p>Te traemos la última tecnología que no encontrarás en Chile. Productos novedosos que marcan tendencia.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonios -->
+    <section class="testimonials-section" id="testimonios">
+        <div class="container">
+            <h2 class="section-title">Lo que dicen nuestros clientes</h2>
+            <div class="testimonials-slider">
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p class="testimonial-text">"El **Cargador Inalámbrico Ultra** es súper rápido y elegante. Carga mi celular sin cables y sin sobrecalentamiento. ¡Genial!"</p>
+                    <div class="testimonial-author">
+                        <strong>María González</strong>
+                        <span>Ingeniera</span>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p class="testimonial-text">"El complemento ideal **PowerBank** me salva el día y Llevo mi música todo el viaje gracias a los **Audífonos** sin preocuparme por la batería."</p>
+                    <div class="testimonial-author">
+                        <strong>Carlos Ruiz</strong>
+                        <span>Empresario</span>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p class="testimonial-text">"Servicio excepcional y producto de alta calidad. Totalmente recomendado."</p>
+                    <div class="testimonial-author">
+                        <strong>Ana Martínez</strong>
+                        <span>Diseñadora</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="main-footer" id="contacto">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3>Ionik</h3>
+                    <p>Energía que transforma tu día.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook">📘</a>
+                        <a href="#" aria-label="Instagram">📷</a>
+                        <a href="#" aria-label="Twitter">🐦</a>
+                        <a href="#" aria-label="LinkedIn">💼</a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h4>Enlaces Rápidos</h4>
+                    <ul>
+                        <li><a href="#inicio">Inicio</a></li>
+                        <li><a href="#productos">Productos</a></li>
+                        <li><a href="#beneficios">Beneficios</a></li>
+                        <li><a href="#testimonios">Testimonios</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Información Legal</h4>
+                    <ul>
+                        <li><a href="#">Términos y Condiciones</a></li>
+                        <li><a href="#">Política de Privacidad</a></li>
+                        <li><a href="#">Política de Devoluciones</a></li>
+                        <li><a href="#">Garantía</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Contacto</h4>
+                    <ul class="contact-info">
+                        <li>📧 info@ionik.com</li>
+                        <li>📱 +56 9 1234 5678</li>
+                        <li>📍 Santiago, Chile</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Ionik. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/products.js"></script>
+</body>
+</html>

@@ -1,0 +1,534 @@
+# Guía de Integración - E-commerce Ionik
+
+## 📋 Tabla de Contenidos
+
+1. [Arquitectura del Sistema](#arquitectura)
+2. [Configuración Oracle Cloud](#oracle-cloud)
+3. [Integración de Pasarelas de Pago](#pasarelas-pago)
+4. [Despliegue](#despliegue)
+5. [APIs y Endpoints](#apis)
+6. [Seguridad](#seguridad)
+
+---
+
+## 🏗️ Arquitectura del Sistema
+
+### Estructura de Capas
+
+```
+┌─────────────────────────────────────┐
+│         Frontend (Cliente)          │
+│   HTML + CSS + JavaScript           │
+└─────────────┬───────────────────────┘
+              │
+              ▼
+┌─────────────────────────────────────┐
+│         API REST (Node.js)          │
+│   Express + Oracle Node Driver      │
+└─────────────┬───────────────────────┘
+              │
+              ▼
+┌─────────────────────────────────────┐
+│      Oracle Cloud Database          │
+│   Tablas + Procedures + Triggers    │
+└─────────────────────────────────────┘
+```
+
+---
+
+## ☁️ Configuración Oracle Cloud
+
+### 1. Crear Base de Datos
+
+```bash
+# Acceder a Oracle Cloud Console
+https://cloud.oracle.com
+
+# Crear Autonomous Database
+1. Ir a "Oracle Database" > "Autonomous Database"
+2. Click "Create Autonomous Database"
+3. Seleccionar:
+   - Workload Type: Transaction Processing
+   - Deployment Type: Shared Infrastructure
+   - Database Version: 19c o superior
+```
+
+### 2. Obtener Credenciales de Conexión
+
+```bash
+# Descargar Wallet
+1. En la consola de tu DB, click "DB Connection"
+2. Descargar "Wallet" (archivo .zip)
+3. Extraer en: ./wallet/
+```
+
+### 3. Configurar Variables de Entorno
+
+```bash
+# .env
+ORACLE_USER=ADMIN
+ORACLE_PASSWORD=tu_password_seguro
+ORACLE_CONNECTION_STRING=(description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=xxxxx.oraclecloud.com))(connect_data=(service_name=xxxxx_high.adb.oraclecloud.com))(security=(ssl_server_cert_dn="CN=xxxxx.oraclecloud.com, OU=Oracle BMCS US, O=Oracle Corporation, L=Redwood City, ST=California, C=US")))
+
+TNS_ADMIN=./wallet
+
+# Node.js
+NODE_ENV=production
+PORT=3000
+```
+
+### 4. Ejecutar Scripts SQL
+
+```bash
+# Conectar a la base de datos
+sqlplus ADMIN@your_service
+
+# Ejecutar schema
+@schema.sql
+```
+
+---
+
+## 💳 Integración de Pasarelas de Pago
+
+### Webpay Plus (Transbank - Chile)
+
+#### 1. Instalación
+
+```bash
+npm install transbank-sdk
+```
+
+#### 2. Configuración
+
+```javascript
+// backend/config/webpay.js
+const Transbank = require('transbank-sdk');
+
+const WebpayPlus = Transbank.WebpayPlus;
+
+// Producción
+WebpayPlus.configureForProduction(
+    process.env.WEBPAY_COMMERCE_CODE,
+    process.env.WEBPAY_API_KEY
+);
+
+// Testing (usar mientras desarrollas)
+WebpayPlus.configureForTesting();
+```
+
+#### 3. Crear Transacción
+
+```javascript
+// backend/routes/payment.js
+const express = require('express');
+const router = express.Router();
+const { WebpayPlus } = require('transbank-sdk');
+
+router.post('/create-transaction', async (req, res) => {
+    const { orderId, amount, returnUrl } = req.body;
+    
+    try {
+        const response = await WebpayPlus.Transaction.create(
+            orderId,
+            orderId,
+            amount,
+            returnUrl
+        );
+        
+        res.json({
+            token: response.token,
+            url: response.url
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+router.post('/confirm-transaction', async (req, res) => {
+    const { token } = req.body;
+    
+    try {
+        const response = await WebpayPlus.Transaction.commit(token);
+        
+        // Actualizar orden en la base de datos
+        await OrdersDB.updateStatus(response.buy_order, 'completed');
+        
+        res.json({ success: true, response });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+module.exports = router;
+```
+
+#### 4. Frontend
+
+```javascript
+// js/payment.js
+async function processWebpayPayment(orderId, total) {
+    try {
+        const response = await fetch('/api/payment/create-transaction', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                orderId,
+                amount: total,
+                returnUrl: `${window.location.origin}/payment-return`
+            })
+        });
+        
+        const data = await response.json();
+        
+        // Crear formulario y redirigir
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = data.url;
+        
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'token_ws';
+        input.value = data.token;
+        
+        form.appendChild(input);
+        document.body.appendChild(form);
+        form.submit();
+    } catch (error) {
+        console.error('Error:', error);
+        showNotification('Error', 'No se pudo procesar el pago', 'error');
+    }
+}
+```
+
+### Mercado Pago
+
+#### 1. Instalación
+
+```bash
+npm install mercadopago
+```
+
+#### 2. Configuración
+
+```javascript
+// backend/config/mercadopago.js
+const mercadopago = require('mercadopago');
+
+mercadopago.configure({
+    access_token: process.env.MERCADOPAGO_ACCESS_TOKEN
+});
+```
+
+#### 3. Crear Preferencia
+
+```javascript
+// backend/routes/mercadopago.js
+router.post('/create-preference', async (req, res) => {
+    const { orderId, items, payer } = req.body;
+    
+    const preference = {
+        items: items.map(item => ({
+            title: item.name,
+            unit_price: item.price,
+            quantity: item.quantity
+        })),
+        payer: {
+            name: payer.name,
+            email: payer.email
+        },
+        back_urls: {
+            success: `${process.env.FRONTEND_URL}/payment-success`,
+            failure: `${process.env.FRONTEND_URL}/payment-failure`,
+            pending: `${process.env.FRONTEND_URL}/payment-pending`
+        },
+        external_reference: orderId
+    };
+    
+    try {
+        const response = await mercadopago.preferences.create(preference);
+        res.json({ id: response.body.id, init_point: response.body.init_point });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+```
+
+---
+
+## 🚀 Despliegue
+
+### Backend (Node.js + Express)
+
+#### 1. Preparar Servidor
+
+```bash
+# Instalar Node.js y PM2
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+sudo apt-get install -y nodejs
+sudo npm install -g pm2
+```
+
+#### 2. Configurar Aplicación
+
+```bash
+# Clonar repositorio
+git clone https://github.com/tu-repo/ionik-backend.git
+cd ionik-backend
+
+# Instalar dependencias
+npm install
+
+# Configurar variables de entorno
+cp .env.example .env
+nano .env
+
+# Iniciar con PM2
+pm2 start server.js --name ionik-api
+pm2 save
+pm2 startup
+```
+
+#### 3. Configurar Nginx
+
+```nginx
+# /etc/nginx/sites-available/ionik-api
+server {
+    listen 80;
+    server_name api.ionik.com;
+    
+    location / {
+        proxy_pass http://localhost:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
+```
+
+### Frontend (HTML/CSS/JS)
+
+#### Opción 1: Hosting Estático (Netlify/Vercel)
+
+```bash
+# netlify.toml
+[build]
+  publish = "."
+  command = "echo 'No build required'"
+
+[[redirects]]
+  from = "/api/*"
+  to = "https://api.ionik.com/:splat"
+  status = 200
+```
+
+#### Opción 2: Servidor Propio
+
+```nginx
+# /etc/nginx/sites-available/ionik-web
+server {
+    listen 80;
+    server_name ionik.com www.ionik.com;
+    root /var/www/ionik;
+    index index.html;
+    
+    location / {
+        try_files $uri $uri/ =404;
+    }
+    
+    location /api/ {
+        proxy_pass http://localhost:3000/;
+    }
+}
+```
+
+---
+
+## 🔌 APIs y Endpoints
+
+### Productos
+
+```
+GET    /api/products              - Obtener todos los productos
+GET    /api/products/:id          - Obtener producto por ID
+POST   /api/products              - Crear producto (admin)
+PUT    /api/products/:id          - Actualizar producto (admin)
+DELETE /api/products/:id          - Eliminar producto (admin)
+PATCH  /api/products/:id/stock    - Actualizar stock (admin)
+```
+
+### Órdenes
+
+```
+GET    /api/orders                - Obtener órdenes (admin)
+GET    /api/orders/:id            - Obtener orden por ID
+POST   /api/orders                - Crear orden
+PATCH  /api/orders/:id/status     - Actualizar estado (admin)
+```
+
+### Imágenes
+
+```
+POST   /api/products/:id/images   - Subir imagen de producto
+GET    /api/products/:id/images   - Obtener imágenes de producto
+DELETE /api/images/:id             - Eliminar imagen
+```
+
+### Ejemplo de Uso
+
+```javascript
+// Obtener productos
+const response = await fetch('/api/products?category=baterias');
+const products = await response.json();
+
+// Crear orden
+const order = await fetch('/api/orders', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+        items: cart,
+        customer: {
+            email: 'cliente@example.com',
+            name: 'Juan Pérez'
+        },
+        total: 89990
+    })
+});
+```
+
+---
+
+## 🔐 Seguridad
+
+### 1. Variables de Entorno
+
+```bash
+# NUNCA commitear .env al repositorio
+echo ".env" >> .gitignore
+```
+
+### 2. HTTPS/SSL
+
+```bash
+# Instalar Certbot
+sudo apt install certbot python3-certbot-nginx
+
+# Obtener certificado
+sudo certbot --nginx -d ionik.com -d www.ionik.com
+```
+
+### 3. Rate Limiting
+
+```javascript
+// backend/middleware/rateLimit.js
+const rateLimit = require('express-rate-limit');
+
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutos
+    max: 100 // límite de requests
+});
+
+app.use('/api/', limiter);
+```
+
+### 4. Validación de Datos
+
+```javascript
+// backend/middleware/validation.js
+const { body, validationResult } = require('express-validator');
+
+const validateProduct = [
+    body('name').trim().isLength({ min: 3 }).escape(),
+    body('price').isNumeric(),
+    body('stock').isInt({ min: 0 }),
+    (req, res, next) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+        next();
+    }
+];
+```
+
+### 5. Autenticación Admin
+
+```javascript
+// backend/middleware/auth.js
+const jwt = require('jsonwebtoken');
+
+function authenticateAdmin(req, res, next) {
+    const token = req.headers['authorization']?.split(' ')[1];
+    
+    if (!token) {
+        return res.status(401).json({ error: 'No autorizado' });
+    }
+    
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = decoded;
+        next();
+    } catch (error) {
+        res.status(403).json({ error: 'Token inválido' });
+    }
+}
+
+// Uso
+app.post('/api/products', authenticateAdmin, createProduct);
+```
+
+---
+
+## 📊 Monitoreo
+
+### Logs
+
+```bash
+# Ver logs de PM2
+pm2 logs ionik-api
+
+# Ver logs de Nginx
+sudo tail -f /var/log/nginx/access.log
+```
+
+### Backup de Base de Datos
+
+```bash
+# Oracle Data Pump
+expdp ADMIN@service DIRECTORY=DATA_PUMP_DIR DUMPFILE=ionik_backup.dmp
+
+# Programar backups automáticos
+crontab -e
+0 2 * * * /path/to/backup-script.sh
+```
+
+---
+
+## 🆘 Soporte y Troubleshooting
+
+### Problemas Comunes
+
+**Error: Cannot connect to Oracle Database**
+- Verificar que el Wallet esté configurado correctamente
+- Revisar TNS_ADMIN en variables de entorno
+- Comprobar firewall/conectividad
+
+**Error: Payment gateway timeout**
+- Verificar credenciales de la pasarela
+- Revisar límites de rate en el proveedor
+- Implementar retry logic
+
+**Performance Issues**
+- Revisar índices en la base de datos
+- Implementar caché (Redis)
+- Optimizar queries SQL
+
+---
+
+## 📞 Contacto
+
+Para soporte técnico:
+- Email: dev@ionik.com
+- Documentación: https://docs.ionik.com
