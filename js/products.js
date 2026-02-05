@@ -11,7 +11,7 @@ const sampleProducts = [
         originalPrice: 129990,
         category: 'lamparas',
         images: [
-            'images/lampara1.png',
+            'images/Lampara1.png',
             'images/lampara2.png',
             'images/lampara3.png'
         ],
