@@ -7,11 +7,11 @@ const sampleProducts = [
         id: 'prod-001',
         name: 'Lampara Multifuncional',
         description: 'Lampara multifuncion, carga Inalambrica, luz de noche, musica',
-        price: 89990,
-        originalPrice: 129990,
+        price: 35990,
+        originalPrice: 41990,
         category: 'lamparas',
         images: [
-            'images/lampara1.png',
+            'images/lampara1.jpg',
             'images/lampara2.png',
             'images/lampara3.png'
         ],
@@ -19,13 +19,13 @@ const sampleProducts = [
         reviews: 127,
         stock: 15,
         featured: true,
-        badge: 'OFERTA'
+        //badge: 'OFERTA'
     },
     {
         id: 'prod-002',
-        name: 'Cargador inalámbrico de 15W  para Auto',
+        name: 'Cargador ultradelgado inalámbrico de 15W  para Auto',
         description: 'Solución compacta y ligera Cargador inalámbrico de 15W  para Auto con sensor inteligente y sujeción automática',
-        price: 54990,
+        price: 18990,
         category: 'cargadores',
         images: [
             'images/CargadorAuto1.png',
@@ -35,14 +35,14 @@ const sampleProducts = [
         rating: 4.5,
         reviews: 89,
         stock: 23,
-        featured: true,
-        badge: 'NUEVO'
+       // featured: false,
+       // badge: 'NUEVO'
     },
     {
         id: 'prod-003',
         name: 'Cargador inalámbrico 3 en 1 Escritorio',
         description: 'Cargador inalámbrico 3 en 1 para escritorio con luces, plegable',
-        price: 189990,
+        price: 16990,
         category: 'cargadores',
         images: [
             'images/3en1Escritorio1.png',
@@ -58,7 +58,7 @@ const sampleProducts = [
         id: 'prod-004',
         name: 'Cargador de Auto retactil',
         description: 'Cargador de Auto con puerto USB, cable retráctil y carga rápida de 120 W',
-        price: 29990,
+        price: 11990,
         category: 'cargadores',
         images: [
             'images/retractil1.png',
@@ -74,31 +74,32 @@ const sampleProducts = [
         id: 'prod-005',
         name: 'estación de carga rápida magnética para Auto',
         description: 'Cargador inalámbrico para coche de 15 W, estación de carga rápida magnética, botón táctil para rejilla de ventilación, soporte para teléfono móvil',
-        price: 9990,
-        originalPrice: 14990,
+        price: 13990,
+        originalPrice: 13990,
         category: 'cargadores',
         images: [
-            'images/CargadorAuto1.png'
+            'images/CargadorA1.jpeg',
+            'images/cargadorA12.jpeg'
         ],
         rating: 4,
         reviews: 312,
         stock: 156,
-        featured: false,
-        badge: 'OFERTA'
+        featured: true,
+        //badge: 'OFERTA'
     },
     {
         id: 'prod-006',
         name: 'Estacion Carga para Escritorio',
         description: 'estación de carga inalámbrica multifunción RGB 4 en 1 de 15 W con luz nocturna y cargador inalámbrico PD para teléfonos',
-        price: 19990,
+        price: 21990,
         category: 'lamparas',
         images: [
             'images/minimalista1.png',
             'images/minimalista2.png',
             'images/minimalista3.png'
         ],
-        rating: 4.5,
-        reviews: 78,
+        rating: 0,
+        reviews: 0,
         stock: 34,
         featured: false
     }
