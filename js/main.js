@@ -357,20 +357,7 @@ function showCheckoutModal() {
         <p>Total a pagar: $${total.toLocaleString('es-CL')}</p>
         
         <div class="payment-methods">
-            <div class="payment-method" onclick="selectPaymentMethod(this, 'webpay')">
-                <div class="payment-icon">💳</div>
-                <div class="payment-info">
-                    <h4>Webpay Plus</h4>
-                    <p>Tarjetas de débito y crédito</p>
-                </div>
-            </div>
-            <div class="payment-method" onclick="selectPaymentMethod(this, 'mercadopago')">
-                <div class="payment-icon">🛒</div>
-                <div class="payment-info">
-                    <h4>Mercado Pago</h4>
-                    <p>Paga con tu cuenta MP</p>
-                </div>
-            </div>
+            
             <div class="payment-method" onclick="selectPaymentMethod(this, 'transferencia')">
                 <div class="payment-icon">🏦</div>
                 <div class="payment-info">
@@ -468,3 +455,18 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.observe(el);
     });
 });
+
+/*<div class="payment-method" onclick="selectPaymentMethod(this, 'webpay')">
+                <div class="payment-icon">💳</div>
+                <div class="payment-info">
+                    <h4>Webpay Plus</h4>
+                    <p>Tarjetas de débito y crédito</p>
+                </div>
+            </div>
+            <div class="payment-method" onclick="selectPaymentMethod(this, 'mercadopago')">
+                <div class="payment-icon">🛒</div>
+                <div class="payment-info">
+                    <h4>Mercado Pago</h4>
+                    <p>Paga con tu cuenta MP</p>
+                </div>
+            </div> */

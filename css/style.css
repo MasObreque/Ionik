@@ -101,7 +101,7 @@ button {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 15px 20px;
+    padding: 10px 15px;
 }
 
 .logo-container {
@@ -109,7 +109,7 @@ button {
 }
 
 .logo {
-    height: 50px;
+    height: 40px;
     width: auto;
     transition: var(--transicion);
 }
@@ -858,3 +858,15 @@ button {
     display: flex; /* O un display que permita que las imágenes se muevan horizontalmente */
     height: 100%;
 }
+
+.logo-glosa {
+    text-align: center;
+    font-size: 14px;
+    color: #7ac943; /* verde limón similar al logo */
+    margin-top: 5px;
+    font-weight: 500;
+}
+#inicio {
+    scroll-margin-top: 100px; /* ajusta según la altura real de tu header */
+}
+
