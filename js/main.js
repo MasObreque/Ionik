@@ -357,7 +357,6 @@ function showCheckoutModal() {
         <p>Total a pagar: $${total.toLocaleString('es-CL')}</p>
         
         <div class="payment-methods">
-            
             <div class="payment-method" onclick="selectPaymentMethod(this, 'transferencia')">
                 <div class="payment-icon">🏦</div>
                 <div class="payment-info">
@@ -366,26 +365,24 @@ function showCheckoutModal() {
                 </div>
             </div>
         </div>
-         <div class="transfer-details">
+        
+        <div class="transfer-details" id="transferDetails" style="display: none;">
             <h3>Datos para Transferencia</h3>
-            <p> </p>
             <p><strong>Banco:</strong> Banco Estado</p>
             <p><strong>Tipo de cuenta:</strong> Cuenta Vista</p>
             <p><strong>N° de cuenta:</strong> 123456789</p>
             <p><strong>RUT:</strong> 12.345.678-9</p>
             <p><strong>Nombre:</strong> Magnutech SpA</p>
             <p><strong>Correo:</strong> pagos@magnutech.cl</p>
-
             <div class="transfer-warning">
                 ⚠️ <strong>Importante:</strong> Tienes un máximo de <strong>24 horas</strong> para realizar el pago.  
                 Si no se recibe dentro de ese plazo, el pedido será anulado.
             </div>
         </div>
-
         
         <div class="modal-actions">
             <button class="btn-cancel" onclick="closeCheckoutModal()">Cancelar</button>
-            <button class="btn-confirm" onclick="confirmPayment()">Confirmar pedido</button>
+            <button class="btn-confirm" onclick="confirmPayment()">Confirmar Pedido</button>
         </div>
     `;
     
@@ -417,6 +414,16 @@ function selectPaymentMethod(element, method) {
     });
     element.classList.add('selected');
     selectedPaymentMethod = method;
+    
+    // Mostrar datos de transferencia si se selecciona este método
+    const transferDetails = document.getElementById('transferDetails');
+    if (transferDetails) {
+        if (method === 'transferencia') {
+            transferDetails.style.display = 'block';
+        } else {
+            transferDetails.style.display = 'none';
+        }
+    }
 }
 
 function confirmPayment() {
@@ -425,8 +432,34 @@ function confirmPayment() {
         return;
     }
     
-    // Aquí iría la integración real con la pasarela de pago
-    showNotification('¡Orden procesada!', 'Tu pedido ha sido confirmado', 'success');
+    // Preparar datos del pedido para WhatsApp
+    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const orderNumber = "IONIK-" + Date.now();
+    
+    const itemsText = cart
+        .map(item => `• ${item.name} x${item.quantity} - $${(item.price * item.quantity).toLocaleString('es-CL')}`)
+        .join('\n');
+    
+    const message = `
+¡Hola! 👋 Quiero confirmar mi pedido:
+
+📋 *N° de Pedido:* ${orderNumber}
+
+🛒 *Productos:*
+${itemsText}
+
+💰 *Total:* $${total.toLocaleString('es-CL')}
+
+💳 *Método de pago:* Transferencia Bancaria
+
+Procederé a realizar la transferencia y enviaré el comprobante. ¡Gracias!
+    `.trim();
+    
+    const phone = "56962769503";
+    const whatsappUrl = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+    
+    // Mostrar notificación de confirmación
+    showNotification('¡Pedido confirmado!', 'Serás redirigido a WhatsApp para confirmar', 'success');
     
     // Limpiar carrito
     cart = [];
@@ -436,37 +469,11 @@ function confirmPayment() {
     
     closeCheckoutModal();
     toggleCart();
-
-    //Funcion envio pedido a WS
- function confirmOrder() {
-    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-
-    const orderNumber = "IONIK-" + Date.now();
-
-    const itemsText = cart
-        .map(item => `• ${item.name} x${item.quantity} - $${(item.price * item.quantity).toLocaleString('es-CL')}`)
-        .join('\n');
-
-    const message = `
-Nuevo Pedido 🛒
-N° de Pedido: ${orderNumber}
-
-Productos:
-${itemsText}
-
-Total: $${total.toLocaleString('es-CL')}
-
-Método de pago: Transferencia Bancaria
-`;
-
-    const phone = "56962769503"; // tu número personal
-
-    const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
-
-    window.open(url, "_blank");
-
-    closeCheckoutModal();
-}
+    
+    // Redirigir a WhatsApp después de un breve delay
+    setTimeout(() => {
+        window.open(whatsappUrl, '_blank');
+    }, 1500);
 }
 
 
