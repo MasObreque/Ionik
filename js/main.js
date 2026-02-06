@@ -366,20 +366,6 @@ function showCheckoutModal() {
             </div>
         </div>
         
-        <div class="transfer-details" id="transferDetails" style="display: none;">
-            <h3>Datos para Transferencia</h3>
-            <p><strong>Banco:</strong> Banco Estado</p>
-            <p><strong>Tipo de cuenta:</strong> Cuenta Vista</p>
-            <p><strong>N° de cuenta:</strong> 123456789</p>
-            <p><strong>RUT:</strong> 12.345.678-9</p>
-            <p><strong>Nombre:</strong> Magnutech SpA</p>
-            <p><strong>Correo:</strong> pagos@magnutech.cl</p>
-            <div class="transfer-warning">
-                ⚠️ <strong>Importante:</strong> Tienes un máximo de <strong>24 horas</strong> para realizar el pago.  
-                Si no se recibe dentro de ese plazo, el pedido será anulado.
-            </div>
-        </div>
-        
         <div class="modal-actions">
             <button class="btn-cancel" onclick="closeCheckoutModal()">Cancelar</button>
             <button class="btn-confirm" onclick="confirmPayment()">Confirmar Pedido</button>
@@ -414,16 +400,6 @@ function selectPaymentMethod(element, method) {
     });
     element.classList.add('selected');
     selectedPaymentMethod = method;
-    
-    // Mostrar datos de transferencia si se selecciona este método
-    const transferDetails = document.getElementById('transferDetails');
-    if (transferDetails) {
-        if (method === 'transferencia') {
-            transferDetails.style.display = 'block';
-        } else {
-            transferDetails.style.display = 'none';
-        }
-    }
 }
 
 function confirmPayment() {
@@ -440,6 +416,18 @@ function confirmPayment() {
         .map(item => `• ${item.name} x${item.quantity} - $${(item.price * item.quantity).toLocaleString('es-CL')}`)
         .join('\n');
     
+    const transferData = `
+🏦 *Datos para Transferencia:*
+• Banco: Banco Estado
+• Tipo de cuenta: Cuenta Vista
+• N° de cuenta: 123456789
+• RUT: 12.345.678-9
+• Nombre: Magnutech SpA
+• Correo: pagos@magnutech.cl
+
+⚠️ *Importante:* Tienes 24 horas para realizar el pago.
+    `.trim();
+    
     const message = `
 ¡Hola! 👋 Quiero confirmar mi pedido:
 
@@ -452,16 +440,104 @@ ${itemsText}
 
 💳 *Método de pago:* Transferencia Bancaria
 
+${transferData}
+
 Procederé a realizar la transferencia y enviaré el comprobante. ¡Gracias!
     `.trim();
     
     const phone = "56962769503";
     const whatsappUrl = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
     
-    // Mostrar notificación de confirmación
-    showNotification('¡Pedido confirmado!', 'Serás redirigido a WhatsApp para confirmar', 'success');
+    // Mostrar datos de transferencia en el modal
+    showTransferDetails();
     
-    // Limpiar carrito
+    // Abrir WhatsApp
+    window.open(whatsappUrl, '_blank');
+}
+
+function showTransferDetails() {
+    const modal = document.getElementById('checkoutModal');
+    
+    modal.innerHTML = `
+        <h2>✅ ¡Pedido Confirmado!</h2>
+        
+        <div class="transfer-details-confirmed">
+            <h3>Datos para Transferencia</h3>
+            <div class="transfer-info">
+                <div class="transfer-data-item">
+                    <span class="data-label">Banco:</span>
+                    <span class="data-value">Banco Estado</span>
+                </div>
+                
+                <div class="transfer-data-item">
+                    <span class="data-label">Tipo de cuenta:</span>
+                    <span class="data-value">Cuenta Vista</span>
+                </div>
+                
+                <div class="transfer-data-item">
+                    <span class="data-label">N° de cuenta:</span>
+                    <span class="data-value">123456789</span>
+                </div>
+                
+                <div class="transfer-data-item">
+                    <span class="data-label">RUT:</span>
+                    <span class="data-value">12.345.678-9</span>
+                </div>
+                
+                <div class="transfer-data-item">
+                    <span class="data-label">Nombre:</span>
+                    <span class="data-value">Magnutech SpA</span>
+                </div>
+                
+                <div class="transfer-data-item">
+                    <span class="data-label">Correo:</span>
+                    <span class="data-value">pagos@magnutech.cl</span>
+                </div>
+            </div>
+            
+            <button class="btn-copy-all" onclick="copyAllTransferData()">
+                📋 Copiar todos los datos
+            </button>
+            
+            <div class="transfer-warning">
+                ⚠️ <strong>Importante:</strong> Tienes un máximo de <strong>24 horas</strong> para realizar el pago.  
+                Si no se recibe dentro de ese plazo, el pedido será anulado.
+            </div>
+            <p class="redirect-message">🔄 Hemos abierto WhatsApp para confirmar tu pedido...</p>
+        </div>
+        
+        <div class="modal-actions">
+            <button class="btn-primary" onclick="closeCheckoutAndClearCart()">Cerrar</button>
+        </div>
+    `;
+}
+
+function copyAllTransferData() {
+    const transferText = `Banco: Banco Estado
+Tipo de cuenta: Cuenta Vista
+N° de cuenta: 123456789
+RUT: 12.345.678-9
+Nombre: Magnutech SpA
+Correo: pagos@magnutech.cl`;
+
+    const textarea = document.createElement('textarea');
+    textarea.value = transferText;
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    document.body.appendChild(textarea);
+    textarea.select();
+    
+    try {
+        document.execCommand('copy');
+        showNotification('¡Copiado!', 'Datos de transferencia copiados al portapapeles', 'success');
+    } catch (err) {
+        showNotification('Error', 'No se pudo copiar', 'error');
+    }
+    
+    document.body.removeChild(textarea);
+}
+
+function closeCheckoutAndClearCart() {
     cart = [];
     saveCartToStorage();
     updateCartDisplay();
@@ -469,11 +545,6 @@ Procederé a realizar la transferencia y enviaré el comprobante. ¡Gracias!
     
     closeCheckoutModal();
     toggleCart();
-    
-    // Redirigir a WhatsApp después de un breve delay
-    setTimeout(() => {
-        window.open(whatsappUrl, '_blank');
-    }, 1500);
 }
 
 

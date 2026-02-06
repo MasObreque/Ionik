@@ -494,3 +494,95 @@
     font-size: 0.9rem;
     margin: 0;
 }
+
+/* ================================
+   DATOS DE TRANSFERENCIA
+   ================================ */
+
+.transfer-details-confirmed {
+    margin: 20px 0;
+}
+
+.transfer-details-confirmed h3 {
+    font-size: 1.3rem;
+    color: var(--gris-oscuro);
+    margin-bottom: 20px;
+}
+
+.transfer-info {
+    background: var(--gris-claro);
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.transfer-data-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.transfer-data-item:last-child {
+    border-bottom: none;
+}
+
+.data-label {
+    font-size: 0.9rem;
+    color: #666;
+    font-weight: 600;
+    min-width: 140px;
+}
+
+.data-value {
+    font-size: 1rem;
+    color: var(--gris-oscuro);
+    font-weight: 700;
+    text-align: right;
+}
+
+.btn-copy-all {
+    width: 100%;
+    padding: 15px;
+    background: var(--acento-2);
+    color: var(--blanco);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 700;
+    transition: var(--transicion);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn-copy-all:hover {
+    background: var(--acento-1);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(239, 154, 109, 0.3);
+}
+
+.btn-copy-all:active {
+    transform: translateY(0);
+}
+
+.transfer-warning {
+    background: #fff3cd;
+    border-left: 4px solid #ffc107;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 20px 0;
+    color: #856404;
+}
+
+.redirect-message {
+    text-align: center;
+    color: var(--acento-2);
+    font-weight: 600;
+    margin-top: 15px;
+    font-size: 0.95rem;
+}
