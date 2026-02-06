@@ -869,4 +869,35 @@ button {
 #inicio {
     scroll-margin-top: 100px; /* ajusta según la altura real de tu header */
 }
+.transfer-details {
+    font-size: 14px;          /* texto más pequeño */
+    line-height: 1.2;         /* reduce el espacio entre líneas */
+    padding: 10px 15px;       /* reduce el espacio interno */
+    margin-top: 10px;         /* separa del bloque anterior */
+    background: #f7f7f7;      /* opcional: fondo suave */
+    border-radius: 6px;       /* opcional: bordes suaves */
+}
+
+.transfer-details h3 {
+    font-size: 16px;
+    margin-bottom: 8px;       /* menos espacio debajo del título */
+}
+
+.transfer-details p {
+    margin: 0;          /* elimina separación vertical */
+    line-height: 0.1;   /* junta más las líneas */
+    font-size: 13px;    /* opcional: más pequeño */
+    padding: 0px;
+}
+
+
+.transfer-warning {
+    margin-top: 10px;
+    font-size: 13px;
+    line-height: 1.2;
+    background: #fff3cd;      /* amarillo suave */
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ffeeba;
+}
 
