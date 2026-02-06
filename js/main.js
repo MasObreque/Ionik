@@ -342,7 +342,54 @@ function proceedToCheckout() {
         return;
     }
     
-    showCheckoutModal();
+    showCheckoutInCart();
+}
+
+function showCheckoutInCart() {
+    const cartSidebar = document.getElementById('cartSidebar');
+    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    
+    cartSidebar.innerHTML = `
+        <div class="cart-header">
+            <button class="back-to-cart" onclick="backToCart()">← Volver</button>
+            <h2>Finalizar Compra</h2>
+            <button class="close-cart" onclick="toggleCart()">×</button>
+        </div>
+        
+        <div class="cart-content">
+            <div class="checkout-summary">
+                <h3>Resumen del Pedido</h3>
+                <div class="summary-total">
+                    <span>Total a pagar:</span>
+                    <span class="total-amount">${formatPrice(total)}</span>
+                </div>
+            </div>
+            
+            <div class="payment-section">
+                <h3>Método de Pago</h3>
+                <div class="payment-methods">
+                    <div class="payment-method" onclick="selectPaymentMethod(this, 'transferencia')">
+                        <div class="payment-icon">🏦</div>
+                        <div class="payment-info">
+                            <h4>Transferencia</h4>
+                            <p>Transferencia bancaria</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="cart-footer checkout-actions">
+            <button class="btn-secondary" onclick="backToCart()">Cancelar</button>
+            <button class="btn-primary btn-confirm-checkout" onclick="confirmPayment()">
+                Confirmar Pedido
+            </button>
+        </div>
+    `;
+}
+
+function backToCart() {
+    updateCartDisplay();
 }
 
 function showCheckoutModal() {
@@ -448,11 +495,73 @@ Procederé a realizar la transferencia y enviaré el comprobante. ¡Gracias!
     const phone = "56962769503";
     const whatsappUrl = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
     
-    // Mostrar datos de transferencia en el modal
-    showTransferDetails();
+    // Mostrar datos de transferencia en el carrito
+    showTransferDetailsInCart();
     
     // Abrir WhatsApp
     window.open(whatsappUrl, '_blank');
+}
+
+function showTransferDetailsInCart() {
+    const cartSidebar = document.getElementById('cartSidebar');
+    
+    cartSidebar.innerHTML = `
+        <div class="cart-header">
+            <h2>✅ ¡Pedido Confirmado!</h2>
+            <button class="close-cart" onclick="closeCheckoutAndClearCart()">×</button>
+        </div>
+        
+        <div class="cart-content">
+            <div class="transfer-details-confirmed">
+                <h3>Datos para Transferencia</h3>
+                <div class="transfer-info">
+                    <div class="transfer-data-item">
+                        <span class="data-label">Banco:</span>
+                        <span class="data-value">Banco Estado</span>
+                    </div>
+                    
+                    <div class="transfer-data-item">
+                        <span class="data-label">Tipo de cuenta:</span>
+                        <span class="data-value">Cuenta Vista</span>
+                    </div>
+                    
+                    <div class="transfer-data-item">
+                        <span class="data-label">N° de cuenta:</span>
+                        <span class="data-value">123456789</span>
+                    </div>
+                    
+                    <div class="transfer-data-item">
+                        <span class="data-label">RUT:</span>
+                        <span class="data-value">12.345.678-9</span>
+                    </div>
+                    
+                    <div class="transfer-data-item">
+                        <span class="data-label">Nombre:</span>
+                        <span class="data-value">Magnutech SpA</span>
+                    </div>
+                    
+                    <div class="transfer-data-item">
+                        <span class="data-label">Correo:</span>
+                        <span class="data-value">pagos@magnutech.cl</span>
+                    </div>
+                </div>
+                
+                <button class="btn-copy-all" onclick="copyAllTransferData()">
+                    📋 Copiar todos los datos
+                </button>
+                
+                <div class="transfer-warning">
+                    ⚠️ <strong>Importante:</strong> Tienes un máximo de <strong>24 horas</strong> para realizar el pago.  
+                    Si no se recibe dentro de ese plazo, el pedido será anulado.
+                </div>
+                <p class="redirect-message">🔄 Hemos abierto WhatsApp para confirmar tu pedido...</p>
+            </div>
+        </div>
+        
+        <div class="cart-footer">
+            <button class="btn-primary" onclick="closeCheckoutAndClearCart()">Cerrar</button>
+        </div>
+    `;
 }
 
 function showTransferDetails() {
@@ -538,13 +647,40 @@ Correo: pagos@magnutech.cl`;
 }
 
 function closeCheckoutAndClearCart() {
+    // Limpiar carrito
     cart = [];
     saveCartToStorage();
-    updateCartDisplay();
     updateCartCount();
     
-    closeCheckoutModal();
-    toggleCart();
+    // Cerrar el sidebar del carrito
+    const cartSidebar = document.getElementById('cartSidebar');
+    const overlay = document.getElementById('overlay');
+    
+    cartSidebar.classList.remove('active');
+    overlay.classList.remove('active');
+    
+    // Restaurar la estructura HTML completa del carrito
+    cartSidebar.innerHTML = `
+        <div class="cart-header">
+            <h2>Tu Carrito</h2>
+            <button class="close-cart" onclick="toggleCart()">×</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <div class="cart-empty">
+                <div class="cart-empty-icon">🛒</div>
+                <p>Tu carrito está vacío</p>
+            </div>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cartTotal">$0</span>
+            </div>
+            <button class="btn-primary btn-checkout" onclick="proceedToCheckout()">
+                Proceder al Pago
+            </button>
+        </div>
+    `;
 }
 
 
