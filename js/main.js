@@ -465,12 +465,12 @@ function confirmPayment() {
     
     const transferData = `
 🏦 *Datos para Transferencia:*
-• Banco: Banco Estado
-• Tipo de cuenta: Cuenta Vista
-• N° de cuenta: 123456789
-• RUT: 12.345.678-9
-• Nombre: Magnutech SpA
-• Correo: pagos@magnutech.cl
+• Banco: Banco de Chile
+• Tipo de cuenta: Cuenta Corriente
+• N° de cuenta: 00-242-18919-09
+• RUT: 78.193.643-K
+• Nombre: MAGNUTECH SpA
+• Correo: ioniktemuco@gmail.com
 
 ⚠️ *Importante:* Tienes 24 horas para realizar el pago.
     `.trim();
@@ -517,32 +517,32 @@ function showTransferDetailsInCart() {
                 <div class="transfer-info">
                     <div class="transfer-data-item">
                         <span class="data-label">Banco:</span>
-                        <span class="data-value">Banco Estado</span>
+                        <span class="data-value">Banco de Chile</span>
                     </div>
                     
                     <div class="transfer-data-item">
                         <span class="data-label">Tipo de cuenta:</span>
-                        <span class="data-value">Cuenta Vista</span>
+                        <span class="data-value">Cuenta Corriente</span>
                     </div>
                     
                     <div class="transfer-data-item">
                         <span class="data-label">N° de cuenta:</span>
-                        <span class="data-value">123456789</span>
+                        <span class="data-value">00-242-18919-09</span>
                     </div>
                     
                     <div class="transfer-data-item">
                         <span class="data-label">RUT:</span>
-                        <span class="data-value">12.345.678-9</span>
+                        <span class="data-value">78.193.643-K</span>
                     </div>
                     
                     <div class="transfer-data-item">
                         <span class="data-label">Nombre:</span>
-                        <span class="data-value">Magnutech SpA</span>
+                        <span class="data-value">MAGNUTECH SpA</span>
                     </div>
                     
                     <div class="transfer-data-item">
                         <span class="data-label">Correo:</span>
-                        <span class="data-value">pagos@magnutech.cl</span>
+                        <span class="data-value">ioniktemuco@gmail.com</span>
                     </div>
                 </div>
                 
@@ -575,32 +575,32 @@ function showTransferDetails() {
             <div class="transfer-info">
                 <div class="transfer-data-item">
                     <span class="data-label">Banco:</span>
-                    <span class="data-value">Banco Estado</span>
+                    <span class="data-value">Banco de Chile</span>
                 </div>
                 
                 <div class="transfer-data-item">
                     <span class="data-label">Tipo de cuenta:</span>
-                    <span class="data-value">Cuenta Vista</span>
+                    <span class="data-value">Cuenta Corriente</span>
                 </div>
                 
                 <div class="transfer-data-item">
                     <span class="data-label">N° de cuenta:</span>
-                    <span class="data-value">123456789</span>
+                    <span class="data-value">00-242-18919-09</span>
                 </div>
                 
                 <div class="transfer-data-item">
                     <span class="data-label">RUT:</span>
-                    <span class="data-value">12.345.678-9</span>
+                    <span class="data-value">78.193.643-K</span>
                 </div>
                 
                 <div class="transfer-data-item">
                     <span class="data-label">Nombre:</span>
-                    <span class="data-value">Magnutech SpA</span>
+                    <span class="data-value">MAGNUTECH SpA</span>
                 </div>
                 
                 <div class="transfer-data-item">
                     <span class="data-label">Correo:</span>
-                    <span class="data-value">pagos@magnutech.cl</span>
+                    <span class="data-value">ioniktemuco@gmail.com</span>
                 </div>
             </div>
             
@@ -622,12 +622,12 @@ function showTransferDetails() {
 }
 
 function copyAllTransferData() {
-    const transferText = `Banco: Banco Estado
-Tipo de cuenta: Cuenta Vista
-N° de cuenta: 123456789
-RUT: 12.345.678-9
-Nombre: Magnutech SpA
-Correo: pagos@magnutech.cl`;
+    const transferText = `Banco: Banco de Chile
+Tipo de cuenta: Cuenta Corriente
+N° de cuenta: 00-242-18919-09
+RUT: 78.193.643-K
+Nombre: MAGNUTECH SpA
+Correo: ioniktemuco@gmail.com`;
 
     const textarea = document.createElement('textarea');
     textarea.value = transferText;
@@ -691,6 +691,31 @@ function closeCheckoutAndClearCart() {
 
 function formatPrice(price) {
     return `$${price.toLocaleString('es-CL')}`;
+}
+
+// ================================
+// MODAL PÁGINAS LEGALES
+// ================================
+
+function showUnderConstruction(event) {
+    event.preventDefault();
+    const modal = document.createElement('div');
+    modal.className = 'checkout-modal active';
+    modal.id = 'underConstructionModal';
+    modal.innerHTML = `
+        <div style="text-align:center; padding: 10px 0;">
+            <div style="font-size: 3rem; margin-bottom: 12px;">🚧</div>
+            <h2 style="margin-bottom: 10px;">Página en construcción</h2>
+            <p style="color: var(--gris-oscuro); margin-bottom: 24px;">
+                Estamos trabajando en este contenido.<br>Pronto estará disponible.
+            </p>
+            <button class="btn-primary" onclick="document.getElementById('underConstructionModal').remove(); document.getElementById('overlay').classList.remove('active');">
+                Entendido
+            </button>
+        </div>
+    `;
+    document.body.appendChild(modal);
+    document.getElementById('overlay').classList.add('active');
 }
 
 // Animación de entrada para elementos
