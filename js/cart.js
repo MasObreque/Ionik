@@ -22,7 +22,34 @@ function addToCart(productId, productName, price, image) {
     updateCartDisplay();
     updateCartCount();
     saveCartToStorage();
-    
+
+    // Tracking: evento AddToCart para Meta Pixel, TikTok y GA4
+    if (typeof fbq !== 'undefined') {
+        fbq('track', 'AddToCart', {
+            content_name: productName,
+            content_ids: [productId],
+            content_type: 'product',
+            value: price,
+            currency: 'CLP'
+        });
+    }
+    if (typeof ttq !== 'undefined') {
+        ttq.track('AddToCart', {
+            content_id: productId,
+            content_name: productName,
+            quantity: 1,
+            price: price,
+            currency: 'CLP'
+        });
+    }
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'add_to_cart', {
+            currency: 'CLP',
+            value: price,
+            items: [{ item_id: productId, item_name: productName, price: price, quantity: 1 }]
+        });
+    }
+
     // Animación del botón de carrito
     animateCartButton();
 }

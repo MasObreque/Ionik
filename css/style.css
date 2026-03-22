@@ -478,6 +478,31 @@ button {
     padding: 18px 45px;
 }
 
+/* Botón MercadoLibre */
+.btn-mercadolibre {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 32px;
+    border-radius: 50px;
+    background: #FFE600;
+    color: #333333;
+    font-weight: 700;
+    font-size: 15px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: var(--transicion);
+    white-space: nowrap;
+}
+
+.btn-mercadolibre:hover {
+    background: #f0d800;
+    color: #333333;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(255, 230, 0, 0.45);
+}
+
 .scroll-indicator {
     position: absolute;
     bottom: 40px;

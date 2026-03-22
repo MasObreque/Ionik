@@ -341,7 +341,26 @@ function proceedToCheckout() {
         showNotification('Carrito vacío', 'Agrega productos antes de continuar', 'error');
         return;
     }
-    
+
+    // Tracking: InitiateCheckout cuando el usuario avanza al pago
+    const totalCheckout = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    if (typeof fbq !== 'undefined') {
+        fbq('track', 'InitiateCheckout', {
+            value: totalCheckout,
+            currency: 'CLP',
+            num_items: cart.length
+        });
+    }
+    if (typeof ttq !== 'undefined') {
+        ttq.track('InitiateCheckout');
+    }
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'begin_checkout', {
+            currency: 'CLP',
+            value: totalCheckout
+        });
+    }
+
     showCheckoutInCart();
 }
 
@@ -497,7 +516,29 @@ Procederé a realizar la transferencia y enviaré el comprobante. ¡Gracias!
     
     // Mostrar datos de transferencia en el carrito
     showTransferDetailsInCart();
-    
+
+    // Tracking: Purchase cuando se confirma el pedido hacia WhatsApp
+    if (typeof fbq !== 'undefined') {
+        fbq('track', 'Purchase', {
+            value: total,
+            currency: 'CLP',
+            content_type: 'product'
+        });
+    }
+    if (typeof ttq !== 'undefined') {
+        ttq.track('PlaceAnOrder', {
+            value: total,
+            currency: 'CLP'
+        });
+    }
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'purchase', {
+            transaction_id: orderNumber,
+            value: total,
+            currency: 'CLP'
+        });
+    }
+
     // Abrir WhatsApp
     window.open(whatsappUrl, '_blank');
 }

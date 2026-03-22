@@ -143,21 +143,70 @@ async function loadProducts() {
 
 function displayProducts(products) {
     const productsGrid = document.getElementById('productsGrid');
-    
+
     const productsHTML = products.map(product => createProductCard(product)).join('');
     productsGrid.innerHTML = productsHTML;
-    
-    // Inicializar sliders
+
+    // JSON-LD por producto + tracking de vista
     products.forEach(product => {
         if (product.images && product.images.length > 1) {
             initProductSlider(product.id, product.images.length);
         }
+        injectProductSchema(product);
     });
+
+    // GA4: registrar todos los productos visibles al cargar
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'view_item_list', {
+            item_list_name: 'Catálogo Ionik',
+            items: products.map(p => ({
+                item_id: p.id,
+                item_name: p.name,
+                item_category: p.category,
+                price: p.price,
+                currency: 'CLP'
+            }))
+        });
+    }
 }
 
 // ================================
-// CREAR TARJETA DE PRODUCTO
+// SCHEMA.ORG JSON-LD POR PRODUCTO
 // ================================
+
+function injectProductSchema(product) {
+    const schema = {
+        '@context': 'https://schema.org',
+        '@type': 'Product',
+        'name': product.name,
+        'description': product.description,
+        'image': product.images,
+        'brand': { '@type': 'Brand', 'name': 'Ionik' },
+        'offers': {
+            '@type': 'Offer',
+            'priceCurrency': 'CLP',
+            'price': product.price,
+            'availability': product.stock > 0
+                ? 'https://schema.org/InStock'
+                : 'https://schema.org/OutOfStock',
+            'seller': { '@type': 'Organization', 'name': 'Ionik' }
+        }
+    };
+    if (product.rating) {
+        schema['aggregateRating'] = {
+            '@type': 'AggregateRating',
+            'ratingValue': product.rating,
+            'reviewCount': product.reviews || 1,
+            'bestRating': 5
+        };
+    }
+    const script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.id = 'schema-' + product.id;
+    script.textContent = JSON.stringify(schema);
+    document.head.appendChild(script);
+}
+
 
 function createProductCard(product) {
     const hasDiscount = product.originalPrice && product.originalPrice > product.price;
