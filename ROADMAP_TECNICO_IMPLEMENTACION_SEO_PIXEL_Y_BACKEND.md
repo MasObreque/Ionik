@@ -53,7 +53,107 @@ Al terminar las fases principales, Ionik deberia tener:
 - SEO tecnico completo;
 - eventos de marketing confiables;
 - pagina de compra confirmada para medir conversiones reales;
+- autenticacion segura para administracion y APIs protegidas;
+- mitigaciones activas contra SQL Injection, XSS, CSRF, abuso de APIs y errores de configuracion;
+- codigo mantenible siguiendo principios de codigo limpio y separacion de responsabilidades;
 - base lista para escalar a campañas, remarketing y SEO transaccional.
+
+---
+
+## Principios transversales obligatorios
+
+Todo el roadmap debe ejecutarse con enfoque de **seguridad por diseño**, **codigo limpio** y **operacion segura**.
+
+### Auditoria de arquitectura obligatoria antes de cualquier cambio
+
+Antes de comenzar cualquier implementacion, refactor, integracion o despliegue, se debe realizar una **Auditoria de Arquitectura de Software**.
+
+Esta auditoria no es opcional y debe revisar como minimo:
+
+- estado actual de frontend, backend y base de datos;
+- dependencias entre modulos y puntos de acoplamiento;
+- riesgos de seguridad, mantenibilidad y escalabilidad;
+- impacto del cambio en SEO, tracking, datos, pagos y operacion;
+- compatibilidad con el roadmap y con las decisiones arquitectonicas vigentes;
+- necesidad de crear, ajustar o eliminar componentes, rutas, tablas o flujos.
+
+### Salidas minimas de la auditoria
+
+Cada auditoria previa debe dejar claro:
+
+- que problema se va a resolver;
+- que componentes se veran afectados;
+- que riesgos introduce el cambio;
+- que controles de seguridad aplican;
+- como se validara el resultado;
+- si el cambio respeta o modifica la arquitectura objetivo.
+
+### Seguridad por diseño
+
+El proyecto debe alinearse como minimo con buenas practicas basadas en:
+
+- **OWASP Top 10**
+- **OWASP ASVS** como referencia de controles
+- principio de minimo privilegio
+- defensa en profundidad
+- validacion explicita de entradas
+- escape y codificacion segura de salidas
+- gestion segura de secretos
+
+### Buenas practicas obligatorias para todo cambio
+
+1. **No concatenar SQL manualmente**
+   - usar binds y consultas parametrizadas;
+   - evitar cualquier patron que habilite SQL Injection.
+
+2. **Validar y sanear toda entrada**
+   - query params;
+   - body JSON;
+   - formularios;
+   - parametros de ruta;
+   - archivos subidos.
+
+3. **Prevenir XSS**
+   - no inyectar HTML arbitrario;
+   - preferir `textContent` cuando aplique;
+   - sanitizar contenido si alguna vez se permite HTML;
+   - aplicar Content Security Policy cuando se despliegue.
+
+4. **Proteger autenticacion y autorizacion**
+   - JWT para rutas admin;
+   - expiracion corta para access tokens;
+   - validacion de firma y claims;
+   - middleware de autorizacion por rol.
+
+5. **Endurecer la API**
+   - `helmet` o equivalente;
+   - CORS restrictivo;
+   - rate limiting;
+   - payload size limits;
+   - manejo explicito de errores.
+
+6. **No exponer secretos**
+   - usar `.env`;
+   - publicar `.env.example`;
+   - nunca commitear wallet, claves ni tokens.
+
+7. **Registrar y monitorear eventos relevantes**
+   - errores de autenticacion;
+   - fallos de pago;
+   - errores de validacion;
+   - intentos de acceso indebido.
+
+8. **Mantener codigo limpio**
+   - funciones pequenas;
+   - nombres claros;
+   - separacion por capas;
+   - no duplicar logica;
+   - comentarios solo cuando aporten contexto.
+
+9. **Aplicar pruebas y revisiones**
+   - pruebas de rutas criticas;
+   - pruebas de validacion;
+   - revision de dependencias y configuracion antes de despliegue.
 
 ---
 
@@ -117,6 +217,15 @@ Dejar listo el acceso a cuentas, dominios, IDs y permisos antes de tocar codigo.
 - acceso a Oracle;
 - decision de hosting;
 - acceso a pasarela de pago.
+
+### Definiciones tecnicas de seguridad que deben cerrarse aqui
+
+- estrategia de secretos y variables de entorno;
+- duracion y renovacion de JWT;
+- politica de roles admin;
+- politica de CORS por dominio;
+- encabezados de seguridad del frontend y backend;
+- criterio de logging sin exponer datos sensibles.
 
 ### Datos sensibles que no deben ir al repo
 
@@ -186,6 +295,17 @@ Mejorar la base tecnica del sitio sin cambiar todavia la arquitectura.
 - `politica-privacidad.html`
 - `terminos-condiciones.html`
 - `politica-cookies.html`
+
+### Controles de seguridad minimos desde la primera modificacion
+
+Aunque esta fase sea de frontend, se recomienda considerar desde ya:
+
+- `Content-Security-Policy` al desplegar;
+- `Referrer-Policy`;
+- `X-Content-Type-Options: nosniff`;
+- `Permissions-Policy`;
+- no insertar scripts de terceros fuera de GTM salvo necesidad real;
+- inventario claro de tags de marketing.
 
 ### Objetivo real de esta fase
 
@@ -263,6 +383,13 @@ Usar **Google Tag Manager como capa central**.
 
 Mientras no exista una pagina de confirmacion real, el evento `purchase` no debe dispararse en el click del boton. Debe dispararse despues de una confirmacion del backend o de la pasarela.
 
+### Controles de seguridad para tracking
+
+- no enviar datos personales innecesarios a herramientas de marketing;
+- no filtrar correos, telefonos o direcciones en eventos;
+- revisar consentimiento antes de disparar tags publicitarios si esa politica se implementa;
+- centralizar eventos para evitar scripts duplicados o inseguros.
+
 ---
 
 ## Fase 3: Legal, consentimiento y configuracion comercial
@@ -301,6 +428,16 @@ Conviene definir:
 ### Objetivo
 
 Pasar de landing estatica con JS local a aplicacion con frontend servido y API real.
+
+### Criterios de arquitectura segura
+
+La implementacion del backend debe seguir:
+
+- separacion por capas (`routes`, `controllers`, `services`, `data`);
+- validacion de entrada antes de tocar servicios o BD;
+- ningun acceso directo a BD desde rutas sin capa intermedia;
+- errores normalizados sin filtrar stack traces al cliente;
+- configuracion por entorno.
 
 ### Decision de arquitectura recomendada
 
@@ -358,6 +495,8 @@ IonikHome/
 - `backend/routes/categories.js`
 - `backend/middleware/auth.js`
 - `backend/middleware/validation.js`
+- `backend/middleware/rate-limit.js`
+- `backend/middleware/security-headers.js`
 - `backend/.env.example`
 - `package.json`
 
@@ -367,6 +506,31 @@ IonikHome/
 2. El backend expone `/api/products`, `/api/products/:id`, `/api/categories`, `/api/orders`.
 3. El frontend consulta datos reales con `fetch`.
 4. `oracle-connection.js` se reutiliza o se encapsula en `backend/lib/oracle.js`.
+
+### Requisitos de API segura
+
+1. **JWT para administracion**
+   - proteger rutas de escritura;
+   - validar bearer token;
+   - verificar expiracion;
+   - distinguir autenticacion y autorizacion.
+
+2. **Validacion estricta**
+   - validar tipos, rangos, strings y enums;
+   - rechazar payloads invalidos con `400`.
+
+3. **Proteccion OWASP**
+   - rate limiting;
+   - CORS restrictivo;
+   - proteccion de cabeceras;
+   - manejo seguro de errores;
+   - evitar mass assignment.
+
+4. **Buenas practicas de codigo**
+   - controladores delgados;
+   - servicios con logica de negocio;
+   - acceso a datos encapsulado;
+   - sin funciones gigantes ni logica mezclada.
 
 ---
 
@@ -387,6 +551,14 @@ Reemplazar el catalogo local por datos provenientes de BD.
 2. Cargar categorias y productos reales.
 3. Confirmar imagenes en `PRODUCT_IMAGES`.
 4. Exponer endpoints de lectura.
+
+### Controles obligatorios de acceso a datos
+
+- usar siempre binds de Oracle en consultas y updates;
+- no construir SQL con interpolacion de strings;
+- limitar campos permitidos en updates;
+- validar IDs y slugs antes de consultar;
+- registrar errores de BD sin devolver detalles internos al cliente.
 
 ### Endpoints minimos recomendados
 
@@ -417,6 +589,13 @@ Mantener temporalmente `sampleProducts` solo como fallback de desarrollo local s
 - manejo de errores HTTP;
 - validacion de categoria;
 - respuesta consistente en JSON.
+
+### Recomendaciones adicionales de seguridad
+
+- paginacion y limites para evitar abuso de consultas;
+- timeouts y manejo de pool Oracle;
+- no exponer columnas internas innecesarias;
+- filtrar productos inactivos desde el backend.
 
 ---
 
@@ -490,6 +669,13 @@ Y en `CATEGORIES`:
 - `META_DESCRIPTION`
 
 Esto evita construir SEO solo con transformaciones improvisadas desde el nombre.
+
+### Controles de seguridad para paginas publicas
+
+- las paginas deben consumir solo datos ya validados por API;
+- no renderizar HTML arbitrario desde la BD;
+- escapar contenido dinamico si se inserta en el DOM;
+- validar slugs y responder `404` cuando no existan.
 
 ---
 
@@ -576,6 +762,15 @@ El evento `purchase` debe dispararse desde:
 
 Agregar **Meta Conversions API** o tracking server-side cuando el backend ya este estable.
 
+### Controles criticos de seguridad en checkout
+
+- validar montos del lado servidor y no confiar en el frontend;
+- recalcular total con precios desde BD;
+- validar stock antes de confirmar orden;
+- registrar estado de pago y transaccion de forma atomica;
+- usar webhooks firmados o validacion de respuesta del proveedor;
+- proteger checkout contra abuso automatizado y replay basico.
+
 ---
 
 ## Fase 9: Admin y operacion de catalogo
@@ -601,6 +796,15 @@ Hacer sostenible la gestion diaria del catalogo.
    - meta title;
    - meta description;
    - estado activo/inactivo.
+
+### Requisitos de seguridad del panel admin
+
+- login seguro con credenciales fuertes;
+- hash de password con algoritmo robusto;
+- expiracion y renovacion controlada de sesiones JWT;
+- auditoria de cambios criticos;
+- restriccion por rol para operaciones destructivas;
+- validacion de archivos e imagenes antes de subir.
 
 ### Endpoints admin sugeridos
 
@@ -631,6 +835,15 @@ Opciones:
 - Nginx como reverse proxy
 - HTTPS obligatorio
 
+### Hardening de despliegue
+
+- variables de entorno separadas por ambiente;
+- TLS valido y redireccion a HTTPS;
+- logs rotados;
+- backups de BD;
+- actualizacion de dependencias;
+- restriccion de acceso a rutas admin y API interna cuando aplique.
+
 ### Post-lanzamiento
 
 1. Subir `robots.txt` y `sitemap.xml`.
@@ -649,6 +862,10 @@ Opciones:
 ---
 
 ## Orden de ejecucion recomendado
+
+### Regla inicial obligatoria
+
+0. Realizar **Auditoria de Arquitectura de Software** antes de tocar codigo o configuracion.
 
 ### Etapa A: impacto rapido
 
@@ -710,6 +927,28 @@ Opciones:
 - disparar `begin_checkout`;
 - luego `purchase` desde confirmacion real.
 
+## `backend/app.js`
+
+- configurar middlewares de seguridad;
+- `helmet`;
+- CORS;
+- rate limiting;
+- parseo con limites;
+- manejo centralizado de errores.
+
+## `backend/middleware/auth.js`
+
+- validar JWT;
+- verificar expiracion;
+- resolver roles/permisos;
+- rechazar tokens invalidos con respuestas consistentes.
+
+## `backend/middleware/validation.js`
+
+- validar payloads por ruta;
+- whitelisting de campos aceptados;
+- rechazar entradas malformadas.
+
 ## `oracle-connection.js`
 
 - reutilizar logica existente;
@@ -763,6 +1002,14 @@ Permite que cada pagina publique contenido SEO propio sin depender de textos gen
 - deuda tecnica entre frontend y API;
 - URLs inconsistentes.
 
+### Si no se incorpora seguridad desde el inicio
+
+- riesgo de SQL Injection por consultas improvisadas;
+- riesgo de XSS por renderizado inseguro;
+- abuso de endpoints por falta de rate limiting;
+- fugas de secretos;
+- panel admin expuesto o con autorizacion debil.
+
 ### Si intentan SEO fuerte sin paginas reales
 
 - mejora tecnica, pero poco crecimiento organico;
@@ -801,3 +1048,19 @@ Si hay que empezar manana mismo, el mejor orden real es:
 9. checkout real y `purchase`.
 
 Ese orden da valor rapido, reduce retrabajo y deja al proyecto listo para vender y medir mejor.
+
+---
+
+## Checklist transversal de buenas practicas
+
+Antes de considerar cada fase como terminada, validar:
+
+- se realizo Auditoria de Arquitectura de Software antes de iniciar el cambio;
+- seguridad alineada con OWASP para el alcance de la fase;
+- consultas parametrizadas;
+- validacion de entradas y salidas;
+- rutas sensibles protegidas con JWT y roles;
+- secretos fuera del repo;
+- codigo con responsabilidad clara y sin duplicacion innecesaria;
+- errores manejados de forma consistente;
+- pruebas basicas de regresion y seguridad del flujo afectado.
