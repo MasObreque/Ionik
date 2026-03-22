@@ -503,6 +503,104 @@ button {
     box-shadow: 0 10px 25px rgba(255, 230, 0, 0.45);
 }
 
+/* ================================
+   BANNER DE COOKIES
+   ================================ */
+
+.cookie-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    background: var(--gris-oscuro);
+    color: var(--blanco);
+    padding: 20px 24px;
+    box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.35);
+    transform: translateY(100%);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    display: none;
+}
+
+.cookie-banner.active {
+    display: block;
+    transform: translateY(0);
+}
+
+.cookie-banner-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.cookie-banner-text {
+    flex: 1;
+    min-width: 260px;
+}
+
+.cookie-banner-text p {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.82);
+    line-height: 1.5;
+    margin: 0;
+}
+
+.cookie-banner-text a {
+    color: var(--verde-limon);
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+.cookie-banner-text a:hover { color: var(--acento-1); }
+
+.cookie-banner-actions {
+    display: flex;
+    gap: 12px;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+}
+
+.btn-cookie-accept {
+    background: var(--salmon);
+    color: var(--blanco);
+    border: none;
+    border-radius: 50px;
+    padding: 11px 26px;
+    font-size: 13px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    transition: var(--transicion);
+    white-space: nowrap;
+}
+
+.btn-cookie-accept:hover {
+    background: var(--acento-2);
+    transform: translateY(-2px);
+}
+
+.btn-cookie-essential {
+    background: transparent;
+    color: rgba(255, 255, 255, 0.75);
+    border: 1.5px solid rgba(255, 255, 255, 0.35);
+    border-radius: 50px;
+    padding: 10px 22px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: var(--transicion);
+    white-space: nowrap;
+}
+
+.btn-cookie-essential:hover {
+    border-color: rgba(255, 255, 255, 0.7);
+    color: var(--blanco);
+}
+
 .scroll-indicator {
     position: absolute;
     bottom: 40px;

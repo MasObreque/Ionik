@@ -156,18 +156,11 @@ function displayProducts(products) {
     });
 
     // GA4: registrar todos los productos visibles al cargar
-    if (typeof gtag !== 'undefined') {
-        gtag('event', 'view_item_list', {
-            item_list_name: 'Catálogo Ionik',
-            items: products.map(p => ({
-                item_id: p.id,
-                item_name: p.name,
-                item_category: p.category,
-                price: p.price,
-                currency: 'CLP'
-            }))
-        });
-    }
+    IonkAnalytics.trackEvent('view_item_list', {
+        items: products.map(function(p) {
+            return { item_id: p.id, item_name: p.name, item_category: p.category, price: p.price };
+        })
+    });
 }
 
 // ================================
@@ -245,7 +238,7 @@ function createProductCard(product) {
                   '☆'.repeat(Math.floor(5 - product.rating));
     
     return `
-<div class="product-card" id="product-${product.id}" data-category="${product.category}" data-badge='${product.badge || ''}'>            ${badgeHTML}
+<div class="product-card" id="product-${product.id}" data-category="${product.category}" data-badge='${product.badge || ''}' onclick="trackProductView(event,'${product.id}','${product.name.replace(/'/g, "\\'")}',${product.price},'${product.category}')">            ${badgeHTML}
             
             <div class="product-image-container">
                 <div class="product-image-slider">
@@ -303,6 +296,22 @@ function getCategoryName(category) {
 
 
 
+
+// ================================
+// VISTA DE PRODUCTO — view_item
+// ================================
+
+function trackProductView(event, productId, productName, price, category) {
+    // Ignorar clics en el botón de agregar al carrito y en los dots del slider
+    const tag = event.target.tagName;
+    if (tag === 'BUTTON' || event.target.classList.contains('slider-dot')) return;
+    IonkAnalytics.trackEvent('view_item', {
+        content_id:   productId,
+        content_name: productName,
+        value:        price,
+        category:     category
+    });
+}
 
 // ================================
 // INTEGRACIÓN CON ORACLE CLOUD

@@ -61,7 +61,8 @@
       },
       "sameAs": [
         "https://www.instagram.com/ioniktemuco/",
-        "https://www.tiktok.com/@ionik.temuco"
+        "https://www.tiktok.com/@ionik.temuco",
+        "https://www.facebook.com/people/Ionik/61577667232135/"
       ]
     }
     </script>
@@ -101,43 +102,10 @@
     </script>
 
     <!-- ================================================ -->
-    <!-- META PIXEL (Facebook / Instagram)                -->
+    <!-- META PIXEL y TIKTOK: carga dinámica en analytics.js
+         Solo se activan si el usuario acepta cookies.
+         Se removieron de <head> para cumplir RGPD/LGPD.   -->
     <!-- ================================================ -->
-    <script>
-        !function(f,b,e,v,n,t,s)
-        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-        n.queue=[];t=b.createElement(e);t.async=!0;
-        t.src=v;s=b.getElementsByTagName(e)[0];
-        s.parentNode.insertBefore(t,s)}(window,document,'script',
-        'https://connect.facebook.net/en_US/fbevents.js');
-        fbq('init', '1243580607965158');
-        fbq('track', 'PageView');
-    </script>
-    <noscript>
-        <img height="1" width="1" style="display:none"
-             src="https://www.facebook.com/tr?id=1243580607965158&ev=PageView&noscript=1"/>
-    </noscript>
-
-    <!-- ================================================ -->
-    <!-- TIKTOK PIXEL                                     -->
-    <!-- ================================================ -->
-    <script>
-        !function (w, d, t) {
-            w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];
-            ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"];
-            ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};
-            for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);
-            ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e};
-            ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;
-            ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};
-            n=document.createElement("script");n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;
-            e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
-            ttq.load('D7011T3C77U1ODGOP02G');
-            ttq.page();
-        }(window, document, 'ttq');
-    </script>
 </head>
 <body>
     <!-- Barra Promocional Superior -->
@@ -206,7 +174,7 @@
     <!-- Hero Section -->
     <section class="hero-section" id="inicio">
         <img 
-            src="images/ResoluciónFullHD.jpeg" 
+            src="images/ResolucionFullHD.jpeg" 
             alt="Fondo de la sección principal" 
             class="hero-background-image" 
         />
@@ -363,6 +331,7 @@
                     <div class="social-links">
                         <a href="https://www.instagram.com/ioniktemuco/" target="_blank" aria-label="Instagram">📷</a>
                         <a href="https://www.tiktok.com/@ionik.temuco" target="_blank" aria-label="TikTok">🎵</a>
+                        <a href="https://www.facebook.com/people/Ionik/61577667232135/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">📘</a>
                         <a href="https://wa.me/56962769503" target="_blank" aria-label="WhatsApp">💬</a>
                     </div>
                 </div>
@@ -385,10 +354,17 @@
                 <div class="footer-column">
                     <h4>Información Legal</h4>
                     <ul>
+
+                        <!-- Enlaces legales en construcción -->
+                        <li><span style="color:gray;cursor:not-allowed;">Términos y Condiciones (En construcción)</span></li>
+
+                        <!--
+    
                         <li><a href="legal/terminos-y-condiciones.html">Términos y Condiciones</a></li>
                         <li><a href="legal/politica-de-privacidad.html">Política de Privacidad</a></li>
                         <li><a href="legal/politica-de-devoluciones.html">Política de Devoluciones</a></li>
                         <li><a href="legal/garantia.html">Garantía</a></li>
+                        -->
                     </ul>
                 </div>
                 <div class="footer-column">
@@ -406,7 +382,26 @@
         </div>
     </footer>
 
-    <!-- Scripts -->
+    <!-- ================================================ -->
+    <!-- BANNER DE COOKIES                                -->
+    <!-- ================================================ -->
+    <div class="cookie-banner" id="cookieBanner" role="dialog" aria-live="polite" aria-label="Aviso de cookies">
+        <div class="cookie-banner-inner">
+            <div class="cookie-banner-text">
+                <p>
+                    🍪 Usamos cookies para mejorar tu experiencia y mostrarte publicidad relevante.
+                    Consulta nuestra <a href="legal/politica-de-privacidad.html" target="_blank">Política de Privacidad</a>.
+                </p>
+            </div>
+            <div class="cookie-banner-actions">
+                <button class="btn-cookie-accept" onclick="IonkAnalytics.acceptAll()">Aceptar todas</button>
+                <button class="btn-cookie-essential" onclick="IonkAnalytics.acceptEssential()">Solo esenciales</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts — analytics.js debe ser el primero -->
+    <script src="js/analytics.js?v=20260308"></script>
     <script src="js/main.js?v=20260308"></script>
     <script src="js/cart.js?v=20260308"></script>
     <script src="js/products.js?v=20260308"></script>
