@@ -23,8 +23,6 @@ fbq('track', 'PageView');
  Con esto tu Pixel ya está activo. El siguiente paso será configurar los eventos de e‑commerce (AddToCart, InitiateCheckout, Purchase) en tus archivos cart.js y main.js, para que Meta Ads pueda medir y optimizar campañas.
 
 
-
-
 anyltic google
 
 <!-- Google tag (gtag.js) -->
