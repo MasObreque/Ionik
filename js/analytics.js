@@ -90,7 +90,7 @@ const IonkAnalytics = (function () {
             s.parentNode.insertBefore(t, s);
         }(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
 
-        fbq('init', '1243580607965158');
+        fbq('init', '2691134951266093');
         fbq('track', 'PageView');
     }
 
