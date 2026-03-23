@@ -205,7 +205,12 @@ function closeMenu() {
 function toggleCart() {
     const cartSidebar = document.getElementById('cartSidebar');
     const overlay = document.getElementById('overlay');
-    
+    const isOpening = !cartSidebar.classList.contains('active');
+
+    if (isOpening) {
+        backToCart();
+    }
+
     cartSidebar.classList.toggle('active');
     overlay.classList.toggle('active');
 }
@@ -399,6 +404,23 @@ function showCheckoutInCart() {
 }
 
 function backToCart() {
+    const cartSidebar = document.getElementById('cartSidebar');
+    cartSidebar.innerHTML = `
+        <div class="cart-header">
+            <h2>Tu Carrito</h2>
+            <button class="close-cart" onclick="toggleCart()">×</button>
+        </div>
+        <div class="cart-items" id="cartItems"></div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cartTotal">$0</span>
+            </div>
+            <button class="btn-primary btn-checkout" onclick="proceedToCheckout()">
+                Proceder al Pago
+            </button>
+        </div>
+    `;
     updateCartDisplay();
 }
 
