@@ -16,7 +16,7 @@ const sampleProducts = [
             'images/lampara3.png'
         ],
         rating: 5,
-        reviews: 127,
+        reviews: 12,
         stock: 15,
         featured: true,
         //badge: 'OFERTA'
@@ -33,7 +33,7 @@ const sampleProducts = [
             'images/cargadorauto3.png'
         ],
         rating: 4.5,
-        reviews: 89,
+        reviews: 30,
         stock: 23,
        // featured: false,
        // badge: 'NUEVO'
@@ -50,7 +50,7 @@ const sampleProducts = [
             'images/3en1Escritorio3.png'
         ],
         rating: 5,
-        reviews: 56,
+        reviews: 2,
         stock: 8,
         featured: true
     },
@@ -66,8 +66,8 @@ const sampleProducts = [
             'images/retractil3.png'
         ],
         rating: 4.5,
-        reviews: 203,
-        stock: 45,
+        reviews: 15,
+        stock: 20,
         featured: false
     },
     {
@@ -82,8 +82,8 @@ const sampleProducts = [
             'images/cargadorA12.jpeg'
         ],
         rating: 4,
-        reviews: 312,
-        stock: 156,
+        reviews: 10,
+        stock: 30,
         featured: true,
         //badge: 'OFERTA'
     },
@@ -101,6 +101,40 @@ const sampleProducts = [
         rating: 0,
         reviews: 0,
         stock: 34,
+        featured: false
+    },
+    {
+        id: 'prod-007',
+        name: 'Luces Led Inteligente H4',
+        description: 'Luces Led Inteligente puedes cambiar de luz fría a calida o personaliza a gusto desde el celular',
+        price: 37990,
+        category: 'Luces Auto',
+        images: [
+            'images/luzcalida.jpeg',
+            'images/luzfria.jpeg',
+            'images/cajakit.jpeg',
+            'images/cajainternaluces.jpeg'
+        ],
+        rating: 5,
+        reviews: 3,
+        stock: 34,
+        featured: false
+    },
+    {
+        id: 'prod-008',
+        name: 'Luces Led Inteligente H7',
+        description: 'Luces Led Inteligente puedes cambiar de luz fría a calida o personaliza a gusto desde el celular',
+        price: 31990,
+        category: 'Luces Auto',
+        images: [
+            'images/luzcalida.jpeg',
+            'images/luzfria.jpeg',
+            'images/cajakit.jpeg',
+            'images/cajainternaluces.jpeg'
+        ],
+        rating: 5,
+        reviews: 2,
+        stock: 10,
         featured: false
     }
 ];
