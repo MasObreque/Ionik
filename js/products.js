@@ -106,7 +106,7 @@ const sampleProducts = [
     {
         id: 'prod-007',
         name: 'Luces Led Inteligente H4',
-        description: 'Luces Led Inteligente puedes cambiar de luz fría a calida o personaliza a gusto desde el celular',
+        description: 'Luces Led Inteligente H4 puedes cambiar de luz fría a calida o personaliza a gusto desde el celular',
         price: 37990,
         category: 'Luces Auto',
         images: [
@@ -123,7 +123,7 @@ const sampleProducts = [
     {
         id: 'prod-008',
         name: 'Luces Led Inteligente H7',
-        description: 'Luces Led Inteligente puedes cambiar de luz fría a calida o personaliza a gusto desde el celular',
+        description: 'Luces Led Inteligente H7 puedes cambiar de luz fría a calida o personaliza a gusto desde el celular',
         price: 31990,
         category: 'Luces Auto',
         images: [
