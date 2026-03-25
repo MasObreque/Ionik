@@ -127,10 +127,11 @@ const sampleProducts = [
         price: 31990,
         category: 'Luces Auto',
         images: [
-            'images/luzcalida.jpeg',
             'images/luzfria.jpeg',
-            'images/cajakit.jpeg',
-            'images/cajainternaluces.jpeg'
+            'images/luzcalida.jpeg',
+            'images/cajainternaluces.jpeg',
+            'images/cajakit.jpeg'
+            
         ],
         rating: 5,
         reviews: 2,
