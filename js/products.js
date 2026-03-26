@@ -19,7 +19,7 @@ const sampleProducts = [
         reviews: 12,
         stock: 15,
         featured: true,
-        //badge: 'OFERTA'
+        badge: 'OFERTA'
     },
     {
         id: 'prod-002',
@@ -136,6 +136,24 @@ const sampleProducts = [
         rating: 5,
         reviews: 2,
         stock: 10,
+        featured: false
+    }
+    ,
+    {
+        id: 'prod-009',
+        name: 'Control Remoroto universal Portones',
+        description: 'Luces Led Inteligente H7 puedes cambiar de luz fría a calida o personaliza a gusto desde el celular',
+        price: 10000,
+        category: 'Controles',
+        images: [
+            'images/control1.jpeg',
+            'images/control2.jpeg',
+            'images/control3.jpeg'
+            
+        ],
+        rating: 5,
+        reviews: 2,
+        stock: 4,
         featured: false
     }
 ];
