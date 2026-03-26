@@ -17,7 +17,7 @@ const sampleProducts = [
         ],
         rating: 5,
         reviews: 12,
-        stock: 15,
+        stock: 5,
         featured: true,
         badge: 'OFERTA'
     },
@@ -34,7 +34,7 @@ const sampleProducts = [
         ],
         rating: 4.5,
         reviews: 30,
-        stock: 23,
+        stock: 7,
        // featured: false,
        // badge: 'NUEVO'
     },
@@ -51,7 +51,7 @@ const sampleProducts = [
         ],
         rating: 5,
         reviews: 2,
-        stock: 8,
+        stock: 4,
         featured: true
     },
     {
@@ -67,7 +67,7 @@ const sampleProducts = [
         ],
         rating: 4.5,
         reviews: 15,
-        stock: 20,
+        stock: 5,
         featured: false
     },
     {
@@ -83,7 +83,7 @@ const sampleProducts = [
         ],
         rating: 4,
         reviews: 10,
-        stock: 30,
+        stock: 5,
         featured: true,
         //badge: 'OFERTA'
     },
@@ -100,7 +100,7 @@ const sampleProducts = [
         ],
         rating: 0,
         reviews: 0,
-        stock: 34,
+        stock: 7,
         featured: false
     },
     {
@@ -117,7 +117,7 @@ const sampleProducts = [
         ],
         rating: 5,
         reviews: 3,
-        stock: 34,
+        stock: 7,
         featured: false
     },
     {
@@ -135,7 +135,7 @@ const sampleProducts = [
         ],
         rating: 5,
         reviews: 2,
-        stock: 10,
+        stock: 5,
         featured: false
     }
     ,
