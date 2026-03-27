@@ -68,6 +68,41 @@ const IonkAnalytics = (function () {
         return _consent;
     }
 
+    function _preventClickThrough(banner) {
+        if (!banner) return;
+        // Guardar handlers para poder removerlos luego
+        banner.__clickThroughHandlers = banner.__clickThroughHandlers || [];
+
+        var stop = function (e) { e.stopPropagation(); };
+
+        ['touchstart','touchend','touchmove','mousedown','click'].forEach(function(evt){
+            banner.addEventListener(evt, stop, true);
+            banner.__clickThroughHandlers.push({ evt: evt, handler: stop });
+        });
+
+        // Asegurar que los botones del banner no propaguen eventos pero permitan su comportamiento por defecto
+        var innerBtns = banner.querySelectorAll('button, a');
+        innerBtns.forEach(function(btn){
+            var btnStop = function(e){ e.stopPropagation(); };
+            btn.addEventListener('click', btnStop, true);
+            banner.__clickThroughHandlers.push({ el: btn, evt: 'click', handler: btnStop });
+        });
+    }
+
+    function _removeClickThrough(banner) {
+        if (!banner || !banner.__clickThroughHandlers) return;
+        banner.__clickThroughHandlers.forEach(function(item){
+            try {
+                if (item.el) {
+                    item.el.removeEventListener(item.evt, item.handler, true);
+                } else {
+                    banner.removeEventListener(item.evt, item.handler, true);
+                }
+            } catch (e) { /* noop */ }
+        });
+        banner.__clickThroughHandlers = null;
+    }
+
     function _showBanner() {
         const banner = document.getElementById('cookieBanner');
         if (banner) {
@@ -77,6 +112,21 @@ const IonkAnalytics = (function () {
             // Pequeño delay para que la animación sea visible tras cargar la página
             setTimeout(function () {
                 banner.classList.add('active');
+
+                // Detectar si la página fue abierta desde un in-app browser (Instagram/Facebook) y ajustar posición
+                try {
+                    var ref = (document.referrer || '').toLowerCase();
+                    var ua = (navigator.userAgent || '').toLowerCase();
+                    var inApp = ref.indexOf('instagram.com') !== -1 || ref.indexOf('l.facebook.com') !== -1 || ua.indexOf('instagram') !== -1 || ua.indexOf('fbav') !== -1 || ua.indexOf('fban') !== -1;
+                    if (inApp) {
+                        banner.classList.add('offset');
+                    } else {
+                        banner.classList.remove('offset');
+                    }
+                } catch(e) { /* noop */ }
+
+                // Añadir captura de eventos para evitar que el toque 'atraviese' el banner
+                try { _preventClickThrough(banner); } catch(e) { /* noop */ }
             }, 800);
         }
     }
@@ -85,6 +135,7 @@ const IonkAnalytics = (function () {
         const banner = document.getElementById('cookieBanner');
         if (!banner) return;
         banner.classList.remove('active');
+        try { _removeClickThrough(banner); } catch(e) { /* noop */ }
         setTimeout(function () { banner.style.display = 'none'; try { document.body.classList.remove('cookies-modal-open'); } catch(e) {} }, 400);
     }
 
