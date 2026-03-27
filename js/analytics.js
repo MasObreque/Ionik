@@ -71,6 +71,9 @@ const IonkAnalytics = (function () {
     function _showBanner() {
         const banner = document.getElementById('cookieBanner');
         if (banner) {
+            // Bloquear interacciones con elementos subyacentes (evita overlays de apps/ads que capturan clicks)
+            try { document.body.classList.add('cookies-modal-open'); } catch(e) { /* no crítico */ }
+
             // Pequeño delay para que la animación sea visible tras cargar la página
             setTimeout(function () {
                 banner.classList.add('active');
@@ -82,7 +85,7 @@ const IonkAnalytics = (function () {
         const banner = document.getElementById('cookieBanner');
         if (!banner) return;
         banner.classList.remove('active');
-        setTimeout(function () { banner.style.display = 'none'; }, 400);
+        setTimeout(function () { banner.style.display = 'none'; try { document.body.classList.remove('cookies-modal-open'); } catch(e) {} }, 400);
     }
 
     // ================================

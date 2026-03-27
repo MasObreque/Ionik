@@ -141,8 +141,8 @@ const sampleProducts = [
     ,
     {
         id: 'prod-009',
-        name: 'Control Remoroto universal Portones',
-        description: 'Luces Led Inteligente H7 puedes cambiar de luz fría a calida o personaliza a gusto desde el celular',
+        name: 'Control Remoto Universal Replicator Library',
+        description: 'Duplicador de controles universales,  clona llaveros de código fijo de 433.92MHz',
         price: 10000,
         category: 'Controles',
         images: [

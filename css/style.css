@@ -527,6 +527,17 @@ button {
     transform: translateY(0);
 }
 
+/* Mientras el banner de cookies esté visible, evitar que elementos subyacentes reciban clicks.
+   Esto previene que overlays externos (p. ej. el botón 'llamar' de webviews de Instagram) capturen el toque
+   cuando el usuario hace clic en 'Aceptar'. */
+.cookies-modal-open * {
+    pointer-events: none !important;
+}
+.cookies-modal-open #cookieBanner,
+.cookies-modal-open #cookieBanner * {
+    pointer-events: auto !important;
+}
+
 .cookie-banner-inner {
     max-width: 1200px;
     margin: 0 auto;
@@ -659,6 +670,26 @@ button {
 .products-section {
     padding: 100px 0;
     background: var(--gris-claro);
+}
+
+/* Mejor contraste para el nombre del producto dentro de las tarjetas.
+   Se añade un fondo sutil, padding y color oscuro para asegurar legibilidad
+   sobre imágenes o fondos claros/coloreados. */
+.product-card .product-name {
+    color: var(--gris-oscuro) !important;
+    background: rgba(255,255,255,0.92);
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-weight: 700;
+    line-height: 1.2;
+    max-width: 100%;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+}
+
+/* Variante para el héroe (si acaso se solapan estilos) */
+.product-name-hero {
+    color: var(--gris-oscuro);
 }
 
 .product-filters {
