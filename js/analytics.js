@@ -70,22 +70,30 @@ const IonkAnalytics = (function () {
 
     function _preventClickThrough(banner) {
         if (!banner) return;
-        // Guardar handlers para poder removerlos luego
+        // Guardar handlers para poder removerlos luego (almacenamos en el banner para referencia)
         banner.__clickThroughHandlers = banner.__clickThroughHandlers || [];
 
-        var stop = function (e) { e.stopPropagation(); };
+        var events = ['touchstart','touchend','touchmove','mousedown','click'];
 
-        ['touchstart','touchend','touchmove','mousedown','click'].forEach(function(evt){
-            banner.addEventListener(evt, stop, true);
-            banner.__clickThroughHandlers.push({ evt: evt, handler: stop });
-        });
+        // Handler en captura a nivel de documento: si el target está fuera del banner, bloquear el evento.
+        var docHandler = function(e) {
+            try {
+                if (!banner.contains(e.target)) {
+                    e.stopPropagation();
+                    // Evitar que un click/touch lance acciones nativas (tel:, intent external) que vengan de debajo
+                    if (e.type === 'click' || e.type.indexOf('touch') === 0) {
+                        e.preventDefault();
+                    }
+                }
+                // Si el target está dentro del banner, permitir la interacción normalmente.
+            } catch (err) {
+                // no-op
+            }
+        };
 
-        // Asegurar que los botones del banner no propaguen eventos pero permitan su comportamiento por defecto
-        var innerBtns = banner.querySelectorAll('button, a');
-        innerBtns.forEach(function(btn){
-            var btnStop = function(e){ e.stopPropagation(); };
-            btn.addEventListener('click', btnStop, true);
-            banner.__clickThroughHandlers.push({ el: btn, evt: 'click', handler: btnStop });
+        events.forEach(function(evt){
+            document.addEventListener(evt, docHandler, true);
+            banner.__clickThroughHandlers.push({ on: 'document', evt: evt, handler: docHandler });
         });
     }
 
@@ -93,10 +101,10 @@ const IonkAnalytics = (function () {
         if (!banner || !banner.__clickThroughHandlers) return;
         banner.__clickThroughHandlers.forEach(function(item){
             try {
-                if (item.el) {
+                if (item.on === 'document') {
+                    document.removeEventListener(item.evt, item.handler, true);
+                } else if (item.el) {
                     item.el.removeEventListener(item.evt, item.handler, true);
-                } else {
-                    banner.removeEventListener(item.evt, item.handler, true);
                 }
             } catch (e) { /* noop */ }
         });
