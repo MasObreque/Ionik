@@ -31,8 +31,29 @@ const IonkAnalytics = (function () {
     // ================================
 
     function acceptAll() {
+        // Marcar consentimiento
         localStorage.setItem('ionik_cookie_consent', 'all');
         _consent = 'all';
+
+        // --- Medida defensiva: eliminar acciones pendientes que puedan abrir tel: ---
+        try {
+            // Borrar claves conocidas que podrían contener una acción guardada por campañas/ads
+            sessionStorage.removeItem('ionik_pending_action');
+            localStorage.removeItem('ionik_pending_action');
+
+            // Si por alguna razón hay una URL pendiente en query params, no seguir si es tel:
+            var params = new URLSearchParams(window.location.search);
+            var pending = params.get('pending_action') || params.get('action');
+            if (pending && /^tel:/i.test(pending)) {
+                // remover del historial para evitar que scripts la usen
+                var cleanUrl = window.location.origin + window.location.pathname + window.location.hash;
+                window.history.replaceState({}, document.title, cleanUrl);
+            }
+        } catch (e) {
+            console.warn('Error al limpiar acciones pendientes:', e);
+        }
+
+        // Cargar píxeles publicitarios (si corresponde)
         _loadAdvertisingPixels();
         _hideBanner();
     }
