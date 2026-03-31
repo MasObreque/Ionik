@@ -78,8 +78,11 @@ function setupEventListeners() {
             }
         });
     });
-    
+
+    // Touch gestures y optimizaciones móviles
+    setupTouchGestures();
 }
+
 
 // ================================
 // FILTRO INDEPENDIENTE DE OFERTAS
@@ -195,24 +198,81 @@ function closePromoBar() {
 }
 
 // ================================
-// MENÚ MÓVIL
+// MENÚ MÓVIL Y GESTOS TÁCTILES
 // ================================
+
+function lockBodyScroll() {
+    // Prevent background scroll when overlays are open
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
+    document.body.style.touchAction = 'none';
+}
+
+function unlockBodyScroll() {
+    document.documentElement.style.overflow = '';
+    document.body.style.overflow = '';
+    document.body.style.touchAction = '';
+}
 
 function toggleMobileMenu() {
     const nav = document.getElementById('mainNav');
     const overlay = document.getElementById('overlay');
-    
+    const opening = !nav.classList.contains('active');
+
     nav.classList.toggle('active');
     overlay.classList.toggle('active');
+
+    if (opening) lockBodyScroll(); else unlockBodyScroll();
 }
 
 function closeMenu() {
     const nav = document.getElementById('mainNav');
     const overlay = document.getElementById('overlay');
-    
+
     nav.classList.remove('active');
     overlay.classList.remove('active');
+    unlockBodyScroll();
 }
+
+function setupTouchGestures() {
+    let startX = 0;
+    let startY = 0;
+    const threshold = 50; // px to consider swipe
+
+    document.addEventListener('touchstart', function(e) {
+        if (!e.touches || e.touches.length > 1) return;
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+    }, {passive: true});
+
+    document.addEventListener('touchend', function(e) {
+        if (!e.changedTouches || e.changedTouches.length > 1) return;
+        const endX = e.changedTouches[0].clientX;
+        const endY = e.changedTouches[0].clientY;
+        const dx = endX - startX;
+        const dy = endY - startY;
+
+        // Horizontal swipe more than vertical movement
+        if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > threshold) {
+            const nav = document.getElementById('mainNav');
+            const cartSidebar = document.getElementById('cartSidebar');
+            const overlay = document.getElementById('overlay');
+
+            // Swipe left to close nav if open
+            if (dx < 0 && nav && nav.classList.contains('active')) {
+                closeMenu();
+            }
+
+            // Swipe right to close cart if open
+            if (dx > 0 && cartSidebar && cartSidebar.classList.contains('active')) {
+                cartSidebar.classList.remove('active');
+                overlay.classList.remove('active');
+                unlockBodyScroll();
+            }
+        }
+    }, {passive: true});
+}
+
 
 // ================================
 // CARRITO
@@ -221,10 +281,13 @@ function closeMenu() {
 function toggleCart() {
     const cartSidebar = document.getElementById('cartSidebar');
     const overlay = document.getElementById('overlay');
-    const isOpening = !cartSidebar.classList.contains('active');
+    const opening = !cartSidebar.classList.contains('active');
 
-    if (isOpening) {
+    if (opening) {
         backToCart();
+        lockBodyScroll();
+    } else {
+        unlockBodyScroll();
     }
 
     cartSidebar.classList.toggle('active');
@@ -239,6 +302,7 @@ function closeAll() {
     cartSidebar.classList.remove('active');
     nav.classList.remove('active');
     overlay.classList.remove('active');
+    unlockBodyScroll();
 }
 
 function updateCartCount() {
