@@ -214,8 +214,9 @@
                         href="https://listado.mercadolibre.cl/_CustId_2585303509?item_id=MLC1874104825&category_id=MLC157684&seller_id=2585303509&client=recoview-selleritems&recos_listing=true"
                         target="_blank"
                         rel="noopener noreferrer"
-                        class="btn-mercadolibre btn-large"
+                        class="btn-mercadolibre btn-large outbound-ml"
                         aria-label="Ver tienda oficial en MercadoLibre"
+                        onclick="IonkAnalytics.trackEvent('outbound_click', { destination: 'mercadolibre', url: this.href });"
                     >
                         <svg width="20" height="20" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                             <circle cx="16" cy="16" r="16" fill="#FFE600"/>
@@ -361,6 +362,8 @@
                                 href="https://listado.mercadolibre.cl/_CustId_2585303509?item_id=MLC1874104825&category_id=MLC157684&seller_id=2585303509&client=recoview-selleritems&recos_listing=true"
                                 target="_blank"
                                 rel="noopener noreferrer"
+                                class="outbound-ml"
+                                onclick="IonkAnalytics.trackEvent('outbound_click', { destination: 'mercadolibre', url: this.href });"
                             >🛍️ Tienda MercadoLibre</a>
                         </li>
                     </ul>

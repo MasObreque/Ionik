@@ -247,7 +247,7 @@ const IonkAnalytics = (function () {
         window.dataLayer = window.dataLayer || [];
         window.dataLayer.push(Object.assign({ event: eventName }, data));
 
-        // --- Google Analytics 4 (siempre activo — análitica) ---
+        // --- Google Analytics 4 (si gtag está cargado) ---
         if (typeof gtag !== 'undefined') {
             _fireGA4(eventName, data);
         }
@@ -256,6 +256,22 @@ const IonkAnalytics = (function () {
         if (_consent === 'all') {
             if (typeof fbq !== 'undefined') _fireMeta(eventName, data);
             if (typeof ttq !== 'undefined') _fireTikTok(eventName, data);
+        }
+
+        // --- Evento outbound específico: si es destino 'mercadolibre', añadir evento Meta/GA extra ---
+        if (data && data.destination === 'mercadolibre') {
+            // GA4: evento outbound_click con label
+            if (typeof gtag !== 'undefined') {
+                try { gtag('event', 'outbound_click', { event_category: 'outbound', event_label: data.url || 'mercadolibre', transport_type: 'beacon' }); } catch(e){}
+            }
+            // Meta Pixel: Custom event
+            if (typeof fbq !== 'undefined') {
+                try { fbq('trackCustom', 'OutboundClick', { url: data.url || '', destination: 'mercadolibre' }); } catch(e){}
+            }
+            // TikTok: track event
+            if (typeof ttq !== 'undefined') {
+                try { ttq.track('OutboundClick', { url: data.url || '', destination: 'mercadolibre' }); } catch(e){}
+            }
         }
     }
 
