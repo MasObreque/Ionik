@@ -199,6 +199,7 @@
                         rel="noopener noreferrer"
                         class="btn-mercadolibre btn-large"
                         aria-label="Ver tienda oficial en MercadoLibre"
+                        onclick="trackOutboundToMercadoLibre(event, this.href)"
                     >
                         <svg width="20" height="20" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                             <circle cx="16" cy="16" r="16" fill="#FFE600"/>
@@ -349,6 +350,7 @@
                                 href="https://listado.mercadolibre.cl/_CustId_2585303509?item_id=MLC1874104825&category_id=MLC157684&seller_id=2585303509&client=recoview-selleritems&recos_listing=true"
                                 target="_blank"
                                 rel="noopener noreferrer"
+                                onclick="trackOutboundToMercadoLibre(event, this.href)"
                             >🛍️ Tienda MercadoLibre</a>
                         </li>
                     </ul>
@@ -397,6 +399,29 @@
 
     <!-- Scripts — analytics.js debe ser el primero -->
     <script src="js/analytics.js?v=20260327"></script>
+    <script>
+        // Registrar clics hacia MercadoLibre en Google Analytics y Pixel (seguro si no están cargados)
+        function trackOutboundToMercadoLibre(e, href) {
+            try {
+                if (typeof gtag === 'function') {
+                    gtag('event', 'mercadolibre_click', {
+                        'event_category': 'outbound',
+                        'event_label': href,
+                        'transport_type': 'beacon'
+                    });
+                }
+            } catch (err) { console.error(err); }
+            try {
+                if (typeof fbq === 'function') {
+                    fbq('trackCustom', 'MercadoLibreClick', { href: href });
+                } else if (window.IonkAnalytics && typeof window.IonkAnalytics.trackPixel === 'function') {
+                    // Si el wrapper de analytics expone un helper, usarlo
+                    window.IonkAnalytics.trackPixel('MercadoLibreClick', { href: href });
+                }
+            } catch (err) {}
+            // No evitar la navegación; gtag con beacon intentará enviar el evento.
+        }
+    </script>
     <script src="js/main.js?v=20260327"></script>
     <script src="js/cart.js?v=20260327"></script>
     <script src="js/products.js?v=20260327"></script>
