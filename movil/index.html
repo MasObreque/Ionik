@@ -96,7 +96,9 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <!-- Preload a la variante más usada y usar display=swap para evitar FOIT -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css?v=20260327">
     <link rel="stylesheet" href="css/components.css?v=20260327">
     <link rel="stylesheet" href="css/responsive.css?v=20260327">
@@ -227,16 +229,11 @@
                     </div>
                     <div class="hero-right">
                         <div class="product-card-hero">
-                    <video 
-                        src="videos/lampara1.mp4" 
-                        autoplay 
-                        loop 
-                        muted 
-                        playsinline
-                        style="width: 300px; height: auto; object-fit: cover;"
-                    >
-                        Tu navegador no soporta el elemento de video.
-                    </video>
+                    <!-- Video: cargar sólo en desktop para ahorro de datos en mobile -->
+                    <picture class="hero-video-wrapper">
+                        <img src="images/ResolucionFullHD-480w.jpeg" alt="Producto Ionik" class="hero-poster" loading="lazy"/>
+                        <!-- El video se inyecta por JS en pantallas grandes -->
+                    </picture>
                     <h3 class="product-name-hero">Cargador inalambrico</h3>
                 </div>
             </div>

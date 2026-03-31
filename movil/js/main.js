@@ -28,18 +28,24 @@ function initializeApp() {
 
     // Mobile-specific optimizations
     if (document.documentElement.classList.contains('is-mobile')) {
-        // Reemplaza video del hero por una imagen poster para ahorrar datos en mobile
-        const vid = document.querySelector('.hero-right video');
-        if (vid) {
-            const poster = document.createElement('img');
-            poster.src = 'images/ResolucionFullHD.jpeg';
-            poster.alt = 'Ionik';
-            poster.className = 'hero-poster-mobile';
-            vid.parentNode.replaceChild(poster, vid);
-        }
-
-        // Marca el body para estilos adicionales si es necesario
+        // Ensure the hero uses the poster image already in DOM
         document.body.classList.add('mobile-optimized');
+    } else {
+        // On desktop/larger screens, inject the video element lazily to save mobile bandwidth
+        const wrapper = document.querySelector('.hero-video-wrapper');
+        if (wrapper && !wrapper.querySelector('video')) {
+            const video = document.createElement('video');
+            video.src = 'videos/lampara1.mp4';
+            video.autoplay = true;
+            video.loop = true;
+            video.muted = true;
+            video.playsInline = true;
+            video.style.width = '300px';
+            video.style.height = 'auto';
+            video.style.objectFit = 'cover';
+            video.setAttribute('loading','lazy');
+            wrapper.appendChild(video);
+        }
     }
 }
 
