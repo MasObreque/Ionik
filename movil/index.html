@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        // Añade clase is-mobile al <html> para estilos/JS condicionales
+        if (window.matchMedia) {
+            const m = window.matchMedia('(max-width: 768px)');
+            function setMobileClass(e) {
+                document.documentElement.classList.toggle('is-mobile', e.matches);
+            }
+            setMobileClass(m);
+            m.addListener(setMobileClass);
+        }
+    </script>
+    <!-- Cache control -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Ionik - Energía que transforma tu día</title>
+
+    <!-- ================================================ -->
+    <!-- SEO BÁSICO                                        -->
+    <!-- ================================================ -->
+    <meta name="description" content="Ionik — Cargadores inalámbricos, luces de noche y accesorios inteligentes para tu hogar. Envío a todo Chile. Calidad premium al mejor precio.">
+    <meta name="keywords" content="cargador inalámbrico, luz de noche, cargador auto, cargador 3 en 1, accesorios hogar, Ionik, Chile, Temuco, carga inalámbrica, Magnutech">
+    <meta name="author" content="Ionik - MAGNUTECH SpA">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://ionik.cl/">
+
+    <!-- Open Graph (Facebook, Instagram, WhatsApp) -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ionik.cl/">
+    <meta property="og:title" content="Ionik — Energía que transforma tu día">
+    <meta property="og:description" content="Cargadores inalámbricos, luces de noche y accesorios inteligentes. Envío gratis sobre $50.000. Compra por WhatsApp.">
+    <meta property="og:image" content="https://ionik.cl/images/og-preview2.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="es_CL">
+    <meta property="og:site_name" content="Ionik">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Ionik — Energía que transforma tu día">
+    <meta name="twitter:description" content="Cargadores inalámbricos y accesorios inteligentes para tu hogar. Envío a todo Chile.">
+    <meta name="twitter:image" content="https://ionik.cl/images/og-preview2.jpg">
+
+    <!-- ================================================ -->
+    <!-- DATOS ESTRUCTURADOS — ORGANIZACIÓN (JSON-LD)     -->
+    <!-- ================================================ -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Ionik",
+      "legalName": "MAGNUTECH SpA",
+      "url": "https://ionik.cl",
+      "logo": "https://ionik.cl/images/logo.jpg",
+      "description": "Tienda online de cargadores inalámbricos y accesorios inteligentes para el hogar.",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Temuco",
+        "addressRegion": "La Araucanía",
+        "addressCountry": "CL"
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+56962769503",
+        "contactType": "customer service",
+        "availableLanguage": "Spanish"
+      },
+      "sameAs": [
+        "https://www.instagram.com/ioniktemuco/",
+        "https://www.tiktok.com/@ionik.temuco",
+        "https://www.facebook.com/people/Ionik/61577667232135/"
+      ]
+    }
+    </script>
+
+    <!-- ================================================ -->
+    <!-- DATOS ESTRUCTURADOS — SITIO WEB (JSON-LD)        -->
+    <!-- ================================================ -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Ionik",
+      "url": "https://ionik.cl"
+    }
+    </script>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/logo.jpg">
+    <link rel="shortcut icon" type="image/png" href="images/logo.jpg">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css?v=20260327">
+    <link rel="stylesheet" href="css/components.css?v=20260327">
+    <link rel="stylesheet" href="css/responsive.css?v=20260327">
+    <link rel="stylesheet" href="css/mobile-overrides.css?v=20260331">
+
+    <!-- ================================================ -->
+    <!-- GOOGLE ANALYTICS 4                               -->
+    <!-- ================================================ -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EWHZNB26KC"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-EWHZNB26KC');
+    </script>
+
+    <!-- ================================================ -->
+    <!-- META PIXEL y TIKTOK: carga dinámica en analytics.js
+         Solo se activan si el usuario acepta cookies.
+         Se removieron de <head> para cumplir RGPD/LGPD.   -->
+    <!-- ================================================ -->
+</head>
+<body>
+    <!-- Barra Promocional Superior -->
+    <div class="promo-bar" id="promoBar">
+        <p>🎉 Envío gratis en compras sobre $50.000 </p>
+        <button class="close-promo" onclick="closePromoBar()">×</button>
+    </div>
+
+    <!-- Header Principal -->
+    <header class="main-header" id="mainHeader">
+        <div class="container header-content">
+            <!-- Logo -->
+            <div class="logo-container">
+                <img src="images/logo.jpg" alt="Ionik Logo" class="logo" id="mainLogo">
+                 <span class="logo-glosa">By Magnutech</span>
+            </div>
+
+            <!-- Navegación Desktop -->
+            <nav class="main-nav" id="mainNav">
+                <ul>
+                    <li><a href="#inicio" class="nav-link active">Inicio</a></li>
+                    <li><a href="#productos" class="nav-link">Productos</a></li>
+                    <li><a href="#beneficios" class="nav-link">Beneficios</a></li>
+                    <li><a href="#testimonios" class="nav-link">Testimonios</a></li>
+                    <li><a href="#contacto" class="nav-link">Contacto</a></li>
+                </ul>
+            </nav>
+
+            <!-- Carrito y Mobile Menu -->
+            <div class="header-actions">
+                <button class="cart-button" onclick="toggleCart()">
+                    🛒 <span class="cart-count" id="cartCount">0</span>
+                </button>
+                <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Carrito Lateral -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h2>Tu Carrito</h2>
+            <button class="close-cart" onclick="toggleCart()">×</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <!-- Items dinámicos -->
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cartTotal">$0</span>
+            </div>
+            <button class="btn-primary btn-checkout" onclick="proceedToCheckout()">
+                Proceder al Pago
+            </button>
+        </div>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay" onclick="closeAll()"></div>
+
+    <!-- Hero Section -->
+    <section class="hero-section" id="inicio">
+        <img 
+            src="images/ResolucionFullHD.jpeg" 
+            alt="Fondo de la sección principal" 
+            class="hero-background-image" 
+        />
+        <div class="hero-background">
+            <div class="bg-layer bg-dark-blue"></div>
+            <div class="bg-layer bg-dark-gray"></div>
+        </div>
+        <div class="container hero-content">
+            <div class="hero-left">
+                <h1 class="hero-title">Ionik: Energía que transforma tu día</h1>
+                <p class="hero-subtitle">Carga Inalámbrica y Potencia Móvil. Simplifica tu vida.</p>
+                <div class="hero-actions">
+                    <button class="btn-primary btn-large" onclick="scrollToProducts()">
+                        Comprar ahora
+                    </button>
+                    <button class="btn-secondary btn-large" onclick="scrollToProducts()">
+                        Ver productos destacados
+                    </button>
+                    <a
+                        href="https://listado.mercadolibre.cl/_CustId_2585303509?item_id=MLC1874104825&category_id=MLC157684&seller_id=2585303509&client=recoview-selleritems&recos_listing=true"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="btn-mercadolibre btn-large"
+                        aria-label="Ver tienda oficial en MercadoLibre"
+                    >
+                        <svg width="20" height="20" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <circle cx="16" cy="16" r="16" fill="#FFE600"/>
+                            <path d="M8 14c0-4.418 3.582-8 8-8s8 3.582 8 8" stroke="#333" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+                            <circle cx="10" cy="16" r="2.5" fill="#3483FA"/>
+                            <circle cx="22" cy="16" r="2.5" fill="#39B54A"/>
+                        </svg>
+                        Ver en MercadoLibre
+                    </a>
+                </div>
+                    </div>
+                    <div class="hero-right">
+                        <div class="product-card-hero">
+                    <video 
+                        src="videos/lampara1.mp4" 
+                        autoplay 
+                        loop 
+                        muted 
+                        playsinline
+                        style="width: 300px; height: auto; object-fit: cover;"
+                    >
+                        Tu navegador no soporta el elemento de video.
+                    </video>
+                    <h3 class="product-name-hero">Cargador inalambrico</h3>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <span>Desliza para explorar</span>
+            <div class="scroll-arrow">↓</div>
+        </div>
+    </section>
+
+    <!-- Productos Destacados -->
+    <section class="products-section" id="productos">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Productos Destacados</h2>
+                <p class="section-subtitle">Descubre La nueva generación en carga inalámbrica, audífonos de alto rendimiento y accesorios esenciales. Potencia, seguridad y diseño para tu vida digital.</p>
+            </div>
+
+            <!-- Filtros -->
+            <div class="product-filters">
+                <button class="filter-btn active" data-filter="all">Todos</button>
+                <button class="filter-btn" data-filter="cargadores">Cargadores</button>
+                <button class="filter-btn" data-filter="lamparas">Luz de Noche</button>
+                <button class="filter-btn" data-filter="Luces Auto">Luces Auto</button>
+                <button class="filter-btn" data-filter="Controles">Controles</button>
+                <button class="filter-btn" data-filter="ofertas">Ofertas</button>
+            </div>
+
+            <!-- Grid de Productos -->
+            <div class="products-grid" id="productsGrid">
+                <!-- Productos se cargan dinámicamente -->
+            </div>
+
+            <div class="loading-spinner" id="productsLoading">
+                <div class="spinner"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Beneficios -->
+    <section class="benefits-section" id="beneficios">
+        <div class="container">
+            <h2 class="section-title">¿Por qué elegir Ionik?</h2>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">⚡</div>
+                    <h3>Confort sin Enredos</h3>
+                    <p>Despídete del exceso cables y el desorden. Te brindamos una experiencia de carga cómoda, limpia y siempre organizada.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🧩</div>
+                    <h3>Multifuncionalidad</h3>
+                    <p>Un solo dispositivo para múltiples necesidades. Carga todos tus productos, y disfruta de extras como luz o audio, todo sin cables.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">💎</div>
+                    <h3>Diseño y Estilo</h3>
+                    <p>Tecnología que no solo funciona, sino que también decora. Productos con estilo y acabados premium que elevan tu espacio.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🚀</div>
+                    <h3>Innovación</h3>
+                    <p>Te traemos la última tecnología que no encontrarás en Chile. Productos novedosos que marcan tendencia.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonios -->
+    <section class="testimonials-section" id="testimonios">
+        <div class="container">
+            <h2 class="section-title">Lo que dicen nuestros clientes</h2>
+            <div class="testimonials-slider">
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p class="testimonial-text">"El **Cargador Inalámbrico Ultra** es súper rápido y elegante. Carga mi celular sin cables y sin sobrecalentamiento. ¡Genial!"</p>
+                    <div class="testimonial-author">
+                        <strong>María González</strong>
+                        <span>Ingeniera</span>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p class="testimonial-text">"El complemento ideal **PowerBank** me salva el día y Llevo mi música todo el viaje gracias a los **Audífonos** sin preocuparme por la batería."</p>
+                    <div class="testimonial-author">
+                        <strong>Carlos Ruiz</strong>
+                        <span>Empresario</span>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p class="testimonial-text">"Servicio excepcional y producto de alta calidad. Totalmente recomendado."</p>
+                    <div class="testimonial-author">
+                        <strong>Ana Martínez</strong>
+                        <span>Diseñadora</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="main-footer" id="contacto">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3>Ionik</h3>
+                    <p>Energía que transforma tu día.</p>
+                    <div class="social-links">
+                        <a href="https://www.instagram.com/ioniktemuco/" target="_blank" aria-label="Instagram">📷</a>
+                        <a href="https://www.tiktok.com/@ionik.temuco" target="_blank" aria-label="TikTok">🎵</a>
+                        <a href="https://www.facebook.com/people/Ionik/61577667232135/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">📘</a>
+                        <a href="https://wa.me/56962769503" target="_blank" aria-label="WhatsApp">💬</a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h4>Enlaces Rápidos</h4>
+                    <ul>
+                        <li><a href="#inicio">Inicio</a></li>
+                        <li><a href="#productos">Productos</a></li>
+                        <li><a href="#beneficios">Beneficios</a></li>
+                        <li><a href="#testimonios">Testimonios</a></li>
+                        <li>
+                            <a
+                                href="https://listado.mercadolibre.cl/_CustId_2585303509?item_id=MLC1874104825&category_id=MLC157684&seller_id=2585303509&client=recoview-selleritems&recos_listing=true"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >🛍️ Tienda MercadoLibre</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Información Legal</h4>
+                    <ul>
+                        <li><a href="legal/terminos-y-condiciones.html">Términos y Condiciones</a></li>
+                        <li><a href="legal/politica-de-privacidad.html">Política de Privacidad</a></li>
+                        <li><a href="legal/politica-de-devoluciones.html">Política de Devoluciones</a></li>
+                        <li><a href="legal/garantia.html">Garantía</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Contacto</h4>
+                    <ul class="contact-info">
+                        <li>📧 <a href="mailto:ioniktemuco@gmail.com">ioniktemuco@gmail.com</a></li>
+                        <li>📱 <a href="tel:+56962769503">+56 9 6276 9503</a></li>
+                        <li>📍 Temuco, Chile</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Ionik. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ================================================ -->
+    <!-- BANNER DE COOKIES                                -->
+    <!-- ================================================ -->
+    <div class="cookie-banner" id="cookieBanner" role="dialog" aria-live="polite" aria-label="Aviso de cookies">
+        <div class="cookie-banner-inner">
+            <div class="cookie-banner-text">
+                <p>
+                    🍪 Usamos cookies para mejorar tu experiencia y mostrarte publicidad relevante.
+                    Consulta nuestra <a href="legal/politica-de-privacidad.html" target="_blank">Política de Privacidad</a>.
+                </p>
+            </div>
+            <div class="cookie-banner-actions">
+                <button class="btn-cookie-accept" onclick="IonkAnalytics.acceptAll()">Aceptar todas</button>
+                <button class="btn-cookie-essential" onclick="IonkAnalytics.acceptEssential()">Solo esenciales</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts — analytics.js debe ser el primero -->
+    <script src="js/analytics.js?v=20260327"></script>
+    <script src="js/main.js?v=20260327"></script>
+    <script src="js/cart.js?v=20260327"></script>
+    <script src="js/products.js?v=20260327"></script>
+</body>
+</html>
