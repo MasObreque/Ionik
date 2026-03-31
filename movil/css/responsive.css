@@ -2,7 +2,8 @@
    TABLET (max-width: 1024px)
    ================================ */
 
-@media (max-width: 1024px) {
+/* Mobile-first: default styles are for mobile. Use min-width for larger screens */
+@media (min-width: 769px) {
     .container {
         padding: 0 30px;
     }
@@ -34,8 +35,11 @@
 }
 
 /* ================================
-   MÓVIL (max-width: 768px)
+   MÓVIL (mobile-first defaults)
    ================================ */
+
+/* Mobile default rules (no media query) — keep lightweight and use min-width for larger viewports */
+
 
 @media (max-width: 768px) {
     /* Header Mobile */
