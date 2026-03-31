@@ -105,14 +105,14 @@
     <link rel="stylesheet" href="css/mobile-overrides.css?v=20260331">
 
     <!-- ================================================ -->
-    <!-- GOOGLE ANALYTICS 4                               -->
-    <!-- ================================================ -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EWHZNB26KC"></script>
+    <!-- GOOGLE ANALYTICS 4 (carga condicional via analytics.js) -->
+    <!-- Se carga dinámicamente solo si el usuario acepta analítica en el banner -->
     <script>
+        // No cargar gtag por defecto. IonkAnalytics cargará el script cuando corresponda.
         window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-        gtag('config', 'G-EWHZNB26KC');
+        function gtag(){ dataLayer.push(arguments); }
+        // IonkAnalytics._fireGA4 usa gtag si está definido; la inicialización (gtag('config',...))
+        // se hará en analytics.js cuando detecte consentimiento 'all' o 'analytics'.
     </script>
 
     <!-- ================================================ -->

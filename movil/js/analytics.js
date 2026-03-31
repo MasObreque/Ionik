@@ -16,6 +16,7 @@ const IonkAnalytics = (function () {
     function init() {
         _consent = localStorage.getItem('ionik_cookie_consent');
 
+        // Si ya existe consentimiento 'all' cargamos pixeles/publicidad
         if (_consent === 'all') {
             _loadAdvertisingPixels();
         }
@@ -24,6 +25,8 @@ const IonkAnalytics = (function () {
         if (!_consent) {
             _showBanner();
         }
+
+        // Si consent es 'essential', registramos que analítica básica (GA4) se queda deshabilitada hasta aceptar 'all'
     }
 
     // ================================
@@ -153,8 +156,31 @@ const IonkAnalytics = (function () {
     // ================================
 
     function _loadAdvertisingPixels() {
+        // Cargar GA4 también si no fue cargado (si el sitio decide que GA4 no es parte de 'essential')
+        _loadGA4();
         _loadMetaPixel();
         _loadTikTokPixel();
+    }
+
+    function _loadGA4() {
+        if (typeof gtag !== 'undefined' && window.__ionik_ga_initialized) return;
+        // inyectar script de GA4
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-EWHZNB26KC';
+        document.head.appendChild(s);
+
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){ dataLayer.push(arguments); }
+        window.gtag = window.gtag || gtag;
+        // Configurar cuando el script esté disponible
+        s.onload = function() {
+            try {
+                gtag('js', new Date());
+                gtag('config', 'G-EWHZNB26KC');
+                window.__ionik_ga_initialized = true;
+            } catch(e) { console.warn('GA init error', e); }
+        };
     }
 
     function _loadMetaPixel() {
