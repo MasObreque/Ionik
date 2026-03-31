@@ -272,10 +272,15 @@ function createProductCard(product) {
         ? `<div class="product-badge ${product.badge === 'NUEVO' ? 'new' : ''}">${product.badge}</div>` 
         : '';
     
-    const imagesHTML = product.images.map(img => 
-        `<img src="${img}" alt="${product.name}" class="product-image h-full w-full object-contain" loading="lazy" 
-        onerror="this.onerror=null; this.src='images/logo.jpg'">`
-).join('');
+    const imagesHTML = product.images.map(img => {
+        // build srcset version if resized images exist (480w and 800w)
+        const base = img.replace(/(\.jpg|\.jpeg|\.png|\.webp)$/i, '');
+        const ext = img.match(/(\.jpg|\.jpeg|\.png|\.webp)$/i);
+        const src480 = `${base}-480w${ext}`;
+        const src800 = `${base}-800w${ext}`;
+        const srcset = `${src480} 480w, ${src800} 800w, ${img} 1200w`;
+        return ` <img src="${img}" srcset="${srcset}" sizes="(max-width:480px) 100vw, (max-width:768px) 50vw, 33vw" alt="${product.name}" class="product-image h-full w-full object-contain" loading="lazy" onerror="this.onerror=null; this.src='images/logo.jpg'"> `;
+}).join('');
     
     const dotsHTML = product.images.length > 1 
         ? `<div class="slider-controls">
@@ -516,7 +521,7 @@ function showQuickView(productId) {
         
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
             <div>
-                <img src="${product.images[0]}" alt="${product.name}" style="width: 100%; border-radius: 10px;">
+                <img src="${product.images[0]}" srcset="${product.images[0].replace(/(\.|jpg|jpeg|png|webp)$/i, '')}-480w${product.images[0].match(/(\.|jpg|jpeg|png|webp)$/i)} ${product.images[0]}">
             </div>
             <div>
                 <div class="product-category">${getCategoryName(product.category)}</div>
