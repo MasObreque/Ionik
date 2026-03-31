@@ -273,7 +273,7 @@ function createProductCard(product) {
         : '';
     
     const imagesHTML = product.images.map(img => 
-        `<img src="${img}" alt="${product.name}" class="product-image h-full w-full object-contain" 
+        `<img src="${img}" alt="${product.name}" class="product-image h-full w-full object-contain" loading="lazy" 
         onerror="this.onerror=null; this.src='images/logo.jpg'">`
 ).join('');
     

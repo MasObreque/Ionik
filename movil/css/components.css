@@ -12,8 +12,14 @@
 }
 
 .product-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    /* Evitar transform en hover para mobile; mantener sólo en desktop via media query */
+}
+
+@media (min-width: 769px) {
+    .product-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    }
 }
 
 /* Badge de Oferta */
