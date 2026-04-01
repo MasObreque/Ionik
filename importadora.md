@@ -54,7 +54,7 @@ server {
         log_not_found off;
         expires 1y;
         add_header Cache-Control "public, immutable";
-        try_files $uri /images/logo.jpg =404;
+        try_files $uri /images/logo_mini.jpg =404;
     }
 
     # Redirección 301 para evitar duplicados: /index.html → /
@@ -177,3 +177,4 @@ Notas:
 - La regla "location = /index.html" es exacta y segura: solo matchea esa ruta y devuelve 301 a la raíz.
 - Si se quiere además forzar www → non-www, se puede ajustar el server block de listen 80 o crear un server separado que haga 301 a https://ionik.cl$uri.
 - Después de recargar, purgar cualquier CDN/cache y solicitar inspección en Search Console si quieres acelerar la corrección.
+

@@ -12,7 +12,7 @@
 - [x] `<link rel="canonical">` apuntando a `https://ionik.cl`
 - [x] Open Graph (`og:title`, `og:description`, `og:image`, `og:url`, `og:type`)
 - [x] Twitter Card (`summary_large_image`)
-- [x] `images/og-preview.jpg` creada y referenciada ✅
+- [x] `images/og-preview_mini.jpg` creada y referenciada ✅
 - [x] JSON-LD `Organization` (nombre, logo, contacto, redes sociales)
 - [x] JSON-LD `WebSite` con `SearchAction`
 - [x] `robots.txt` (permite todo, apunta al sitemap)
@@ -75,7 +75,7 @@
 - [ ] **Actualizar `sitemap.xml`** → agregar fecha `<lastmod>` cada vez que se publique un cambio relevante
 
 ### Baja prioridad
-- [ ] **Favicon SVG** → actualmente el `<link rel="icon">` apunta a `images/logo.jpg`, idealmente usar un `.ico` o `.svg` cuadrado
+- [ ] **Favicon SVG** → actualmente el `<link rel="icon">` apunta a `images/logo_mini.jpg`, idealmente usar un `.ico` o `.svg` cuadrado
 - [ ] **`hreflang`** → si en el futuro se agrega versión en inglés
 - [ ] **Velocidad PageSpeed** → correr [PageSpeed Insights](https://pagespeed.web.dev/) y optimizar imágenes (convertir a WebP)
 
@@ -114,3 +114,4 @@ Ver detalle completo en `ROADMAP_TECNICO_IMPLEMENTACION_SEO_PIXEL_Y_BACKEND.md`.
 - **GA4 siempre activo** (analítica); Meta + TikTok solo con consentimiento `'all'`
 - **`IonkAnalytics.trackEvent(nombre, datos)`** es el único punto de entrada para todos los eventos
 - **`localStorage`** key `ionik_cookie_consent`: valores `'all'` | `'essential'` | `null`
+

@@ -69,7 +69,7 @@ Agregar dentro del `<head>` de `index.html`, **después** del `<title>` existent
 <meta property="og:url" content="https://ionik.cl/">
 <meta property="og:title" content="Ionik — Energía que transforma tu día">
 <meta property="og:description" content="Cargadores inalámbricos, luces de noche y accesorios inteligentes. Envío gratis sobre $50.000. Compra por WhatsApp.">
-<meta property="og:image" content="https://ionik.cl/images/og-preview.jpg">
+<meta property="og:image" content="https://ionik.cl/images/og-preview_mini.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:locale" content="es_CL">
@@ -79,10 +79,10 @@ Agregar dentro del `<head>` de `index.html`, **después** del `<title>` existent
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Ionik — Energía que transforma tu día">
 <meta name="twitter:description" content="Cargadores inalámbricos y accesorios inteligentes para tu hogar. Envío a todo Chile.">
-<meta name="twitter:image" content="https://ionik.cl/images/og-preview.jpg">
+<meta name="twitter:image" content="https://ionik.cl/images/og-preview_mini.jpg">
 ```
 
-> **Nota:** Crear imagen `images/og-preview.jpg` (1200×630px) con logo + producto estrella. Es lo que aparece al compartir el link en redes.
+> **Nota:** Crear imagen `images/og-preview_mini.jpg` (1200×630px) con logo + producto estrella. Es lo que aparece al compartir el link en redes.
 
 ---
 
@@ -97,7 +97,7 @@ Agregar al final del `<head>`:
   "name": "Ionik",
   "legalName": "MAGNUTECH SpA",
   "url": "https://ionik.cl",
-  "logo": "https://ionik.cl/images/logo.jpg",
+  "logo": "https://ionik.cl/images/logo_mini.jpg",
   "description": "Tienda online de cargadores inalámbricos y accesorios inteligentes",
   "address": {
     "@type": "PostalAddress",
@@ -376,3 +376,4 @@ images/
 ```
 
 > Se eligió **un solo documento** porque SEO y Píxeles están íntimamente relacionados (ambos dependen de los mismos eventos de e-commerce y del mismo `<head>`) y su implementación se hace en paralelo en los mismos archivos. Separarlos generaría duplicación innecesaria.
+
