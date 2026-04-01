@@ -106,6 +106,30 @@ function updateCartDisplay() {
     
     cartItemsContainer.innerHTML = cartHTML;
     cartTotal.textContent = formatPrice(totalAmount);
+
+    // Barra de progreso hacia envío gratis
+    const ENVIO_GRATIS = 50000;
+    const shippingBar = document.getElementById('shippingBar');
+    if (shippingBar) {
+        const falta = ENVIO_GRATIS - totalAmount;
+        const progreso = Math.min((totalAmount / ENVIO_GRATIS) * 100, 100);
+        if (falta > 0) {
+            shippingBar.innerHTML = `
+                <div class="shipping-progress">
+                    <p class="shipping-progress-text">
+                        🚚 Te faltan <strong>${formatPrice(falta)}</strong> para <strong>Envío Gratis</strong>
+                    </p>
+                    <div class="shipping-progress-track">
+                        <div class="shipping-progress-fill" style="width: ${progreso.toFixed(0)}%"></div>
+                    </div>
+                </div>`;
+        } else {
+            shippingBar.innerHTML = `
+                <div class="shipping-progress shipping-free">
+                    🎉 ¡Tienes <strong>Envío Gratis</strong>!
+                </div>`;
+        }
+    }
 }
 
 function animateCartButton() {

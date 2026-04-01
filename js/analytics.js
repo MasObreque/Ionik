@@ -273,6 +273,12 @@ const IonkAnalytics = (function () {
                     currency: 'CLP',
                     items: d.items || []
                 });
+            },
+            'generate_lead': function () {
+                gtag('event', 'generate_lead', {
+                    method: d.method || 'whatsapp',
+                    source: d.location || 'unknown'
+                });
             }
         };
         if (map[eventName]) map[eventName]();
@@ -314,6 +320,12 @@ const IonkAnalytics = (function () {
                     value: d.value,
                     currency: 'CLP',
                     content_type: 'product'
+                });
+            },
+            'generate_lead': function () {
+                fbq('track', 'Lead', {
+                    content_name: d.method || 'whatsapp',
+                    content_category: d.location || 'unknown'
                 });
             }
         };
@@ -379,6 +391,11 @@ const IonkAnalytics = (function () {
                     contents: contents.length ? contents : [{ content_id: 'order', quantity: 1, price: d.value }],
                     value:    d.value,
                     currency: 'CLP'
+                });
+            },
+            'generate_lead': function () {
+                ttq.track('Contact', {
+                    contents: [{ content_id: d.method || 'whatsapp', content_name: d.location || 'unknown' }]
                 });
             }
         };

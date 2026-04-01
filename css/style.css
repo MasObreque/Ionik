@@ -97,11 +97,26 @@ button {
     transition: var(--transicion);
 }
 
+/* Header compacto al hacer scroll en móvil */
+@media (max-width: 768px) {
+    .main-header.header-slim .header-content {
+        padding: 4px 15px;
+        min-height: 48px;
+    }
+    .main-header.header-slim .logo {
+        height: 28px;
+    }
+    .main-header.header-slim .promo-bar {
+        display: none;
+    }
+}
+
 .header-content {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 10px 15px;
+    min-height: 60px;
 }
 
 .logo-container {

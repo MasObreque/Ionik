@@ -214,6 +214,11 @@ function displayProducts(products) {
             return { item_id: p.id, item_name: p.name, item_category: p.category, price: p.price };
         })
     });
+
+    // Deep linking: ejecutar después de que los cards estén en el DOM
+    if (typeof initDeepLink === 'function') {
+        initDeepLink();
+    }
 }
 
 // ================================
@@ -272,8 +277,9 @@ function createProductCard(product) {
         ? `<div class="product-badge ${product.badge === 'NUEVO' ? 'new' : ''}">${product.badge}</div>` 
         : '';
     
-    const imagesHTML = product.images.map(img => 
+    const imagesHTML = product.images.map((img, index) => 
         `<img src="${img}" alt="${product.name}" class="product-image h-full w-full object-contain" 
+        loading="${index === 0 ? 'eager' : 'lazy'}" width="400" height="300"
         onerror="this.onerror=null; this.src='images/logo.jpg'">`
 ).join('');
     
@@ -329,6 +335,12 @@ function createProductCard(product) {
                 >
                     ${product.stock > 0 ? '🛒 Agregar al Carrito' : 'Agotado'}
                 </button>
+                <a href="https://listado.mercadolibre.cl/_CustId_2585303509?item_id=MLC1874104825&category_id=MLC157684&seller_id=2585303509&client=recoview-selleritems&recos_listing=true"
+                   target="_blank" rel="noopener noreferrer"
+                   class="btn-mercadolibre-card"
+                   onclick="trackOutboundToMercadoLibre(event, this.href)">
+                    Ver también en MercadoLibre
+                </a>
             </div>
         </div>
     `;

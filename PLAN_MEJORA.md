@@ -1,6 +1,7 @@
 # Plan de Mejora IonikHome — Conversión Móvil y UX
 
-> Generado el 2026-04-01 | Basado en análisis de Google Analytics y revisión del código fuente
+> **Estado:** ✅ IMPLEMENTADO — 2026-04-01
+> Basado en análisis de Google Analytics y revisión del código fuente
 
 ---
 
@@ -196,14 +197,118 @@ ionik.cl/?categoria=cargadores
 
 ---
 
+---
+
+## Fase 0 — Auditoría Móvil de Estilos e Imágenes
+
+> Basada en revisión completa de los archivos CSS y análisis del inventario de imágenes/videos
+
+### Problemas Críticos de CSS Móvil
+
+#### 🔴 CRÍTICOS — Afectan directamente la experiencia visual
+
+| # | Problema | Archivo | Línea | Solución |
+|---|----------|---------|-------|----------|
+| 1 | **Contenedor de imagen fijo 300px** — distorsiona imágenes en distintas proporciones | `components.css` | 42 | Cambiar a `aspect-ratio: 4/3` + `height: auto` |
+| 2 | **Imágenes de producto sin `loading="lazy"`** — descarga todo al entrar | `js/products.js` | 275-278 | Agregar `loading="lazy" width="300" height="300"` |
+| 3 | **Hero background 70% de ancho** — no se adapta a móvil, imagen recortada | `style.css` | 337 | `@media (max-width: 768px) { width: 100%; }` |
+| 4 | **Botones de cantidad 30×30px** — por debajo del mínimo táctil de 44px | `components.css` | 259-270 | Cambiar a `min-width: 44px; min-height: 44px` |
+| 5 | **Imagen hero sin atributos `width/height`** — causa Layout Shift (CLS) | `index.html` | 176-180 | Agregar dimensiones + `fetchpriority="high"` |
+
+#### 🟠 ALTOS — Degradan la experiencia pero no la rompen
+
+| # | Problema | Archivo | Línea | Solución |
+|---|----------|---------|-------|----------|
+| 6 | **Hero con `padding-top: 120px` en móvil** — usuario no ve productos sin scroll | `responsive.css` | 85 | Reducir a 60px en 768px, 45px en 480px |
+| 7 | **`padding: 60px 40px` en product-card-hero** — excesivo en 768px | `responsive.css` | 121 | Reducir a 30px 20px |
+| 8 | **Imagen del carrito fija 80×80px** — distorsionada en móvil | `components.css` | 226-231 | Usar `aspect-ratio: 1` con `width: 70px` |
+| 9 | **Clip-paths del hero no son responsivos** — formas diagonales se ven raras en móvil | `style.css` | 366-374 | Override en 768px con clip-path más simple o `none` |
+| 10 | **Header con solo 10px de padding vertical** — áreas táctiles pequeñas | `style.css` | 100-105 | Garantizar altura mínima de 60px en header |
+
+#### 🟡 MEDIOS — Mejoras de performance y experiencia
+
+| # | Problema | Archivo | Línea | Solución |
+|---|----------|---------|-------|----------|
+| 11 | **Video 8.92 MB sin `preload="none"`** — descarga automática en móvil consume datos | `index.html` | 216-225 | Agregar `preload="none"` |
+| 12 | **Secciones beneficios/testimonios sin ajustes en 768px** — padding no optimizado | `responsive.css` | — | Agregar reglas específicas de padding |
+
+### Inventario de Imágenes — Problemas de Peso
+
+| Imagen | Tamaño | Problema | Acción |
+|--------|--------|----------|--------|
+| `producto11.png` | **3.4 MB** | PNG fotográfico, enorme | Convertir a WebP/JPEG, máx 300 KB |
+| `lampara3.png` | **2.9 MB** | PNG fotográfico | Convertir a WebP/JPEG, máx 250 KB |
+| `lampara2.png` | **1.4 MB** | PNG fotográfico | Convertir a WebP/JPEG, máx 200 KB |
+| `CargadorAuto1.png` | **1.1 MB** | PNG fotográfico | Convertir a WebP/JPEG, máx 150 KB |
+| `luzfria.jpeg` | **1.3 MB** | JPEG sin comprimir | Comprimir al 80%, máx 200 KB |
+| `lampara1.jpg` | **988 KB** | Imagen hero principal | Comprimir + agregar versión WebP |
+| `ResolucionFullHD.jpeg` | **260 KB** | OK pero sin versión móvil | Crear versión 768px ancho |
+
+> **Total estimado descargado hoy en móvil:** ~12–15 MB de imágenes + 8.9 MB de video = **~23 MB en primera visita**
+> **Meta post-optimización:** < 3 MB total en primera visita móvil
+
+### Todos de la Fase Móvil
+
+#### CSS — Correcciones de Estilos
+
+- **[css-image-aspect-ratio]** Reemplazar `height: 300px` fijo en `.product-image-container` por `aspect-ratio: 4/3` con `height: auto`. Corregir también en `responsive.css` en 480px.
+  - `components.css` línea 42 + `responsive.css` línea 280
+
+- **[css-touch-targets]** Aumentar botones de cantidad de 30×30px a mín 44×44px. Verificar todos los botones interactivos.
+  - `components.css` líneas 259-270
+
+- **[css-hero-responsive]** 
+  - Corregir `.hero-background-image` width 70% → 100% en mobile
+  - Corregir clip-paths en 768px (simplificar a línea vertical o eliminar)
+  - Reducir `padding-top` de 120px → 60px en 768px
+  - `style.css` línea 337, 366-374 + `responsive.css` línea 85
+
+- **[css-cart-image]** Cambiar imagen del carrito a `aspect-ratio: 1` en lugar de altura fija.
+  - `components.css` líneas 226-231
+
+- **[css-header-height]** Garantizar header mínimo 60px de altura en móvil, especialmente con `.header-slim`.
+  - `style.css` líneas 100-105
+
+#### HTML — Atributos de Imágenes y Video
+
+- **[html-hero-image-attrs]** Agregar a la imagen del hero: `width`, `height`, `fetchpriority="high"` y considerar convertirla a CSS background-image para evitar CLS.
+  - `index.html` líneas 176-180
+
+- **[html-video-preload]** Agregar `preload="none"` al video del hero para evitar descarga automática en móvil.
+  - `index.html` líneas 216-225
+
+#### JavaScript — Imágenes de Productos
+
+- **[js-lazy-loading]** Agregar `loading="lazy"` + atributos `width="300"` `height="300"` en todas las imágenes generadas dinámicamente en `createProductCard()`.
+  - `js/products.js` líneas 275-278
+
+#### Imágenes — Compresión y Formatos
+
+- **[img-compress-png]** Comprimir/convertir los PNG fotográficos grandes:
+  - `producto11.png` (3.4 MB → < 300 KB)
+  - `lampara3.png` (2.9 MB → < 250 KB)
+  - `lampara2.png` (1.4 MB → < 200 KB)
+  - `CargadorAuto1.png` (1.1 MB → < 150 KB)
+  - Herramienta recomendada: [squoosh.app](https://squoosh.app) o TinyPNG
+
+- **[img-compress-jpeg]** Comprimir JPEG sin comprimir:
+  - `luzfria.jpeg` (1.3 MB → < 200 KB)
+  - `lampara1.jpg` (988 KB → < 200 KB)
+  - `ResolucionFullHD.jpeg` — crear versión 768px para móvil
+
+> ⚠️ La compresión de imágenes debe hacerse **manualmente** (fuera del código) con herramientas externas. El plan de código asume que las imágenes ya fueron optimizadas.
+
+---
+
 ## Archivos a Modificar
 
 | Archivo | Cambios previstos |
 |---------|-------------------|
-| `index.html` | Cache headers, iconos de pago, WhatsApp tracking, hero image priority |
-| `css/style.css` | Clase `.header-slim` |
-| `css/responsive.css` | Padding hero en 768px y 480px |
-| `css/components.css` | Estilos: payment trust bar, free shipping bar, trust badge |
+| `index.html` | Cache headers, iconos de pago, WhatsApp tracking, hero image attrs, video preload |
+| `css/style.css` | Clase `.header-slim`, fix hero background-image width |
+| `css/responsive.css` | Padding hero (768px, 480px), product-card-hero padding, clip-paths mobile |
+| `css/components.css` | `aspect-ratio` imágenes, touch targets botones, payment trust bar, free shipping bar |
 | `js/main.js` | Header slim en scroll, deep linking `?item=` y `?categoria=`, checkout feedback |
 | `js/cart.js` | Barra "te faltan $X para envío gratis" en `updateCartDisplay()` |
-| `js/products.js` | Lazy loading imágenes, botón MercadoLibre en card |
+| `js/products.js` | `loading="lazy"` en imágenes, botón MercadoLibre en card |
+| `images/` | Comprimir PNG/JPEG grandes (acción manual externa al código) |

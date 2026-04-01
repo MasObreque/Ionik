@@ -124,6 +124,15 @@ function initHeaderScroll() {
         } else {
             header.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
         }
+
+        // Header slim en móvil al hacer scroll
+        if (window.innerWidth <= 768) {
+            if (currentScroll > 50) {
+                header.classList.add('header-slim');
+            } else {
+                header.classList.remove('header-slim');
+            }
+        }
         
         lastScroll = currentScroll;
     });
@@ -347,6 +356,13 @@ function proceedToCheckout() {
         return;
     }
 
+    // Feedback visual inmediato para evitar doble click
+    const btn = document.querySelector('.btn-checkout');
+    if (btn) {
+        btn.disabled = true;
+        btn.textContent = 'Cargando...';
+    }
+
     // Tracking: InitiateCheckout centralizado
     const totalCheckout = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     IonkAnalytics.trackEvent('begin_checkout', {
@@ -400,6 +416,14 @@ function showCheckoutInCart() {
                 Confirmar Pedido
             </button>
         </div>
+        <div class="checkout-ml-alt">
+            <p>¿Prefieres comparar o pagar con MercadoPago?</p>
+            <a href="https://listado.mercadolibre.cl/_CustId_2585303509?item_id=MLC1874104825&category_id=MLC157684&seller_id=2585303509&client=recoview-selleritems&recos_listing=true"
+               target="_blank" rel="noopener noreferrer"
+               onclick="trackOutboundToMercadoLibre(event, this.href)">
+                🛍️ Ver también en MercadoLibre
+            </a>
+        </div>
     `;
 }
 
@@ -412,13 +436,26 @@ function backToCart() {
         </div>
         <div class="cart-items" id="cartItems"></div>
         <div class="cart-footer">
+            <div id="shippingBar"></div>
             <div class="cart-total">
                 <span>Total:</span>
                 <span id="cartTotal">$0</span>
             </div>
+            <div class="temuco-trust-badge">
+                📦 Despacho desde Temuco a todo Chile 🇨🇱
+            </div>
             <button class="btn-primary btn-checkout" onclick="proceedToCheckout()">
                 Proceder al Pago
             </button>
+            <div class="payment-trust-bar">
+                <p class="pay-trust-label">Pago seguro con:</p>
+                <div class="pay-logos-row">
+                    <span class="pay-logo visa">VISA</span>
+                    <span class="pay-logo mastercard"><span class="mc-r">●</span><span class="mc-o">●</span></span>
+                    <span class="pay-logo webpay">WebPay Plus</span>
+                    <span class="pay-logo mercadopago">Mercado Pago</span>
+                </div>
+            </div>
         </div>
     `;
     updateCartDisplay();
@@ -799,3 +836,96 @@ document.addEventListener('DOMContentLoaded', () => {
                     <p>Paga con tu cuenta MP</p>
                 </div>
             </div> */
+
+// ================================
+// DEEP LINKING — ?item= y ?categoria=
+// ================================
+
+/**
+ * Lee los parámetros de URL al cargar y:
+ *  - ?item=prod-001        → scroll + highlight al producto
+ *  - ?item=lampara         → búsqueda por nombre parcial
+ *  - ?categoria=cargadores → activa el filtro y hace scroll a la sección
+ *
+ * Se llama desde displayProducts() en products.js,
+ * después de que los cards ya están en el DOM.
+ *
+ * URLs para anuncios:
+ *   ionik.cl/?item=prod-001        (producto específico)
+ *   ionik.cl/?item=prod-002
+ *   ionik.cl/?categoria=cargadores
+ *   ionik.cl/?categoria=lamparas
+ *   ionik.cl/?categoria=luces-auto
+ *   ionik.cl/?categoria=controles
+ *   ionik.cl/?categoria=ofertas
+ *   ionik.cl/#productos            (sección productos, sin JS extra)
+ */
+function initDeepLink() {
+    const params = new URLSearchParams(window.location.search);
+    const itemParam = params.get('item');
+    const catParam  = params.get('categoria');
+
+    if (itemParam) {
+        _deepLinkToProduct(itemParam);
+    } else if (catParam) {
+        _deepLinkToCategory(catParam);
+    }
+}
+
+function _deepLinkToProduct(itemParam) {
+    // Intentar por ID exacto: product-prod-001
+    let target = document.getElementById(`product-${itemParam}`);
+
+    // Si no hay match por ID, buscar por nombre parcial (ej: "lampara")
+    if (!target) {
+        const slug = itemParam.toLowerCase().replace(/-/g, ' ');
+        target = Array.from(document.querySelectorAll('.product-card'))
+            .find(card => {
+                const name = card.querySelector('.product-name');
+                return name && name.textContent.toLowerCase().includes(slug);
+            });
+    }
+
+    if (!target) return;
+
+    // Scroll suave al producto, centrado en pantalla
+    target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    // Highlight: borde de acento por 2.5 segundos
+    target.style.transition = 'outline 0.3s ease, box-shadow 0.3s ease';
+    target.style.outline = '3px solid var(--acento-2)';
+    target.style.boxShadow = '0 0 0 6px rgba(239, 154, 109, 0.25)';
+    setTimeout(() => {
+        target.style.outline = '';
+        target.style.boxShadow = '';
+    }, 2500);
+}
+
+function _deepLinkToCategory(catParam) {
+    // Normalizar: luces-auto → Luces Auto, etc.
+    const categoryMap = {
+        'cargadores':  'cargadores',
+        'lamparas':    'lamparas',
+        'luces-auto':  'Luces Auto',
+        'luces auto':  'Luces Auto',
+        'controles':   'Controles',
+        'ofertas':     'ofertas'
+    };
+
+    const normalized = catParam.toLowerCase().trim();
+    const filterValue = categoryMap[normalized] || normalized;
+
+    // Buscar el botón de filtro y hacer click
+    const filterBtn = document.querySelector(
+        `.filter-btn[data-filter="${filterValue}"]`
+    );
+    if (filterBtn) {
+        filterBtn.click();
+    }
+
+    // Scroll a la sección de productos
+    const seccion = document.getElementById('productos');
+    if (seccion) {
+        seccion.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+}

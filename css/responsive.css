@@ -81,44 +81,52 @@
 
     /* Hero Section Mobile */
     .hero-section {
-        min-height: 100vh;
-        padding: 120px 0 60px;
+        min-height: auto;
+        padding: 70px 0 0;
+    }
+
+    /* Imagen de fondo full-width en móvil */
+    .hero-background-image {
+        width: 100%;
+        opacity: 0.25;
+    }
+
+    /* Ocultar video/card hero en móvil — ahorra 8.9 MB y libera espacio */
+    .hero-right {
+        display: none;
+    }
+
+    /* Ocultar botones CTA del hero — el usuario ve directamente los productos */
+    .hero-actions {
+        display: none;
     }
 
     .hero-content {
         grid-template-columns: 1fr;
-        gap: 50px;
+        gap: 0;
     }
 
     .hero-left {
         padding-right: 0;
         text-align: center;
+        padding-bottom: 20px;
     }
 
     .hero-title {
         font-size: 2.2rem;
+        margin-bottom: 10px;
     }
 
     .hero-subtitle {
         font-size: 1rem;
-    }
-
-    .hero-actions {
-        flex-direction: column;
-        width: 100%;
-    }
-
-    .btn-primary,
-    .btn-secondary {
-        width: 100%;
-        padding: 16px 30px;
+        margin-bottom: 0;
     }
 
     .product-card-hero {
         min-width: auto;
         width: 100%;
         max-width: 350px;
-        padding: 60px 40px;
+        padding: 30px 20px;
     }
 
     .product-icon svg {
@@ -144,7 +152,7 @@
 
     /* Productos Mobile */
     .products-section {
-        padding: 60px 0;
+        padding: 20px 0 40px;
     }
 
     .section-title {
@@ -260,6 +268,7 @@
 
     .hero-subtitle {
         font-size: 0.95rem;
+        margin-bottom: 0;
     }
 
     .btn-primary,
@@ -277,7 +286,8 @@
     }
 
     .product-image-container {
-        height: 250px;
+        /* aspect-ratio heredado del base, sin altura fija */
+        aspect-ratio: 4 / 3;
     }
 
     .product-info {
@@ -315,7 +325,7 @@
 
     .cart-item-image {
         width: 100%;
-        height: 150px;
+        aspect-ratio: 4 / 3;
     }
 }
 
@@ -467,7 +477,8 @@
     .scroll-indicator,
     .btn-add-to-cart,
     .overlay,
-    .notification {
+    .notification,
+    .floating-buttons {
         display: none !important;
     }
 
