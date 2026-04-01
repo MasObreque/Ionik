@@ -11,9 +11,9 @@ const sampleProducts = [
         originalPrice: 41990,
         category: 'lamparas',
         images: [
-            'images/lampara1_mini.jpg',
-            'images/lampara2_mini.png',
-            'images/lampara3_mini.png'
+            'images_mini/lampara1.webp',
+            'images_mini/lampara2.webp',
+            'images_mini/lampara3.webp'
         ],
         rating: 5,
         reviews: 12,
@@ -28,9 +28,9 @@ const sampleProducts = [
         price: 18990,
         category: 'cargadores',
         images: [
-            'images/CargadorAuto1_mini.png',
-            'images/Cargadorauto2_mini.png',
-            'images/cargadorauto3_mini.png'
+            'images_mini/cargadorauto1.webp',
+            'images_mini/cargadorauto2.webp',
+            'images_mini/cargadorauto3.webp'
         ],
         rating: 4.5,
         reviews: 30,
@@ -45,9 +45,9 @@ const sampleProducts = [
         price: 16990,
         category: 'cargadores',
         images: [
-            'images/3en1Escritorio1_mini.png',
-            'images/3en1Escritorio2_mini.png',
-            'images/3en1Escritorio3_mini.png'
+            'images_mini/3en1escritorio1.webp',
+            'images_mini/3en1escritorio2.webp',
+            'images_mini/3en1escritorio3.webp'
         ],
         rating: 5,
         reviews: 2,
@@ -61,9 +61,9 @@ const sampleProducts = [
         price: 11990,
         category: 'cargadores',
         images: [
-            'images/retractil1_mini.png',
-            'images/retractil2_mini.png',
-            'images/retractil3_mini.png'
+            'images_mini/retractil1.webp',
+            'images_mini/retractil2.webp',
+            'images_mini/retractil3.webp'
         ],
         rating: 4.5,
         reviews: 15,
@@ -78,8 +78,8 @@ const sampleProducts = [
         originalPrice: 13990,
         category: 'cargadores',
         images: [
-            'images/CargadorA1_mini.jpeg',
-            'images/cargadorA12_mini.jpeg'
+            'images_mini/cargadora1.webp',
+            'images_mini/cargadora12.webp'
         ],
         rating: 4,
         reviews: 10,
@@ -94,9 +94,9 @@ const sampleProducts = [
         price: 21990,
         category: 'lamparas',
         images: [
-            'images/minimalista1_mini.png',
-            'images/minimalista2_mini.png',
-            'images/minimalista3_mini.png'
+            'images_mini/minimalista1.webp',
+            'images_mini/minimalista2.webp',
+            'images_mini/minimalista3.webp'
         ],
         rating: 0,
         reviews: 0,
@@ -110,10 +110,10 @@ const sampleProducts = [
         price: 37990,
         category: 'Luces Auto',
         images: [
-            'images/luzcalida_mini.jpeg',
-            'images/luzfria_mini.jpeg',
-            'images/cajakit_mini.jpeg',
-            'images/cajainternaluces_mini.jpeg'
+            'images_mini/luzcalida.webp',
+            'images_mini/luzfria.webp',
+            'images_mini/cajakit.webp',
+            'images_mini/cajainternaluces.webp'
         ],
         rating: 5,
         reviews: 3,
@@ -127,10 +127,10 @@ const sampleProducts = [
         price: 31990,
         category: 'Luces Auto',
         images: [
-            'images/luzfria_mini.jpeg',
-            'images/luzcalida_mini.jpeg',
-            'images/cajainternaluces_mini.jpeg',
-            'images/cajakit_mini.jpeg'
+            'images_mini/luzfria.webp',
+            'images_mini/luzcalida.webp',
+            'images_mini/cajainternaluces.webp',
+            'images_mini/cajakit.webp'
             
         ],
         rating: 5,
@@ -146,9 +146,9 @@ const sampleProducts = [
         price: 10000,
         category: 'Controles',
         images: [
-            'images/control1_mini.jpeg',
-            'images/control2_mini.jpeg',
-            'images/control3_mini.jpeg'
+            'images_mini/control1.webp',
+            'images_mini/control2.webp',
+            'images_mini/control3.webp'
             
         ],
         rating: 5,
@@ -280,7 +280,7 @@ function createProductCard(product) {
     const imagesHTML = product.images.map((img, index) => 
         `<img src="${img}" alt="${product.name}" class="product-image h-full w-full object-contain" 
         loading="${index === 0 ? 'eager' : 'lazy'}" width="400" height="300"
-        onerror="this.onerror=null; this.src='images/logo_mini.jpg'">`
+        onerror="this.onerror=null; this.src='images_mini/logo.webp'">`
 ).join('');
     
     const dotsHTML = product.images.length > 1 
