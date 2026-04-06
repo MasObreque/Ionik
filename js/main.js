@@ -888,6 +888,13 @@ function _deepLinkToProduct(itemParam) {
 
     if (!target) return;
 
+    // Actualizar OG tags con datos del producto para compartir en redes
+    const productId = target.id.replace('product-', '');
+    if (typeof sampleProducts !== 'undefined') {
+        const product = sampleProducts.find(p => p.id === productId);
+        if (product) _updateOGForProduct(product);
+    }
+
     // Scroll suave al producto, centrado en pantalla
     target.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
@@ -899,6 +906,42 @@ function _deepLinkToProduct(itemParam) {
         target.style.outline = '';
         target.style.boxShadow = '';
     }, 2500);
+}
+
+/**
+ * Actualiza las meta tags Open Graph y Twitter Card del <head>
+ * con los datos del producto encontrado via deep link.
+ * Mejora los previews en WhatsApp, Telegram y otras plataformas
+ * cuando se comparte una URL con ?item=prod-XXX.
+ */
+function _updateOGForProduct(product) {
+    const base = 'https://ionik.cl';
+    const url  = `${base}/?item=${product.id}`;
+    const title = `${product.name} | Ionik`;
+    const price = product.price.toLocaleString('es-CL');
+    const desc  = `${product.description} — $${price} CLP. Envío a todo Chile. 🇨🇱`;
+    const image = product.images && product.images[0]
+        ? `${base}/${product.images[0]}`
+        : `${base}/images_mini/og-preview2.webp`;
+
+    const setMeta = (selector, value) => {
+        const el = document.querySelector(selector);
+        if (el) el.setAttribute('content', value);
+    };
+
+    setMeta('meta[property="og:url"]',         url);
+    setMeta('meta[property="og:title"]',        title);
+    setMeta('meta[property="og:description"]',  desc);
+    setMeta('meta[property="og:image"]',        image);
+    setMeta('meta[property="og:type"]',         'product');
+    setMeta('meta[name="twitter:title"]',       title);
+    setMeta('meta[name="twitter:description"]', desc);
+    setMeta('meta[name="twitter:image"]',       image);
+
+    // Actualizar canonical y título de pestaña
+    const canonical = document.querySelector('link[rel="canonical"]');
+    if (canonical) canonical.setAttribute('href', url);
+    document.title = title;
 }
 
 function _deepLinkToCategory(catParam) {
