@@ -397,16 +397,8 @@ function showCheckoutInCart() {
             </div>
             
             <div class="payment-section">
-                <h3>Método de Pago</h3>
-                <div class="payment-methods">
-                    <div class="payment-method" onclick="selectPaymentMethod(this, 'transferencia')">
-                        <div class="payment-icon">🏦</div>
-                        <div class="payment-info">
-                            <h4>Transferencia</h4>
-                            <p>Transferencia bancaria</p>
-                        </div>
-                    </div>
-                </div>
+                <h3>Coordinar por WhatsApp</h3>
+                <p>Al confirmar, se abrirá WhatsApp con los detalles del pedido para coordinar envío y pago.</p>
             </div>
         </div>
         
@@ -473,13 +465,7 @@ function showCheckoutModal() {
         <p>Total a pagar: $${total.toLocaleString('es-CL')}</p>
         
         <div class="payment-methods">
-            <div class="payment-method" onclick="selectPaymentMethod(this, 'transferencia')">
-                <div class="payment-icon">🏦</div>
-                <div class="payment-info">
-                    <h4>Transferencia</h4>
-                    <p>Transferencia bancaria</p>
-                </div>
-            </div>
+            <p>Al confirmar, se abrirá WhatsApp con los detalles del pedido para coordinar envío y pago.</p>
         </div>
         
         <div class="modal-actions">
@@ -508,7 +494,7 @@ function closeCheckoutModal() {
     }, 300);
 }
 
-let selectedPaymentMethod = null;
+let selectedPaymentMethod = 'whatsapp';
 
 function selectPaymentMethod(element, method) {
     document.querySelectorAll('.payment-method').forEach(pm => {
@@ -532,17 +518,8 @@ function confirmPayment() {
         .map(item => `• ${item.name} x${item.quantity} - $${(item.price * item.quantity).toLocaleString('es-CL')}`)
         .join('\n');
     
-    const transferData = `
-🏦 *Datos para Transferencia:*
-• Banco: Banco de Chile
-• Tipo de cuenta: Cuenta Corriente
-• N° de cuenta: 00-242-18919-09
-• RUT: 78.193.643-K
-• Nombre: MAGNUTECH SpA
-• Correo: ioniktemuco@gmail.com
-
-⚠️ *Importante:* Tienes 24 horas para realizar el pago.
-    `.trim();
+    // Usar coordinación por WhatsApp en lugar de transferencia
+    // (Datos de transferencia eliminados)
     
     const message = `
 ¡Hola! 👋 Quiero confirmar mi pedido:
@@ -554,18 +531,16 @@ ${itemsText}
 
 💰 *Total:* $${total.toLocaleString('es-CL')}
 
-💳 *Método de pago:* Transferencia Bancaria
+📲 *Contacto:* Coordinemos por WhatsApp para coordinar envío y forma de pago.
 
-${transferData}
-
-Procederé a realizar la transferencia y enviaré el comprobante. ¡Gracias!
+Gracias!
     `.trim();
     
     const phone = "56962769503";
     const whatsappUrl = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
     
-    // Mostrar datos de transferencia en el carrito
-    showTransferDetailsInCart();
+    // Mostrar confirmación en el carrito (WhatsApp)
+    showWhatsAppConfirmationInCart();
 
     // Tracking: Purchase centralizado
     IonkAnalytics.trackEvent('purchase', {
@@ -580,62 +555,19 @@ Procederé a realizar la transferencia y enviaré el comprobante. ¡Gracias!
     window.open(whatsappUrl, '_blank');
 }
 
-function showTransferDetailsInCart() {
+function showWhatsAppConfirmationInCart() {
     const cartSidebar = document.getElementById('cartSidebar');
-    
+
     cartSidebar.innerHTML = `
         <div class="cart-header">
-            <h2>✅ ¡Pedido Confirmado!</h2>
+            <h2>✅ ¡Pedido enviado por WhatsApp!</h2>
             <button class="close-cart" onclick="closeCheckoutAndClearCart()">×</button>
         </div>
-        
+
         <div class="cart-content">
-            <div class="transfer-details-confirmed">
-                <h3>Datos para Transferencia</h3>
-                <div class="transfer-info">
-                    <div class="transfer-data-item">
-                        <span class="data-label">Banco:</span>
-                        <span class="data-value">Banco de Chile</span>
-                    </div>
-                    
-                    <div class="transfer-data-item">
-                        <span class="data-label">Tipo de cuenta:</span>
-                        <span class="data-value">Cuenta Corriente</span>
-                    </div>
-                    
-                    <div class="transfer-data-item">
-                        <span class="data-label">N° de cuenta:</span>
-                        <span class="data-value">00-242-18919-09</span>
-                    </div>
-                    
-                    <div class="transfer-data-item">
-                        <span class="data-label">RUT:</span>
-                        <span class="data-value">78.193.643-K</span>
-                    </div>
-                    
-                    <div class="transfer-data-item">
-                        <span class="data-label">Nombre:</span>
-                        <span class="data-value">MAGNUTECH SpA</span>
-                    </div>
-                    
-                    <div class="transfer-data-item">
-                        <span class="data-label">Correo:</span>
-                        <span class="data-value">ioniktemuco@gmail.com</span>
-                    </div>
-                </div>
-                
-                <button class="btn-copy-all" onclick="copyAllTransferData()">
-                    📋 Copiar todos los datos
-                </button>
-                
-                <div class="transfer-warning">
-                    ⚠️ <strong>Importante:</strong> Tienes un máximo de <strong>24 horas</strong> para realizar el pago.  
-                    Si no se recibe dentro de ese plazo, el pedido será anulado.
-                </div>
-                <p class="redirect-message">🔄 Hemos abierto WhatsApp para confirmar tu pedido...</p>
-            </div>
+            <p>Se ha abierto WhatsApp con los detalles de tu pedido. Coordina el envío y la forma de pago con nosotros por ese chat.</p>
         </div>
-        
+
         <div class="cart-footer">
             <button class="btn-primary" onclick="closeCheckoutAndClearCart()">Cerrar</button>
         </div>
@@ -644,55 +576,10 @@ function showTransferDetailsInCart() {
 
 function showTransferDetails() {
     const modal = document.getElementById('checkoutModal');
-    
+
     modal.innerHTML = `
-        <h2>✅ ¡Pedido Confirmado!</h2>
-        
-        <div class="transfer-details-confirmed">
-            <h3>Datos para Transferencia</h3>
-            <div class="transfer-info">
-                <div class="transfer-data-item">
-                    <span class="data-label">Banco:</span>
-                    <span class="data-value">Banco de Chile</span>
-                </div>
-                
-                <div class="transfer-data-item">
-                    <span class="data-label">Tipo de cuenta:</span>
-                    <span class="data-value">Cuenta Corriente</span>
-                </div>
-                
-                <div class="transfer-data-item">
-                    <span class="data-label">N° de cuenta:</span>
-                    <span class="data-value">00-242-18919-09</span>
-                </div>
-                
-                <div class="transfer-data-item">
-                    <span class="data-label">RUT:</span>
-                    <span class="data-value">78.193.643-K</span>
-                </div>
-                
-                <div class="transfer-data-item">
-                    <span class="data-label">Nombre:</span>
-                    <span class="data-value">MAGNUTECH SpA</span>
-                </div>
-                
-                <div class="transfer-data-item">
-                    <span class="data-label">Correo:</span>
-                    <span class="data-value">ioniktemuco@gmail.com</span>
-                </div>
-            </div>
-            
-            <button class="btn-copy-all" onclick="copyAllTransferData()">
-                📋 Copiar todos los datos
-            </button>
-            
-            <div class="transfer-warning">
-                ⚠️ <strong>Importante:</strong> Tienes un máximo de <strong>24 horas</strong> para realizar el pago.  
-                Si no se recibe dentro de ese plazo, el pedido será anulado.
-            </div>
-            <p class="redirect-message">🔄 Hemos abierto WhatsApp para confirmar tu pedido...</p>
-        </div>
-        
+        <h2>✅ ¡Pedido enviado por WhatsApp!</h2>
+        <p>Se ha abierto WhatsApp con los detalles de tu pedido. Coordina el envío y la forma de pago por ese chat.</p>
         <div class="modal-actions">
             <button class="btn-primary" onclick="closeCheckoutAndClearCart()">Cerrar</button>
         </div>
