@@ -5,8 +5,8 @@
 const sampleProducts = [
     {
         id: 'prod-001',
-        name: 'Lampara Multifuncional',
-        description: 'Lampara multifuncion, carga Inalambrica, luz de noche, musica',
+        name: 'Lampara de Noche atmósfera acogedora',
+        description: 'La combinación perfecta entre tecnología y diseño. Esta pieza central no solo ilumina tu espacio con un estilo único de otro mundo, sino que integra una potente base de carga inalámbrica. Es la solución inteligente para cargar tu smartphone mientras duermes en tu velador',
         price: 35990,
         originalPrice: 41990,
         category: 'lamparas',

@@ -106,7 +106,7 @@
 
 .product-description {
     font-size: 0.95rem;
-    color: #666;
+    color: var(--blanco);/*#666;*/
     margin-bottom: 20px;
     line-height: 1.6;
 }

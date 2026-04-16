@@ -414,11 +414,19 @@ button {
 
 .hero-subtitle {
     font-size: 1.15rem;
-    color: var(--blanco);
+    color: #e6c165;
     margin-bottom: 50px;
-    font-weight: 400;
+    font-weight: 800;
     line-height: 1.8;
+    /* El truco: un fondo muy sutil que desenfoca lo de atrás */
+    background: rgba(255, 255, 255, 0.1); 
+    backdrop-filter: blur(8px); 
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid #e6c165; /* Una línea dorada para mantener tu marca */
+    
 }
+
 
 .hero-actions {
     display: flex;
@@ -673,13 +681,13 @@ button {
 .section-title {
     font-size: 2.8rem;
     font-weight: 800;
-    color: var(--gris-oscuro);
+    color: var(--blanco);
     margin-bottom: 15px;
 }
 
 .section-subtitle {
     font-size: 1.2rem;
-    color: #666;
+    color: var(--acento-2);
     font-weight: 400;
 }
 
@@ -697,7 +705,7 @@ button {
    sobre imágenes o fondos claros/coloreados. */
 .product-card .product-name {
     color: var(--gris-oscuro) !important;
-    background: rgba(255,255,255,0.92);
+    background: #dde85e; /*rgba(255,255,255,0.92);*/
     display: inline-block;
     padding: 6px 10px;
     border-radius: 6px;
@@ -708,9 +716,6 @@ button {
 }
 
 /* Variante para el héroe (si acaso se solapan estilos) */
-.product-name-hero {
-    color: var(--gris-oscuro);
-}
 
 .product-filters {
     display: flex;
