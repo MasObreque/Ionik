@@ -122,8 +122,8 @@ const sampleProducts = [
     },
     {
         id: 'prod-008',
-        name: 'Luces Led Inteligente H7',
-        description: 'Luces Led Inteligente H7 puedes cambiar de luz fría a calida o personaliza a gusto desde el celular',
+        name: 'Luces Led Inteligente',
+        description: 'Luces Led Inteligente, puedes cambiar de luz fría a calida o personaliza a gusto desde el celular',
         price: 31990,
         category: 'Luces Auto',
         images: [
@@ -136,7 +136,8 @@ const sampleProducts = [
         rating: 5,
         reviews: 2,
         stock: 5,
-        featured: false
+        featured: false,
+        variants: ['H7', 'H11', '9005', '9006']
     }
     ,
     {
@@ -291,6 +292,16 @@ function createProductCard(product) {
             ).join('')}
            </div>`
         : '';
+
+    const variantsHTML = product.variants && product.variants.length ?
+        `<div style="margin:10px 0;">
+            <label for="variant-${product.id}" style="font-weight:600; margin-right:8px;">Modelo:</label>
+            <select id="variant-${product.id}" class="product-variant-select">
+                ${product.variants.map(v => `<option value="${v}">${v}</option>`).join('')}
+            </select>
+        </div>`
+        : '';
+
     
     const stars = '★'.repeat(Math.floor(product.rating)) + 
                   (product.rating % 1 >= 0.5 ? '½' : '') + 
@@ -328,9 +339,11 @@ function createProductCard(product) {
                     ${stockText}
                 </div>
                 
+                ${variantsHTML}
+
                 <button 
                     class="btn-add-to-cart" 
-                    onclick="addToCart('${product.id}', '${product.name}', ${product.price}, '${product.images[0]}')"
+                    onclick="(function(){ const sel = document.getElementById('variant-${product.id}'); const variant = sel ? sel.value : ''; addToCart('${product.id}__' + variant, '${product.name}' + (variant ? ' - ' + variant : ''), ${product.price}, '${product.images[0]}'); })()"
                     ${product.stock === 0 ? 'disabled' : ''}
                 >
                     ${product.stock > 0 ? '🛒 Agregar al Carrito' : 'Agotado'}
@@ -537,7 +550,15 @@ function showQuickView(productId) {
                 <div style="margin: 20px 0;">
                     <span class="price-current" style="font-size: 2rem;">${formatPrice(product.price)}</span>
                 </div>
-                <button class="btn-primary" onclick="addToCart('${product.id}', '${product.name}', ${product.price}, '${product.images[0]}'); this.closest('.quick-view-modal').remove(); document.getElementById('overlay').classList.remove('active');">
+                ${product.variants && product.variants.length ? `
+                    <div style="margin:10px 0;">
+                        <label for="quick-variant-${product.id}" style="font-weight:600; margin-right:8px;">Modelo:</label>
+                        <select id="quick-variant-${product.id}">
+                            ${product.variants.map(v => `<option value="${v}">${v}</option>`).join('')}
+                        </select>
+                    </div>
+                ` : ''}
+                <button class="btn-primary" onclick="(function(){ const sel = document.getElementById('quick-variant-${product.id}'); const variant = sel ? sel.value : ''; addToCart('${product.id}__' + variant, '${product.name}' + (variant ? ' - ' + variant : ''), ${product.price}, '${product.images[0]}'); this.closest('.quick-view-modal').remove(); document.getElementById('overlay').classList.remove('active'); })()">
                     Agregar al Carrito
                 </button>
             </div>
