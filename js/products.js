@@ -13,15 +13,17 @@ function aplicarPromocionDiaPadre(productos) {
     if (!PROMO_DIA_PADRE_ACTIVA) return productos;
     
     return productos.map(producto => {
-        // Si el producto ya tiene originalPrice, respetarlo
-        // Si no, guardar el precio actual como originalPrice
-        const precioOriginal = producto.originalPrice || producto.price;
-        const precioConDescuento = Math.round(producto.price * (1 - PROMO_DIA_PADRE_DESCUENTO));
+        // Determinar el precio base sobre el cual aplicar el descuento
+        // Si ya tiene originalPrice, significa que ya tenía un descuento previo
+        // En ese caso, aplicamos el 20% sobre el originalPrice (precio sin descuento)
+        const precioBase = producto.originalPrice || producto.price;
+        const precioCalculado = precioBase * (1 - PROMO_DIA_PADRE_DESCUENTO);
+        const precioConDescuento = Math.floor(precioCalculado / 10) * 10; // Redondear hacia abajo a la decena
         
         return {
             ...producto,
-            originalPrice: precioOriginal,
-            price: precioConDescuento,
+            originalPrice: precioBase,  // Guardar el precio original para mostrarlo tachado
+            price: precioConDescuento,  // Precio con 20% de descuento
             badge: 'DÍA DEL PADRE -20%'
         };
     });
