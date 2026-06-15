@@ -404,8 +404,8 @@ const IonkAnalytics = (function () {
                         price:        item.price
                     };
                 });
-                // TikTok requiere "CompletePayment" para e-commerce (Purchase es alternativo)
-                ttq.track('CompletePayment', {
+                // TikTok espera el evento estándar "Purchase" para conversiones
+                ttq.track('Purchase', {
                     contents: contents.length ? contents : [{ content_id: 'order', quantity: 1, price: d.value }],
                     value:    d.value,
                     currency: 'CLP'
