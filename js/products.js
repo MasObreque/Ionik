@@ -2,6 +2,31 @@
 // DATOS DE PRODUCTOS (Ejemplo - Reemplazar con API)
 // ================================
 
+// ================================
+// PROMOCIÓN DÍA DEL PADRE
+// ================================
+// Cambiar a false para desactivar la promoción
+const PROMO_DIA_PADRE_ACTIVA = true;
+const PROMO_DIA_PADRE_DESCUENTO = 0.20; // 20% de descuento
+
+function aplicarPromocionDiaPadre(productos) {
+    if (!PROMO_DIA_PADRE_ACTIVA) return productos;
+    
+    return productos.map(producto => {
+        // Si el producto ya tiene originalPrice, respetarlo
+        // Si no, guardar el precio actual como originalPrice
+        const precioOriginal = producto.originalPrice || producto.price;
+        const precioConDescuento = Math.round(producto.price * (1 - PROMO_DIA_PADRE_DESCUENTO));
+        
+        return {
+            ...producto,
+            originalPrice: precioOriginal,
+            price: precioConDescuento,
+            badge: 'DÍA DEL PADRE -20%'
+        };
+    });
+}
+
 const sampleProducts = [
     {
         id: 'prod-001',
@@ -175,7 +200,10 @@ async function loadProducts() {
         
         // En producción, reemplazar con:
         // const products = await fetchProductsFromOracle();
-        const products = sampleProducts;
+        let products = sampleProducts;
+        
+        // Aplicar promoción Día del Padre
+        products = aplicarPromocionDiaPadre(products);
         
         displayProducts(products);
     } catch (error) {
