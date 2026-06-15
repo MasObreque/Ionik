@@ -4,6 +4,23 @@
 // GA4, Meta Pixel, TikTok Pixel y GTM futuro
 // ================================
 
+// ================================
+// CONFIGURACIÓN DE PÍXELES
+// Centralización de todos los IDs
+// ================================
+
+// Google Analytics 4
+const GOOGLE_ANALYTICS_ID = 'G-EWHZNB26KC';        // Principal (index.html)
+// const GOOGLE_ANALYTICS_ID_ALT = 'G-1TQV3P3CNY'; // Alternativo (páginas legales)
+
+// Meta Pixel (Facebook)
+const META_PIXEL_ID = '2691134951266093';          // Principal (analytics.js)
+// const META_PIXEL_ID_ALT = '1243580607965158';   // Alternativo (páginas legales)
+
+// TikTok Pixel
+const TIKTOK_PIXEL_ID = 'D7011T3C77U1ODGOP02G';     // Principal (activo) D7011T3C77U1ODGOP02G
+// const TIKTOK_PIXEL_ID_ALT = 'D7011T3C77U1ODGOP02G'; //  Alternativo (páginas legales antiguo) 7620108218437500935
+
 const IonkAnalytics = (function () {
 
     // ---- Estado interno ----
@@ -173,7 +190,7 @@ const IonkAnalytics = (function () {
             s.parentNode.insertBefore(t, s);
         }(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
 
-        fbq('init', '2691134951266093');
+        fbq('init', META_PIXEL_ID);
         fbq('track', 'PageView');
     }
 
@@ -204,7 +221,7 @@ const IonkAnalytics = (function () {
                 e = document.getElementsByTagName('script')[0];
                 e.parentNode.insertBefore(n, e);
             };
-            ttq.load('D7011T3C77U1ODGOP02G');
+            ttq.load(TIKTOK_PIXEL_ID); 
             ttq.page();
         }(window, document, 'ttq');
     }
