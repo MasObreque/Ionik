@@ -26,7 +26,8 @@
 
 body {
     font-family: 'Montserrat', sans-serif;
-    color: var(--negro);
+    background: #2a2a2a; /* Fondo oscuro forzado */
+    color: #e0e0e0; /* Texto claro para contraste */
     line-height: 1.6;
     overflow-x: hidden;
 }
@@ -89,8 +90,8 @@ button {
    ================================ */
 
 .main-header {
-    background: var(--blanco);
-    box-shadow: 0 2px 10px var(--sombra);
+    background: #1a1a1a; /* Header oscuro */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -234,8 +235,8 @@ button {
     top: 0;
     width: 400px;
     height: 100vh;
-    background: var(--blanco);
-    box-shadow: -5px 0 20px var(--sombra);
+    background: #2a2a2a; /* Carrito con fondo oscuro */
+    box-shadow: -5px 0 20px rgba(0, 0, 0, 0.5);
     z-index: 2000;
     transition: right 0.4s ease;
     display: flex;
@@ -248,7 +249,7 @@ button {
 
 .cart-header {
     padding: 25px;
-    border-bottom: 2px solid var(--gris-claro);
+    border-bottom: 2px solid #404040; /* Borde oscuro */
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -256,13 +257,13 @@ button {
 
 .cart-header h2 {
     font-size: 24px;
-    color: var(--gris-oscuro);
+    color: #ffffff; /* Texto blanco */
 }
 
 .close-cart {
     background: transparent;
     font-size: 32px;
-    color: var(--gris-oscuro);
+    color: #ffffff; /* Texto blanco */
     padding: 0;
     line-height: 1;
     transition: var(--transicion);
@@ -697,7 +698,7 @@ button {
 
 .products-section {
     padding: 100px 0;
-    background: var(--gris-claro);
+    background: #1a1a1a; /* Fondo oscuro en lugar de gris claro */
 }
 
 /* Mejor contraste para el nombre del producto dentro de las tarjetas.
@@ -752,7 +753,7 @@ button {
 
 .benefits-section {
     padding: 100px 0;
-    background: var(--blanco);
+    background: #2a2a2a; /* Fondo oscuro */
 }
 
 .benefits-grid {
@@ -766,11 +767,12 @@ button {
     text-align: center;
     padding: 40px 20px;
     border-radius: 15px;
+    background: #353535; /* Fondo oscuro para las tarjetas */
     transition: var(--transicion);
 }
 
 .benefit-card:hover {
-    background: var(--gris-claro);
+    background: #404040; /* Un poco más claro al hover */
     transform: translateY(-10px);
 }
 
@@ -781,13 +783,13 @@ button {
 
 .benefit-card h3 {
     font-size: 1.4rem;
-    color: var(--gris-oscuro);
+    color: #ffffff; /* Texto blanco para fondo oscuro */
     margin-bottom: 15px;
     font-weight: 700;
 }
 
 .benefit-card p {
-    color: #666;
+    color: #b0b0b0; /* Texto gris claro para fondo oscuro */
     font-size: 1rem;
 }
 

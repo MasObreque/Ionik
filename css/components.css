@@ -3,10 +3,10 @@
    ================================ */
 
 .product-card {
-    background: var(--blanco);
+    background: #353535; /* Fondo oscuro para tarjetas de producto */
     border-radius: 15px;
     overflow: hidden;
-    box-shadow: 0 5px 20px var(--sombra);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
     transition: var(--transicion);
     position: relative;
 }
@@ -41,7 +41,7 @@
     width: 100%;
     aspect-ratio: 4 / 3;
     overflow: hidden;
-    background: var(--gris-claro);
+    background: #2a2a2a; /* Fondo oscuro para contenedor de imagen */
 }
 
 .product-image-slider {
@@ -99,7 +99,7 @@
 .product-name {
     font-size: 1.3rem;
     font-weight: 700;
-    color: var(--gris-oscuro);
+    color: #ffffff; /* Texto blanco para fondo oscuro */
     margin-bottom: 10px;
     line-height: 1.3;
 }
@@ -133,7 +133,7 @@
 
 .price-original {
     font-size: 1.1rem;
-    color: #999;
+    color: #888; /* Gris más claro para fondo oscuro */
     text-decoration: line-through;
 }
 
@@ -150,7 +150,7 @@
 
 .rating-count {
     font-size: 0.85rem;
-    color: #999;
+    color: #aaa; /* Gris claro para fondo oscuro */
 }
 
 /* Stock */
