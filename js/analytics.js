@@ -18,7 +18,7 @@ const META_PIXEL_ID = '2691134951266093';          // Principal (analytics.js)
 // const META_PIXEL_ID_ALT = '1243580607965158';   // Alternativo (páginas legales)
 
 // TikTok Pixel
-const TIKTOK_PIXEL_ID = 'D7011T3C77U1ODGOP02G';     // Principal (activo) D7011T3C77U1ODGOP02G
+const TIKTOK_PIXEL_ID = 'D8O1VKBC77U23F8ET2K0';     // Principal (activo) D8O1VKBC77U23F8ET2K0 D7011T3C77U1ODGOP02G
 // const TIKTOK_PIXEL_ID_ALT = 'D7011T3C77U1ODGOP02G'; //  Alternativo (páginas legales antiguo) 7620108218437500935
 
 const IonkAnalytics = (function () {
@@ -404,7 +404,8 @@ const IonkAnalytics = (function () {
                         price:        item.price
                     };
                 });
-                ttq.track('PlaceAnOrder', {
+                // TikTok espera el evento estándar "Purchase" para conversiones
+                ttq.track('Purchase', {
                     contents: contents.length ? contents : [{ content_id: 'order', quantity: 1, price: d.value }],
                     value:    d.value,
                     currency: 'CLP'

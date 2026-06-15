@@ -91,22 +91,46 @@
     <link rel="stylesheet" href="css/responsive.css?v=20260327">
 
     <!-- ================================================ -->
-    <!-- GOOGLE ANALYTICS 4                               -->
+    <!-- ANALYTICS CENTRALIZADO
+         Todos los píxeles (Google, Meta, TikTok) se configuran
+         en js/analytics.js usando variables centralizadas.
+         Google Analytics carga dinámicamente con GOOGLE_ANALYTICS_ID.
+         Meta Pixel y TikTok solo se activan si se aceptan cookies.  -->
     <!-- ================================================ -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EWHZNB26KC"></script>
+    <script src="js/analytics.js?v=20260615b"></script>
+    
+    <!-- Google Analytics 4 - Carga dinámica usando variable centralizada -->
     <script>
+        // Cargar script de GA4 dinámicamente usando GOOGLE_ANALYTICS_ID
+        (function() {
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=' + GOOGLE_ANALYTICS_ID;
+            document.head.appendChild(script);
+        })();
+        
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
-        gtag('config', 'G-EWHZNB26KC');
+        gtag('config', GOOGLE_ANALYTICS_ID);
     </script>
-
-    <!-- ================================================ -->
-    <!-- META PIXEL y TIKTOK: carga dinámica en analytics.js
-         META_PIXEL_ID y TIKTOK_PIXEL_ID configurados en analytics.js
-         Solo se activan si el usuario acepta cookies.
-         Se removieron de <head> para cumplir RGPD/LGPD.   -->
-    <!-- ================================================ -->
+    
+    <!-- TikTok Pixel Base Code (requerido para validación) -->
+    <script>
+        !function (w, d, t) {
+            w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];
+            ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"];
+            ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};
+            for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);
+            ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e};
+            ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;
+            ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};
+            n=document.createElement("script");n.type="text/javascript";n.async=!0;n.src=r+"?sdkid="+e+"&lib="+t;
+            e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
+            ttq.load(TIKTOK_PIXEL_ID);
+            ttq.page();
+        }(window, document, 'ttq');
+    </script>
 </head>
 <body>
     <!-- Barra Promocional Superior -->
@@ -424,8 +448,7 @@
         </a>
     </div>
 
-    <!-- Scripts — analytics.js debe ser el primero -->
-    <script src="js/analytics.js?v=20260327"></script>
+    <!-- Scripts -->
     <script>
         // Registrar clics hacia MercadoLibre en Google Analytics y Pixel (seguro si no están cargados)
         function trackOutboundToMercadoLibre(e, href) {
@@ -449,8 +472,8 @@
             // No evitar la navegación; gtag con beacon intentará enviar el evento.
         }
     </script>
-    <script src="js/main.js?v=20260327"></script>
-    <script src="js/cart.js?v=20260327"></script>
-    <script src="js/products.js?v=20260327"></script>
+    <script src="js/main.js?v=20260615"></script>
+    <script src="js/cart.js?v=20260615"></script>
+    <script src="js/products.js?v=20260615"></script>
 </body>
 </html>
