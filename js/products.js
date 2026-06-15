@@ -32,7 +32,7 @@ const sampleProducts = [
         id: 'prod-001',
         name: 'Lampara de Noche atmósfera acogedora',
         description: 'La combinación perfecta entre tecnología y diseño. Esta pieza central no solo ilumina tu espacio con un estilo único de otro mundo, sino que integra una potente base de carga inalámbrica. Es la solución inteligente para cargar tu smartphone mientras duermes en tu velador',
-        price: 35990,
+        price: 33592,
         originalPrice: 41990,
         category: 'lamparas',
         images: [
@@ -50,7 +50,8 @@ const sampleProducts = [
         id: 'prod-002',
         name: 'Cargador ultradelgado inalámbrico de 15W  para Auto',
         description: 'Solución compacta y ligera Cargador inalámbrico de 15W  para Auto con sensor inteligente y sujeción automática',
-        price: 18990,
+        price: 14990,
+        originalPrice: 18990,
         category: 'cargadores',
         images: [
             'images_mini/cargadorauto1.webp',
@@ -67,7 +68,8 @@ const sampleProducts = [
         id: 'prod-003',
         name: 'Cargador inalámbrico 3 en 1 Escritorio',
         description: 'Cargador inalámbrico 3 en 1 para escritorio con luces, plegable',
-        price: 16990,
+        price: 13590,
+        originalPrice: 16990,
         category: 'cargadores',
         images: [
             'images_mini/3en1escritorio1.webp',
@@ -83,7 +85,8 @@ const sampleProducts = [
         id: 'prod-004',
         name: 'Cargador de Auto retactil',
         description: 'Cargador de Auto con puerto USB, cable retráctil y carga rápida de 120 W',
-        price: 11990,
+        price: 9590,
+        originalPrice: 11990,
         category: 'cargadores',
         images: [
             'images_mini/retractil1.webp',
@@ -99,7 +102,7 @@ const sampleProducts = [
         id: 'prod-005',
         name: 'estación de carga rápida magnética para Auto',
         description: 'Cargador inalámbrico para coche de 15 W, estación de carga rápida magnética, botón táctil para rejilla de ventilación, soporte para teléfono móvil',
-        price: 13990,
+        price: 11190,
         originalPrice: 13990,
         category: 'cargadores',
         images: [
@@ -116,7 +119,8 @@ const sampleProducts = [
         id: 'prod-006',
         name: 'Estacion Carga para Escritorio',
         description: 'estación de carga inalámbrica multifunción RGB 4 en 1 de 15 W con luz nocturna y cargador inalámbrico PD para teléfonos',
-        price: 21990,
+        price: 17590,
+        originalPrice: 21990,
         category: 'lamparas',
         images: [
             'images_mini/minimalista1.webp',
@@ -132,7 +136,8 @@ const sampleProducts = [
         id: 'prod-007',
         name: 'Luces Led Inteligente H4',
         description: 'Luces Led Inteligente H4 puedes cambiar de luz fría a calida o personaliza a gusto desde el celular',
-        price: 37990,
+        price: 30390,
+        originalPrice: 37990,
         category: 'Luces Auto',
         images: [
             'images_mini/luzcalida.webp',
@@ -149,7 +154,8 @@ const sampleProducts = [
         id: 'prod-008',
         name: 'Luces Led Inteligente',
         description: 'Luces Led Inteligente, puedes cambiar de luz fría a calida o personaliza a gusto desde el celular',
-        price: 31990,
+        price: 25590,
+        originalPrice: 31990,
         category: 'Luces Auto',
         images: [
             'images_mini/luzfria.webp',
@@ -169,7 +175,8 @@ const sampleProducts = [
         id: 'prod-009',
         name: 'Control Remoto Universal Replicator Library',
         description: 'Duplicador de controles universales,  clona llaveros de código fijo de 433.92MHz',
-        price: 10000,
+        price: 8000,
+        originalPrice: 10000,
         category: 'Controles',
         images: [
             'images_mini/control1.webp',
