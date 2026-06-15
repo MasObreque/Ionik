@@ -400,27 +400,9 @@
 
 /* ================================
    MODO OSCURO
+   
    ================================ */
 
-@media (prefers-color-scheme: dark) {
-    /* Opcional: Implementar modo oscuro */
-    .main-header {
-        background: var(--gris-oscuro);
-    }
-
-    .nav-link {
-        color: var(--blanco);
-    }
-
-    .products-section {
-        background: #2a2a2a;
-    }
-
-    .product-card {
-        background: var(--gris-oscuro);
-        color: var(--blanco);
-    }
-}
 
 /* ================================
    UTILIDADES RESPONSIVAS
