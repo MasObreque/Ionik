@@ -5,3 +5,7 @@ scp -i ssh-key-magnutech.key -r /f/Proyectos/IonikHome/index.html /f/Proyectos/I
 
 sudo systemctl reload nginx
 
+PS H:\Proyectos\sshkey> icacls ssh-key-magnutech.key /inheritance:r
+ssh-key-magnutech.key: Acceso denegado.
+Se procesaron correctamente 0 archivos; error al procesar 1 archivos
+PS H:\Proyectos\sshkey>
